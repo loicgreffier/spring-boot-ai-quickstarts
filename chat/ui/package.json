@@ -9,7 +9,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "prepare": "husky",
+    "prepare": "cd ../.. && husky chat/ui/.husky",
     "lint-staged": "lint-staged"
   },
   "private": true,
@@ -20,6 +20,7 @@
     "@angular/forms": "^20.2.0",
     "@angular/platform-browser": "^20.2.0",
     "@angular/router": "^20.2.0",
+    "@eslint/js": "^9.34.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
