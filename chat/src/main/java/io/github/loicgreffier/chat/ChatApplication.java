@@ -16,14 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.github.loicgreffier;
+package io.github.loicgreffier.chat;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootTest
-class SpringBootAiQuickstartsApplicationTests {
-
-    @Test
-    void contextLoads() {}
+/** This is the main class for the Spring Boot application. */
+@SpringBootApplication
+public class ChatApplication {
+    /**
+     * The main entry point of the Spring Boot application.
+     *
+     * @param args The command line arguments.
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(ChatApplication.class, args);
+    }
 }
