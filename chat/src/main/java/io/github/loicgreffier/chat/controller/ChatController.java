@@ -35,8 +35,8 @@ public class ChatController {
     }
 
     @GetMapping("/v1/chat")
-    public ResponseEntity<String> chat(@RequestParam String prompt) {
-        String chatResponse = chatClient.prompt().user(prompt).call().content();
+    public ResponseEntity<String> chat(@RequestParam String userInput) {
+        String chatResponse = chatClient.prompt().user(userInput).call().content();
         return ResponseEntity.ok(chatResponse);
     }
 }
