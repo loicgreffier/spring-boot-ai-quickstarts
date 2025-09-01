@@ -72,5 +72,5 @@ jobs:
 
       - name: Build
         run: |
-          npm run build:all -- --configuration production
+          npm run build:all -- -- --configuration production
           npm run test:all
