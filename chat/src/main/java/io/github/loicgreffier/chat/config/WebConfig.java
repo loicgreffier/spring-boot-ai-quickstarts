@@ -18,52 +18,58 @@
  */
 package io.github.loicgreffier.chat.config;
 
-import java.io.IOException;
-import java.util.List;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.resource.PathResourceResolver;
+
+import java.io.IOException;
+import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/public/")
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver() {
-                    @Override
-                    protected Resource getResource(String resourcePath, Resource location) throws IOException {
-                        Resource requestedResource = location.createRelative(resourcePath);
-                        return requestedResource.exists() && requestedResource.isReadable()
-                                ? requestedResource
-                                : new ClassPathResource("/public/index.html");
-                    }
-                });
-    }
-
+    /**
+     * Define the security filter chain.
+     *
+     * @param http The http security
+     * @return The security filter chain
+     * @throws Exception If something goes wrong
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfiguration()))
                 .sessionManagement(sessionManagementConfigurer ->
-                        sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterAfter(new ClientRoutingFilter(), BasicAuthenticationFilter.class)
+                .authorizeHttpRequests(authorizeRequestsConfigurer -> authorizeRequestsConfigurer
+                        // Front-End
+                        .requestMatchers("/index.html", "/*.js", "/*.css", "/*.ico", "/*.svg")
+                        .permitAll()
+                        .anyRequest()
+                        .denyAll());
 
         return http.build();
     }
 
+    /**
+     * Define the CORS configuration.
+     *
+     * @return The CORS configuration
+     */
     private CorsConfigurationSource corsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:8080"));
@@ -72,5 +78,23 @@ public class WebConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    /** Filter used to redirect all requests to the index.html except those for the API or for static resources */
+    public static class ClientRoutingFilter extends OncePerRequestFilter {
+
+        @Override
+        protected void doFilterInternal(
+                HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+                throws ServletException, IOException {
+            String path = request.getRequestURI().substring(request.getContextPath().length());
+            if (!path.startsWith("/api")
+                    && !path.contains(".")
+                    && path.matches("/(.*)")) {
+                request.getRequestDispatcher("/index.html").forward(request, response);
+                return;
+            }
+            filterChain.doFilter(request, response);
+        }
     }
 }

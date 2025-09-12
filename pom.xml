@@ -224,7 +224,7 @@
                                         <outputDirectory>${project.build.directory}/classes/public</outputDirectory>
                                         <resources>
                                             <resource>
-                                                <directory>${project.build.directory}/ui/dist/public/browser</directory>
+                                                <directory>${project.basedir}/ui/dist/ui/browser</directory>
                                             </resource>
                                         </resources>
                                     </configuration>
