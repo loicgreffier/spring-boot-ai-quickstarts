@@ -16,4 +16,5 @@ Code samples for leveraging AI with Spring Boot and Ollama.
 
 - Java 21
 - Maven
+- Node.js 24
 - Docker

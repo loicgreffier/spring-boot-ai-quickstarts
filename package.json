@@ -1,0 +1,12 @@
+{
+  "name": "spring-boot-ai-quickstarts-workspace",
+  "workspaces": [
+    "*/ui"
+  ],
+  "scripts": {
+    "install:all": "npm install --workspaces",
+    "build:all": "npm run build --workspaces",
+    "lint:all": "npm run lint --workspaces",
+    "test:all": "npm run test --workspaces"
+  }
+}
