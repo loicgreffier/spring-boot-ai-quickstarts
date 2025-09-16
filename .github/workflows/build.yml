@@ -60,7 +60,7 @@ jobs:
 
       - name: Lint
         run: |
-          npm install:all --no-progress
+          npm run install:all --no-progress
           npm run lint:all
 
       - name: Build
