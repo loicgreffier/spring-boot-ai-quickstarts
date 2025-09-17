@@ -55,6 +55,9 @@ public class WebConfig implements WebMvcConfigurer {
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterAfter(new ClientRoutingFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizeRequestsConfigurer -> authorizeRequestsConfigurer
+                        // Back-End
+                        .requestMatchers("/api/**")
+                        .permitAll()
                         // Front-End
                         .requestMatchers("/index.html", "/*.js", "/*.css", "/*.ico", "/*.svg")
                         .permitAll()

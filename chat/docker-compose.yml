@@ -1,0 +1,60 @@
+---
+version: '2'
+services:
+  ollama:
+    image: ollama/ollama
+    hostname: ollama
+    container_name: ollama
+    networks:
+      - spring-boot-ai-quickstarts
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    hostname: open-webui
+    container_name: open-webui
+    networks:
+      - spring-boot-ai-quickstarts
+    depends_on:
+      - ollama
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_AUTH=False
+      - WEBUI_URL=http://localhost:8080
+
+  chat:
+    image: loicgreffier/spring-boot-ai-quickstarts:chat-1.0.0
+    hostname: chat
+    container_name: chat
+    networks:
+      - spring-boot-ai-quickstarts
+    depends_on:
+      - ollama
+    ports:
+      - "80:8080"
+    restart: unless-stopped
+    environment:
+      SPRING_APPLICATION_JSON: |
+        {
+          "spring": {
+            "ai": {
+              "ollama": {
+                "base-url": "http://ollama:11434"
+                "chat": {
+                  "options": {
+                    "model": "gemma3:270m"
+                  }
+                }
+              }
+            }
+          }
+        }
+
+networks:
+  spring-boot-ai-quickstarts:
+    driver: bridge
