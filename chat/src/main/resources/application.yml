@@ -1,7 +1,7 @@
 spring:
   ai:
     model:
-      embedding: none
+      embedding: "none"
     ollama:
       base-url: "http://localhost:11434"
       chat:
