@@ -11,7 +11,9 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/loicgreffier/spring-boot-ai-quickstarts?label=Pulls&logo=docker&style=for-the-badge)](https://hub.docker.com/r/loicgreffier/spring-boot-ai-quickstarts/tags)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache&style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
 
-Code samples for leveraging AI with Spring Boot and Ollama.
+[Prerequisites](#prerequisites) • [Quickstarts](#quickstarts)
+
+Code samples for leveraging AI with Spring Boot, backed by Ollama.
 
 </div>
 

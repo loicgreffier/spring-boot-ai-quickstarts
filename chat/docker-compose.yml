@@ -2,7 +2,7 @@
 version: '2'
 services:
   ollama:
-    image: ollama/ollama
+    image: ollama/ollama:0.11.11
     hostname: ollama
     container_name: ollama
     networks:
@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
 
   open-webui:
-    image: ghcr.io/open-webui/open-webui:main
+    image: ghcr.io/open-webui/open-webui:0.6.30
     hostname: open-webui
     container_name: open-webui
     networks:
@@ -25,7 +25,6 @@ services:
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434
       - WEBUI_AUTH=False
-      - WEBUI_URL=http://localhost:8080
 
   chat:
     image: loicgreffier/spring-boot-ai-quickstarts:chat-1.0.0
@@ -36,7 +35,7 @@ services:
     depends_on:
       - ollama
     ports:
-      - "80:8080"
+      - "8080:8080"
     restart: unless-stopped
     environment:
       SPRING_APPLICATION_JSON: |
@@ -44,7 +43,7 @@ services:
           "spring": {
             "ai": {
               "ollama": {
-                "base-url": "http://ollama:11434"
+                "base-url": "http://ollama:11434",
                 "chat": {
                   "options": {
                     "model": "gemma3:270m"

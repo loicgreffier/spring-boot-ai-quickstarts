@@ -1,10 +1,12 @@
 spring:
   ai:
+    model:
+      embedding: none
     ollama:
       base-url: "http://localhost:11434"
       chat:
         options:
-          model: "llama3.2:3b"
+          model: "gemma3:270m"
           temperature: 0.7
       init:
         pull-model-strategy: "WHEN_MISSING"
