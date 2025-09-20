@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.github.loicgreffier.chat.config;
+package io.github.loicgreffier.chat.stream.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

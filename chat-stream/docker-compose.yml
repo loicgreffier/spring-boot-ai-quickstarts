@@ -26,10 +26,10 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
       - WEBUI_AUTH=False
 
-  chat:
-    image: loicgreffier/spring-boot-ai-quickstarts:chat-1.0.0
-    hostname: chat
-    container_name: chat
+  chat-stream:
+    image: loicgreffier/spring-boot-ai-quickstarts:chat-stream-1.0.0
+    hostname: chat-stream
+    container_name: chat-stream
     networks:
       - spring-boot-ai-quickstarts
     depends_on:
