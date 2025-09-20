@@ -5,6 +5,8 @@ It demonstrates the following:
 
 - How to use the ChatClient API to interact with an LLM model and stream responses.
 
+<img src=".readme/demo.gif" alt="Spring AI demo"/>
+
 ## Prerequisites
 
 To compile and run this demo, you’ll need:
