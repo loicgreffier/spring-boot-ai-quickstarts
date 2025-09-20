@@ -53,9 +53,7 @@ public class ChatController {
         return ResponseEntity.ok(chatResponse.map(Word::new));
     }
 
-    /**
-     * A word in the chat response.
-     */
+    /** A word in the chat response. */
     @Data
     public static class Word {
         private String value;
