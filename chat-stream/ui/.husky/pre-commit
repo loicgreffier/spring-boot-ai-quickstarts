@@ -1,0 +1,2 @@
+cd chat-stream/ui
+npm run lint-staged

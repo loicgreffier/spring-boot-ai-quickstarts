@@ -16,14 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.github.loicgreffier.chat.controller;
+package io.github.loicgreffier.chat.stream.controller;
 
+import lombok.Data;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("/api")
@@ -43,11 +45,23 @@ public class ChatController {
      * Chat endpoint.
      *
      * @param userInput The user input
-     * @return The chat response
+     * @return The chat response as a stream
      */
     @GetMapping("/v1/chat")
-    public ResponseEntity<String> chat(@RequestParam String userInput) {
-        String chatResponse = chatClient.prompt().user(userInput).call().content();
-        return ResponseEntity.ok(chatResponse);
+    public ResponseEntity<Flux<Word>> chat(@RequestParam String userInput) {
+        Flux<String> chatResponse = chatClient.prompt().user(userInput).stream().content();
+        return ResponseEntity.ok(chatResponse.map(Word::new));
+    }
+
+    /**
+     * A word in the chat response.
+     */
+    @Data
+    public static class Word {
+        private String value;
+
+        public Word(String value) {
+            this.value = value;
+        }
     }
 }
