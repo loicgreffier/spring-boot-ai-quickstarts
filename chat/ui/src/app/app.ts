@@ -23,10 +23,10 @@ export class App {
 	chatHistory: ChatMessage[] = [];
 	loading = false;
 
-  /**
-   * Sends the user's message to the backend and handles the response.
+	/**
+	 * Sends the user's message to the backend and handles the response.
 	 * It updates the chat history with the user's message and the bot's response.
-   */
+	 */
 	sendMessage() {
 		if (!this.userInput.trim()) return;
 
@@ -34,7 +34,7 @@ export class App {
 		this.loading = true;
 
 		this.httpClient
-			.get(`${App.backendUrl}/api/v1/chat?userInput=${encodeURIComponent(this.userInput)}`, { responseType: 'text' })
+			.get(`${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}`, { responseType: 'text' })
 			.subscribe({
 				next: (response) => {
 					this.chatHistory[this.chatHistory.length - 1].bot = response;

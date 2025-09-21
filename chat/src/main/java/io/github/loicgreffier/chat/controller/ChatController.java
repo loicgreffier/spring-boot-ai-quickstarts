@@ -19,14 +19,13 @@
 package io.github.loicgreffier.chat.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/chat")
 public class ChatController {
     private final ChatClient chatClient;
 
@@ -45,9 +44,8 @@ public class ChatController {
      * @param userInput The user input
      * @return The chat response
      */
-    @GetMapping("/v1/chat")
-    public ResponseEntity<String> chat(@RequestParam String userInput) {
-        String chatResponse = chatClient.prompt().user(userInput).call().content();
-        return ResponseEntity.ok(chatResponse);
+    @GetMapping
+    public String chat(@RequestParam String userInput) {
+        return chatClient.prompt().user(userInput).call().content();
     }
 }

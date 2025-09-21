@@ -35,9 +35,7 @@ export class App {
 
 		let botResponse = '';
 
-		this.connectToServerSentEvents(
-			`${App.backendUrl}/api/v1/chat?userInput=${encodeURIComponent(this.userInput)}`
-		).subscribe({
+		this.connectToServerSentEvents(`${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}`).subscribe({
 			next: (event) => {
 				botResponse += JSON.parse(event.data).value;
 				this.chatHistory[this.chatHistory.length - 1].bot = botResponse;

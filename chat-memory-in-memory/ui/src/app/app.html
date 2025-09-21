@@ -1,0 +1,51 @@
+<div class="chat-wrapper">
+	<div class="chat-sidebar">
+		<div class="sidebar-header">
+			<button (click)="createConversation()">New Conversation</button>
+		</div>
+
+		@if (conversations.length > 0) {
+			<div class="divider"></div>
+		}
+
+		<ul class="conversation-list">
+			@for (conv of conversations; track conv) {
+				<li [class.active]="conv.name === selectedConversation">
+					<button class="switch-conversation-button" (click)="switchConversation(conv.name)">{{ conv.name }}</button>
+					<button class="delete-conversation-button" (click)="deleteConversation(conv.name)">×</button>
+				</li>
+			}
+		</ul>
+	</div>
+
+	<div class="chat-main">
+          <div class="chat-header">
+              <div class="bot-avatar"></div>
+              <div class="bot-info">
+                  <div class="bot-name">Llamabot</div>
+                  <div class="bot-status">🟢 Online Now</div>
+              </div>
+          </div>
+		<div class="chat-content">
+			@for (chat of chatHistory; track chat) {
+				<div class="chat-bubble-group">
+					<div class="chat-bubble user">{{ chat.user }}</div>
+					@if (chat.bot) {
+						<div class="chat-bubble bot">{{ chat.bot }}</div>
+					}
+				</div>
+			}
+			@if (loading) {
+				<div class="chat-bubble bot">Typing...</div>
+			}
+		</div>
+		<div class="chat-input">
+			<input
+				[(ngModel)]="userInput"
+				(keyup.enter)="sendMessage()"
+				[disabled]="!selectedConversation"
+				placeholder="{{ selectedConversation ? 'Reply to Llamabot...' : 'Select a conversation to start...' }}"
+			/>
+		</div>
+	</div>
+</div>
