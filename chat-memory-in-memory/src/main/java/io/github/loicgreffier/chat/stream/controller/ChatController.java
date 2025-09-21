@@ -27,6 +27,7 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
+import org.springframework.ai.chat.messages.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -76,24 +77,14 @@ public class ChatController {
     }
 
     /**
-     * Get all conversation IDs.
-     *
-     * @return A list of conversation IDs
-     */
-    @GetMapping("/conversations")
-    public List<String> getConversationIds() {
-        return chatMemoryRepository.findConversationIds();
-    }
-
-    /**
-     * Clear chat history for a conversation.
+     * Get the conversation history.
      *
      * @param conversationId The conversation ID
+     * @return The conversation history
      */
-    @DeleteMapping("/{conversationId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void clearConversation(@PathVariable String conversationId) {
-        chatMemory.clear(conversationId);
+    @GetMapping("/{conversationId}/history")
+    public List<Message> getConversationHistory(@PathVariable String conversationId) {
+        return chatMemoryRepository.findByConversationId(conversationId);
     }
 
     /** A word in the chat response. */

@@ -3,3 +3,6 @@ npm run lint-staged
 
 cd ../../chat-stream/ui
 npm run lint-staged
+
+cd ../../chat-memory-in-memory/ui
+npm run lint-staged

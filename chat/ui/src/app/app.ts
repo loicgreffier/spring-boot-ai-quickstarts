@@ -4,9 +4,14 @@ import { FormsModule } from '@angular/forms';
 
 import { environment } from '../environments/environment';
 
-interface ChatMessage {
-	user: string;
-	bot: string;
+enum Type {
+	User = 'USER',
+	Assistant = 'ASSISTANT'
+}
+
+interface Message {
+	type: Type;
+	text: string;
 }
 
 @Component({
@@ -17,10 +22,11 @@ interface ChatMessage {
 })
 export class App {
 	public static readonly backendUrl = `${environment.backend_url}`;
+	protected readonly Type = Type;
 	private readonly httpClient = inject(HttpClient);
 
 	userInput = '';
-	chatHistory: ChatMessage[] = [];
+	chatHistory: Message[] = [];
 	loading = false;
 
 	/**
@@ -30,18 +36,18 @@ export class App {
 	sendMessage() {
 		if (!this.userInput.trim()) return;
 
-		this.chatHistory.push({ user: this.userInput, bot: '' });
+		this.chatHistory.push({ type: Type.User, text: this.userInput });
 		this.loading = true;
 
 		this.httpClient
 			.get(`${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}`, { responseType: 'text' })
 			.subscribe({
 				next: (response) => {
-					this.chatHistory[this.chatHistory.length - 1].bot = response;
+					this.chatHistory.push({ type: Type.Assistant, text: response });
 					this.loading = false;
 				},
 				error: () => {
-					this.chatHistory[this.chatHistory.length - 1].bot = 'Error contacting server.';
+					this.chatHistory.push({ type: Type.Assistant, text: 'Error contacting server.' });
 					this.loading = false;
 				}
 			});

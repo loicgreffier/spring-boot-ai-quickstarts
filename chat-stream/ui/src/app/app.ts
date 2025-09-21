@@ -4,9 +4,14 @@ import { Observable, Subscriber } from 'rxjs';
 
 import { environment } from '../environments/environment';
 
-interface ChatMessage {
-	user: string;
-	bot: string;
+enum Type {
+	User = 'USER',
+	Assistant = 'ASSISTANT'
+}
+
+interface Message {
+	type: Type;
+	text: string;
 }
 
 @Component({
@@ -17,10 +22,12 @@ interface ChatMessage {
 })
 export class App {
 	public static readonly backendUrl = `${environment.backend_url}`;
+	protected readonly Type = Type;
+
 	private readonly zone = inject(NgZone);
 
 	userInput = '';
-	chatHistory: ChatMessage[] = [];
+	messages: Message[] = [];
 	loading = false;
 
 	/**
@@ -30,19 +37,27 @@ export class App {
 	sendMessage() {
 		if (!this.userInput.trim()) return;
 
-		this.chatHistory.push({ user: this.userInput, bot: '' });
+		this.messages.push({ type: Type.User, text: this.userInput });
 		this.loading = true;
 
 		let botResponse = '';
 
 		this.connectToServerSentEvents(`${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}`).subscribe({
 			next: (event) => {
-				botResponse += JSON.parse(event.data).value;
-				this.chatHistory[this.chatHistory.length - 1].bot = botResponse;
+				if (botResponse.length === 0) {
+					botResponse += JSON.parse(event.data).value;
+					this.messages.push({ type: Type.Assistant, text: botResponse });
+				} else {
+					botResponse += JSON.parse(event.data).value;
+					this.messages[this.messages.length - 1] = { type: Type.Assistant, text: botResponse };
+				}
 				this.loading = false;
 			},
 			error: () => {
-				this.chatHistory[this.chatHistory.length - 1].bot = botResponse || 'Error contacting server.';
+				this.messages[this.messages.length - 1] = {
+					type: Type.Assistant,
+					text: botResponse || 'Error contacting server.'
+				};
 				this.loading = false;
 			}
 		});

@@ -7,12 +7,11 @@
 		</div>
 	</div>
 	<div class="chat-content">
-		@for (chat of chatHistory; track chat) {
+		@for (chat of messages; track chat) {
 			<div class="chat-bubble-group">
-				<div class="chat-bubble user">{{ chat.user }}</div>
-				@if (chat.bot) {
-					<div class="chat-bubble bot">{{ chat.bot }}</div>
-				}
+				<div class="chat-bubble {{ chat.type === Type.User ? 'user' : 'bot' }}">
+					{{ chat.text }}
+				</div>
 			</div>
 		}
 		@if (loading) {
@@ -20,6 +19,11 @@
 		}
 	</div>
 	<div class="chat-input">
-		<input [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Reply to Llamabot..." />
+		<input
+			[(ngModel)]="userInput"
+			[disabled]="loading"
+			(keyup.enter)="sendMessage()"
+			placeholder="{{ loading ? 'Llamabot is thinking...' : 'Ask a question' }}"
+		/>
 	</div>
 </div>
