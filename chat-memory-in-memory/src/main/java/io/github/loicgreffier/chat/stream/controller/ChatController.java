@@ -26,6 +26,7 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
+import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.http.HttpStatus;
@@ -37,18 +38,15 @@ import reactor.core.publisher.Flux;
 public class ChatController {
     private final ChatClient chatClient;
     private final ChatMemory chatMemory;
-    private final ChatMemoryRepository chatMemoryRepository;
 
     /**
      * Constructor.
      *
      * @param chatClientBuilder The chat client builder
-     * @param chatMemoryRepository The in-memory chat memory repository
      */
-    public ChatController(ChatClient.Builder chatClientBuilder, ChatMemoryRepository chatMemoryRepository) {
-        this.chatMemoryRepository = chatMemoryRepository;
+    public ChatController(ChatClient.Builder chatClientBuilder) {
         this.chatMemory = MessageWindowChatMemory.builder()
-                .chatMemoryRepository(chatMemoryRepository)
+                .chatMemoryRepository(new InMemoryChatMemoryRepository())
                 .maxMessages(10)
                 .build();
 
@@ -84,7 +82,18 @@ public class ChatController {
      */
     @GetMapping("/{conversationId}/history")
     public List<Message> getConversationHistory(@PathVariable String conversationId) {
-        return chatMemoryRepository.findByConversationId(conversationId);
+        return chatMemory.get(conversationId);
+    }
+
+    /**
+     * Delete a conversation.
+     *
+     * @param conversationId The conversation ID
+     */
+    @DeleteMapping("/{conversationId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteConversation(@PathVariable String conversationId) {
+        chatMemory.clear(conversationId);
     }
 
     /** A word in the chat response. */
