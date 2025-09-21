@@ -101,19 +101,5 @@
       font-size: 14px;
       outline: none;
     }
-
-    button {
-      margin-left: 10px;
-      background-color: #111122;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
   }
 }

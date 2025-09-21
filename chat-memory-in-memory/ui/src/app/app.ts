@@ -101,7 +101,7 @@ export class App implements OnInit {
 	/**
 	 * Fetches the conversation history from the backend and updates the messages array.
 	 */
-	getConversationHistory() {
+	getConversationHistory(): void {
 		this.httpClient.get<Message[]>(`${App.backendUrl}/chat/${this.conversationId}/history`).subscribe({
 			next: (messages: Message[]) => {
 				if (messages.length > 0) {
@@ -109,6 +109,17 @@ export class App implements OnInit {
 				}
 			},
 			error: () => {
+				this.messages = [];
+			}
+		});
+	}
+
+	/**
+	 * Clear the conversation history.
+	 */
+	clearConversation(): void {
+		this.httpClient.delete(`${App.backendUrl}/chat/${this.conversationId}`).subscribe({
+			next: () => {
 				this.messages = [];
 			}
 		});
