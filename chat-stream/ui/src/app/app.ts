@@ -10,7 +10,7 @@ enum Type {
 }
 
 interface Message {
-	type: Type;
+	messageType: Type;
 	text: string;
 }
 
@@ -23,7 +23,6 @@ interface Message {
 export class App {
 	public static readonly backendUrl = `${environment.backend_url}`;
 	protected readonly Type = Type;
-
 	private readonly zone = inject(NgZone);
 
 	userInput = '';
@@ -37,25 +36,25 @@ export class App {
 	sendMessage() {
 		if (!this.userInput.trim()) return;
 
-		this.messages.push({ type: Type.User, text: this.userInput });
+		this.messages.push({ messageType: Type.User, text: this.userInput });
 		this.loading = true;
 
 		let botResponse = '';
 
-		this.connectToServerSentEvents(`${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}`).subscribe({
+		this.streamServerEvents(`${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}`).subscribe({
 			next: (event) => {
 				if (botResponse.length === 0) {
 					botResponse += JSON.parse(event.data).value;
-					this.messages.push({ type: Type.Assistant, text: botResponse });
+					this.messages.push({ messageType: Type.Assistant, text: botResponse });
 				} else {
 					botResponse += JSON.parse(event.data).value;
-					this.messages[this.messages.length - 1] = { type: Type.Assistant, text: botResponse };
+					this.messages[this.messages.length - 1] = { messageType: Type.Assistant, text: botResponse };
 				}
 				this.loading = false;
 			},
 			error: () => {
 				this.messages[this.messages.length - 1] = {
-					type: Type.Assistant,
+					messageType: Type.Assistant,
 					text: botResponse || 'Error contacting server.'
 				};
 				this.loading = false;
@@ -70,7 +69,7 @@ export class App {
 	 *
 	 * @param url The URL to connect to for receiving SSE messages.
 	 */
-	connectToServerSentEvents(url: string): Observable<MessageEvent> {
+	streamServerEvents(url: string): Observable<MessageEvent> {
 		return new Observable((subscriber: Subscriber<MessageEvent>) => {
 			const eventSource = new EventSource(url);
 

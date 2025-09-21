@@ -9,7 +9,7 @@
 	<div class="chat-content">
 		@for (chat of messages; track chat) {
 			<div class="chat-bubble-group">
-				<div class="chat-bubble {{ chat.type === Type.User ? 'user' : 'bot' }}">
+				<div class="chat-bubble {{ chat.messageType === Type.User ? 'user' : 'bot' }}">
 					{{ chat.text }}
 				</div>
 			</div>

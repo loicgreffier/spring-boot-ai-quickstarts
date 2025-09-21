@@ -51,7 +51,7 @@ export class App implements OnInit {
 
 		let botResponse = '';
 
-		this.connectToServerSentEvents(
+		this.streamServerEvents(
 			`${App.backendUrl}/chat/${this.conversationId}?userInput=${encodeURIComponent(this.userInput)}`
 		).subscribe({
 			next: (event) => {
@@ -81,7 +81,7 @@ export class App implements OnInit {
 	 *
 	 * @param url The URL to connect to for receiving SSE messages.
 	 */
-	connectToServerSentEvents(url: string): Observable<MessageEvent> {
+	streamServerEvents(url: string): Observable<MessageEvent> {
 		return new Observable((subscriber: Subscriber<MessageEvent>) => {
 			const eventSource = new EventSource(url);
 

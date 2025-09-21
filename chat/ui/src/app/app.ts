@@ -10,7 +10,7 @@ enum Type {
 }
 
 interface Message {
-	type: Type;
+	messageType: Type;
 	text: string;
 }
 
@@ -26,7 +26,7 @@ export class App {
 	private readonly httpClient = inject(HttpClient);
 
 	userInput = '';
-	chatHistory: Message[] = [];
+	messages: Message[] = [];
 	loading = false;
 
 	/**
@@ -36,18 +36,18 @@ export class App {
 	sendMessage() {
 		if (!this.userInput.trim()) return;
 
-		this.chatHistory.push({ type: Type.User, text: this.userInput });
+		this.messages.push({ messageType: Type.User, text: this.userInput });
 		this.loading = true;
 
 		this.httpClient
 			.get(`${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}`, { responseType: 'text' })
 			.subscribe({
 				next: (response) => {
-					this.chatHistory.push({ type: Type.Assistant, text: response });
+					this.messages.push({ messageType: Type.Assistant, text: response });
 					this.loading = false;
 				},
 				error: () => {
-					this.chatHistory.push({ type: Type.Assistant, text: 'Error contacting server.' });
+					this.messages.push({ messageType: Type.Assistant, text: 'Error contacting server.' });
 					this.loading = false;
 				}
 			});
