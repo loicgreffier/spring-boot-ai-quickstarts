@@ -13,7 +13,7 @@
 
 [Prerequisites](#prerequisites) • [Quickstarts](#quickstarts)
 
-Code samples for leveraging AI with Spring Boot, featuring a lightweight Angular UI, backed by Ollama.
+Code samples around Spring AI, featuring a lightweight Angular UI, backed by Ollama.
 
 </div>
 
