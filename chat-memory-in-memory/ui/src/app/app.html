@@ -19,7 +19,12 @@
 		}
 	</div>
 	<div class="chat-input">
-		<input [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Reply to Llamabot..." />
+		<input
+			[(ngModel)]="userInput"
+			[disabled]="loading"
+			(keyup.enter)="sendMessage()"
+			placeholder="{{ loading ? 'Llamabot is thinking...' : 'Ask a question' }}"
+		/>
 		<button (click)="clearConversation()">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="20px" height="20px">
 				<path

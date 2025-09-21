@@ -26,7 +26,9 @@ Code samples for leveraging AI with Spring Boot, backed by Ollama.
 
 ## Quickstarts
 
-| Module                      | Content             |
-|-----------------------------|---------------------|
-| [Chat](/chat)               | Synchronous chatbot |
-| [Chat Stream](/chat-stream) | Streaming chatbot   |
+| Module                                          | Content                        |
+|-------------------------------------------------|--------------------------------|
+| [Chat](/chat)                                   | Synchronous chatbot            |
+| [Chat Stream](/chat-stream)                     | Streaming chatbot              |
+| [Chat Memory In-Memory](/chat-memory-in-memory) | Chatbot with in-memory storage |
+
