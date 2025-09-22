@@ -17,6 +17,7 @@
 
     <modules>
         <module>chat</module>
+        <module>chat-memory-in-memory</module>
         <module>chat-stream</module>
     </modules>
 

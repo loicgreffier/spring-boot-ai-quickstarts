@@ -20,7 +20,6 @@ package io.github.loicgreffier.chat.stream.controller;
 
 import lombok.Data;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/chat")
 public class ChatController {
     private final ChatClient chatClient;
 
@@ -42,15 +41,15 @@ public class ChatController {
     }
 
     /**
-     * Chat endpoint.
+     * Chat endpoint. Each response word is wrapped in a Word object to preserve leading spaces.
      *
      * @param userInput The user input
      * @return The chat response as a stream
      */
-    @GetMapping("/v1/chat")
-    public ResponseEntity<Flux<Word>> chat(@RequestParam String userInput) {
+    @GetMapping
+    public Flux<Word> chat(@RequestParam String userInput) {
         Flux<String> chatResponse = chatClient.prompt().user(userInput).stream().content();
-        return ResponseEntity.ok(chatResponse.map(Word::new));
+        return chatResponse.map(Word::new);
     }
 
     /** A word in the chat response. */

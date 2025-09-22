@@ -1,0 +1,14 @@
+spring:
+  ai:
+    model:
+      embedding: "none"
+    ollama:
+      base-url: "http://localhost:11434"
+      chat:
+        options:
+          model: "gemma3:1b"
+          temperature: 0.7
+      init:
+        pull-model-strategy: "WHEN_MISSING"
+        timeout: "5m"
+        max-retries: 1
