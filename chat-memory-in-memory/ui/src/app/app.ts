@@ -49,26 +49,25 @@ export class App implements OnInit {
 		this.messages.push({ messageType: Type.User, text: this.userInput });
 		this.loading = true;
 
-		let botResponse = '';
-
+		let assistantMessageIndex: number;
 		this.streamServerEvents(
 			`${App.backendUrl}/chat/${this.conversationId}?userInput=${encodeURIComponent(this.userInput)}`
 		).subscribe({
 			next: (event) => {
-				if (botResponse.length === 0) {
-					botResponse += JSON.parse(event.data).value;
-					this.messages.push({ messageType: Type.Assistant, text: botResponse });
+				if (assistantMessageIndex) {
+					this.messages[assistantMessageIndex].text += JSON.parse(event.data).value;
 				} else {
-					botResponse += JSON.parse(event.data).value;
-					this.messages[this.messages.length - 1] = { messageType: Type.Assistant, text: botResponse };
+					this.messages.push({ messageType: Type.Assistant, text: JSON.parse(event.data).value });
+					assistantMessageIndex = this.messages.length - 1;
 				}
+
 				this.loading = false;
 			},
 			error: () => {
-				this.messages[this.messages.length - 1] = {
-					messageType: Type.Assistant,
-					text: botResponse || 'Error contacting server.'
-				};
+				if (!assistantMessageIndex) {
+					this.messages.push({ messageType: Type.Assistant, text: 'Error contacting server.' });
+				}
+
 				this.loading = false;
 			}
 		});
