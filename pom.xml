@@ -19,6 +19,7 @@
         <module>chat</module>
         <module>chat-memory-in-memory</module>
         <module>chat-stream</module>
+        <module>chat-retrieval-augmented-generation</module>
     </modules>
 
     <properties>
@@ -28,7 +29,7 @@
         <lombok.version>1.18.42</lombok.version>
         <palantir.version>2.58.0</palantir.version>
         <spotless-maven-plugin.version>3.0.0</spotless-maven-plugin.version>
-        <spring-ai.version>1.0.2</spring-ai.version>
+        <spring-ai.version>1.0.3</spring-ai.version>
     </properties>
 
     <dependencyManagement>

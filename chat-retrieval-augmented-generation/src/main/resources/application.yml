@@ -1,0 +1,21 @@
+spring:
+  ai:
+    ollama:
+      base-url: "http://localhost:11434"
+      chat:
+        options:
+          model: "gemma3:4b"
+          temperature: 0.8
+      embedding:
+        options:
+          model: "embeddinggemma:300m"
+      init:
+        pull-model-strategy: "ALWAYS"
+        timeout: 10m
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/postgres"
+    username: "postgres"
+    password: "changeme"

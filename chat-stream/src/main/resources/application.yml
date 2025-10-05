@@ -7,8 +7,6 @@ spring:
       chat:
         options:
           model: "gemma3:1b"
-          temperature: 0.7
+          temperature: 0.8
       init:
-        pull-model-strategy: "WHEN_MISSING"
-        timeout: "5m"
-        max-retries: 1
+        pull-model-strategy: "ALWAYS"

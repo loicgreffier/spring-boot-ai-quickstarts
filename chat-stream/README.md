@@ -14,6 +14,7 @@ To compile and run this demo, you’ll need:
 - Java 21
 - Maven
 - Node.js 24
+- NPM
 - Docker
 
 ## Running the Application

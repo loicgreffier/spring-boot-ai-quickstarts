@@ -1,4 +1,4 @@
-# Chat Memory In-Memory
+# Chat Retrieval Augmented Generation
 
 This module demonstrates how to create a streaming chatbot application with in-memory context up to 30 messages.
 It demonstrates the following:

@@ -22,6 +22,7 @@ Code samples around Spring AI, powered by Ollama.
 - Java 21
 - Maven
 - Node.js 24
+- NPM
 - Docker
 
 ## Quickstarts
