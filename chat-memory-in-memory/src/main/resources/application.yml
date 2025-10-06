@@ -6,7 +6,7 @@ spring:
       base-url: "http://localhost:11434"
       chat:
         options:
-          model: "gemma3:1b"
+          model: "gemma3:4b"
           temperature: 0.8
       init:
         pull-model-strategy: "ALWAYS"

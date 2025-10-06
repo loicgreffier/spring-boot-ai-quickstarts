@@ -35,23 +35,36 @@ import reactor.core.publisher.Flux;
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
-    private static final String ENHANCED_PROMPT_TEMPLATE =
+    private static final String CUSTOM_PROMPT_TEMPLATE =
             """
-        <query>
+        {query}
 
-        Context information is below.
+        Context information is below, surrounded by ---------------------
 
         ---------------------
-        <question_answer_context>
+        {question_answer_context}
         ---------------------
+        
+        Answer the query following these rules:
 
-        Given the context information, answer the query.
-
-        Follow these rules:
-
-        1. If the query is like "Hi", "Hello", "How are you?", "What is your name?", "Who are you?" or similar, answer with a short and friendly sentence.
-        2. If the answer is not in the context, answer with your best knowledge.
-        3. Avoid statements like "Based on the context..." or "The provided information...".
+        1. If the query is ONLY a greeting (like "Hi", "Hello", "Hey") with no other question or topic:
+           - Respond with a brief greeting and ignore the context completely even if it contains relevant information
+        2. If the context contains relevant information to answer the query:
+            - Answer using ONLY the information from the context
+            - Do not add information from your general knowledge
+        3. If the context does NOT contain relevant information to answer the query:
+            - Answer using your general knowledge
+            - Provide the best answer you can
+        4. CRITICAL: Never acknowledge, reference, or mention the context in ANY way. Forbidden phrases include:
+           - "based on the context/information/document"
+           - "according to the context/provided information"
+           - "the context shows/states/mentions/doesn't mention"
+           - "in the given/provided context"
+           - "the information provided"
+           - "isn't mentioned in the context"
+           - "the context doesn't contain"
+           - Or ANY similar reference to source materials
+        5. Always answer as if the knowledge comes directly from you, naturally and conversationally.
         """;
 
     private final ChatClient chatClient;
@@ -84,31 +97,26 @@ public class ChatController {
      * @return The chat response as a stream
      */
     @GetMapping
-    public Flux<Word> chat(@RequestParam boolean enhancedPromptTemplate, @RequestParam String userInput) {
-        QuestionAnswerAdvisor defaultAdvisor = QuestionAnswerAdvisor.builder(vectorStore)
-                .searchRequest(
-                        SearchRequest.builder().similarityThreshold(0.0).topK(4).build())
-                .build();
-
-        QuestionAnswerAdvisor enhancedAdvisor = QuestionAnswerAdvisor.builder(vectorStore)
-                .promptTemplate(PromptTemplate.builder()
-                        .renderer(StTemplateRenderer.builder()
-                                .startDelimiterToken('<')
-                                .endDelimiterToken('>')
+    public Flux<Word> chat(
+            @RequestParam(defaultValue = "false") boolean customPromptTemplate, @RequestParam String userInput) {
+        QuestionAnswerAdvisor advisor = customPromptTemplate
+                ? QuestionAnswerAdvisor.builder(vectorStore)
+                        .promptTemplate(PromptTemplate.builder()
+                                .template(CUSTOM_PROMPT_TEMPLATE)
                                 .build())
-                        .template(ENHANCED_PROMPT_TEMPLATE)
-                        .build())
-                .searchRequest(
-                        SearchRequest.builder().similarityThreshold(0.0).topK(4).build())
-                .build();
+                        .searchRequest(SearchRequest.builder()
+                                .similarityThreshold(0.6)
+                                .topK(3)
+                                .build())
+                        .build()
+                : new QuestionAnswerAdvisor(vectorStore);
 
-        Flux<String> chatResponse =
-                chatClient
-                        .prompt()
-                        .advisors(enhancedPromptTemplate ? enhancedAdvisor : defaultAdvisor)
-                        .user(userInput)
-                        .stream()
-                        .content();
+        Flux<String> chatResponse = chatClient
+                .prompt()
+                .user(userInput)
+                .advisors(advisor)
+                .stream()
+                .content();
 
         return chatResponse.map(Word::new);
     }

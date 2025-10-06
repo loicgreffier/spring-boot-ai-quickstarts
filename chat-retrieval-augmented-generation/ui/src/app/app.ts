@@ -28,6 +28,7 @@ export class App {
 	userInput = '';
 	messages: Message[] = [];
 	loading = false;
+	customPromptMode = false;
 
 	/**
 	 * Sends the user's message to the backend and handles the response via Server-Sent Events (SSE).
@@ -40,7 +41,8 @@ export class App {
 		this.loading = true;
 
 		let assistantMessageIndex: number;
-		this.streamServerEvents(`${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}`).subscribe({
+		const url = `${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}&customPromptTemplate=${this.customPromptMode}`;
+		this.streamServerEvents(url).subscribe({
 			next: (event) => {
 				if (assistantMessageIndex) {
 					this.messages[assistantMessageIndex].text += JSON.parse(event.data).value;

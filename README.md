@@ -23,7 +23,8 @@ Code samples around Spring AI, powered by Ollama.
 - Maven
 - Node.js 24
 - NPM
-- Docker
+- Ollama
+- Docker _(optional, used for running the applications in containers)_
 
 ## Quickstarts
 
