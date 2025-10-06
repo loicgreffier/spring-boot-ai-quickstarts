@@ -32,6 +32,11 @@ services:
                   "options": {
                     "model": "gemma3:4b"
                   }
+                },
+                "embedding": {
+                  "options": {
+                    "model": "qwen3-embedding:0.6b"
+                  }
                 }
               }
             }

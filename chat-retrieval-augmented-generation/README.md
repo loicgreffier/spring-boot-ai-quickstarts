@@ -1,10 +1,17 @@
 # Chat Retrieval Augmented Generation
 
-This module demonstrates how to create a streaming chatbot application with in-memory context up to 30 messages.
-It demonstrates the following:
+This module demonstrates how to create a streaming chatbot application with retrieval-augmented generation (RAG) capabilities.
+It covers the following:
 
-- How to use the ChatClient API to interact with an LLM model and stream responses.
-- How to add in-memory chat memory to maintain context across messages.
+- How to use the `ChatClient` API to interact with an LLM and stream responses.
+- How to connect to a vector database, store embeddings, and perform similarity searches.
+- How to tune the RAG process using a custom prompt template.
+
+It leverages the following AI technologies:
+
+- Chat model: `gemma3:4b`
+- Embedding model: `qwen3-embedding:0.6b`
+- Vector database: PGVector
 
 <img src=".readme/demo.gif" alt="Spring AI demo"/>
 
@@ -16,24 +23,31 @@ To compile and run this demo, you’ll need:
 - Maven
 - Node.js 24
 - NPM
+- Ollama
 - Docker
 
 ## Running the Application
 
 To run the application manually:
 
-- Start [Ollama](https://ollama.com/).
+- Start Ollama.
+- Start a PGVector database in Docker using:
+
+```bash
+docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=changeme -p 5432:5432 pgvector/pgvector:pg18
+```
+
 - Start the back-end server.
 - Start the front-end UI using `ng serve` from the `ui` directory.
 
-Alternatively, to run the application with Docker, use the following command:
+Alternatively, to run everything at once using Docker, run:
 
-```console
+```bash
 docker-compose up -d
 ```
 
 This will start the following services in Docker:
 
 - Ollama
-- Open WebUI (available at http://localhost:3000)
-- Chat Memory In-Memory application (available at http://localhost:8080)
+- PGVector database
+- Chat Retrieval Augmented Generation application (available at http://localhost:8080)
