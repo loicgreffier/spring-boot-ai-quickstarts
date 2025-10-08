@@ -77,17 +77,38 @@ public class ChatController {
      * @param vectorStore The vector store
      */
     public ChatController(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
-        this.vectorStore = vectorStore;
         this.chatClient = chatClientBuilder.build();
+        this.vectorStore = vectorStore;
+
+        List<Document> documents = List.of(
+                new Document("The Simpsons is an animated sitcom created by Matt Groening that first aired in 1989."),
+                new Document("Homer Simpson works as a safety inspector at the Springfield Nuclear Power Plant."),
+                new Document("Marge Simpson is the matriarch of the family, known for her tall blue beehive hairdo."),
+                new Document("Bart Simpson is the eldest child, a ten-year-old troublemaker who attends Springfield Elementary School."),
+                new Document("Lisa Simpson is an eight-year-old intellectual who plays the saxophone and advocates for various causes."),
+                new Document("Maggie Simpson is the baby of the family who communicates by sucking on her pacifier."),
+                new Document("The family lives at 742 Evergreen Terrace in the fictional town of Springfield."),
+                new Document("Mr. Burns is Homer's boss and the wealthy, evil owner of the nuclear power plant."),
+                new Document("Waylon Smithers is Mr. Burns' devoted assistant and the plant's executive."),
+                new Document("Ned Flanders is the Simpsons' religious, cheerful next-door neighbor."),
+                new Document("Moe Szyslak runs Moe's Tavern, where Homer and his friends frequently drink."),
+                new Document("Apu Nahasapeemapetilon operates the Kwik-E-Mart convenience store."),
+                new Document("Chief Wiggum is Springfield's incompetent police chief."),
+                new Document("Krusty the Clown hosts a children's television show that Bart idolizes."),
+                new Document("Sideshow Bob is Krusty's former sidekick who repeatedly tries to kill Bart."),
+                new Document("Principal Skinner runs Springfield Elementary School alongside Superintendent Chalmers."),
+                new Document("The show is known for its satirical take on American culture, society, and politics."),
+                new Document("Each episode typically opens with the family gathering on their couch in different ways."),
+                new Document("The Simpsons holds the record as the longest-running American animated series."),
+                new Document("The show features hundreds of recurring characters that make up the town of Springfield.")
+        );
+
+        vectorStore.add(documents);
     }
 
     @PostConstruct
     public void init() {
-        List<Document> documents = List.of(
-                new Document("Clement Pulby is the GOAT of our generation", Map.of("meta1", "meta1")),
-                new Document("Clement Pulby is the brother of McFly from the duo McFly & Carlito"));
 
-        vectorStore.add(documents);
     }
 
     /**
