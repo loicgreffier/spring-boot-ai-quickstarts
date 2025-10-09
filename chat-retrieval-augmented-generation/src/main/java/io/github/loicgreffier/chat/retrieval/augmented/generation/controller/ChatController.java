@@ -168,8 +168,7 @@ public class ChatController {
                 new Document(
                         UUID.nameUUIDFromBytes("MOV-001".getBytes()).toString(),
                         "The Simpsons Movie was released in theaters in 2007 after years of development.",
-                        Map.of())
-        );
+                        Map.of()));
 
         vectorStore.add(documents);
     }
