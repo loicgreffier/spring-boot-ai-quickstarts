@@ -22,13 +22,17 @@ Code samples around Spring AI, powered by Ollama.
 - Java 21
 - Maven
 - Node.js 24
+- NPM
+- Ollama
 - Docker
 
 ## Quickstarts
 
-| Module                                          | Content                        |
-|-------------------------------------------------|--------------------------------|
-| [Chat](/chat)                                   | Synchronous chatbot            |
-| [Chat Stream](/chat-stream)                     | Streaming chatbot              |
-| [Chat Memory In-Memory](/chat-memory-in-memory) | Chatbot with in-memory storage |
+| Module                                                                      | Description                    |
+|-----------------------------------------------------------------------------|--------------------------------|
+| [Chat](/chat)                                                               | Synchronous chatbot            |
+| [Chat Memory In-Memory](/chat-memory-in-memory)                             | Chatbot with in-memory storage |
+| [Chat Retrieval Augmented Generation](/chat-retrieval-augmented-generation) | Chatbot with RAG               |
+| [Chat Stream](/chat-stream)                                                 | Streaming chatbot              |
+
 

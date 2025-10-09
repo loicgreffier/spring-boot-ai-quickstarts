@@ -10,10 +10,23 @@ services:
       - "11434:11434"
     restart: unless-stopped
 
-  chat-stream:
-    image: loicgreffier/spring-boot-ai-quickstarts:chat-stream-1.0.0
-    hostname: chat-stream
-    container_name: chat-stream
+  pgvector:
+    image: pgvector/pgvector:pg18
+    hostname: pgvector
+    container_name: pgvector
+    networks:
+      - spring-boot-ai-quickstarts
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  chat-retrieval-augmented-generation:
+    image: loicgreffier/spring-boot-ai-quickstarts:chat-retrieval-augmented-generation-1.0.0
+    hostname: chat-retrieval-augmented-generation
+    container_name: chat-retrieval-augmented-generation
     networks:
       - spring-boot-ai-quickstarts
     depends_on:
@@ -31,6 +44,11 @@ services:
                 "chat": {
                   "options": {
                     "model": "gemma3:4b"
+                  }
+                },
+                "embedding": {
+                  "options": {
+                    "model": "qwen3-embedding:0.6b"
                   }
                 }
               }

@@ -6,3 +6,6 @@ npm run lint-staged
 
 cd ../../chat-memory-in-memory/ui
 npm run lint-staged
+
+cd ../../chat-retrieval-augmented-generation/ui
+npm run lint-staged

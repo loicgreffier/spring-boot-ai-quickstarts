@@ -1,9 +1,13 @@
 # Chat Stream
 
 This module demonstrates how to create a streaming chatbot application.
-It demonstrates the following:
+It covers the following:
 
-- How to use the ChatClient API to interact with an LLM model and stream responses.
+- How to use the `ChatClient` API to interact with an LLM model and stream responses.
+
+It leverages the following AI technology:
+
+- Chat model: `gemma3:4b`
 
 <img src=".readme/demo.gif" alt="Spring AI demo"/>
 
@@ -14,17 +18,19 @@ To compile and run this demo, you’ll need:
 - Java 21
 - Maven
 - Node.js 24
-- Docker
+- NPM
+- Ollama
+- Docker _(optional, used for running the applications in containers)_
 
 ## Running the Application
 
 To run the application manually:
 
-- Start [Ollama](https://ollama.com/).
+- Start Ollama.
 - Start the back-end server.
 - Start the front-end UI using `ng serve` from the `ui` directory.
 
-Alternatively, to run the application with Docker, use the following command:
+Alternatively, to run everything at once using Docker, run:
 
 ```console
 docker-compose up -d
@@ -33,5 +39,4 @@ docker-compose up -d
 This will start the following services in Docker:
 
 - Ollama
-- Open WebUI (available at http://localhost:3000)
 - Chat Stream application (available at http://localhost:8080)
