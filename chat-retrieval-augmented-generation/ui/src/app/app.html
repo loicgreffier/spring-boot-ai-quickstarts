@@ -28,7 +28,7 @@
 		<button
 			(click)="customPromptMode = !customPromptMode"
 			[class]="customPromptMode ? 'active' : ''"
-			title="Enable the custom RAG prompt.&#013;It replaces the default Spring AI prompt with a custom one that:&#013;  - Responds with a greeting when the query is 'Hi', 'Hello', 'Hey'.&#013;  - Uses the provided context only when it's relevant..&#013;  - If the answer isn't found in the context, replies using its own knowledge."
+			title="Enable the custom RAG prompt. It replaces the default Spring AI prompt with a custom one that explicitly mentions when an answer is not found in the knowledge base and allows general chat questions."
 		>
 			@if (customPromptMode) {
 				ON

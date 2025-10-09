@@ -18,8 +18,8 @@
     <modules>
         <module>chat</module>
         <module>chat-memory-in-memory</module>
-        <module>chat-stream</module>
         <module>chat-retrieval-augmented-generation</module>
+        <module>chat-stream</module>
     </modules>
 
     <properties>
