@@ -1,7 +1,7 @@
 ---
 services:
   ollama:
-    image: ollama/ollama:0.12.4
+    image: ollama/ollama:0.12.3
     hostname: ollama
     container_name: ollama
     networks:
@@ -31,6 +31,7 @@ services:
       - spring-boot-ai-quickstarts
     depends_on:
       - ollama
+      - pgvector
     ports:
       - "8080:8080"
     restart: unless-stopped
@@ -52,6 +53,11 @@ services:
                   }
                 }
               }
+            },
+            "datasource": {
+              "url": "jdbc:postgresql://pgvector:5432/postgres",
+              "username": "postgres",
+              "password": "changeme"
             }
           }
         }

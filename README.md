@@ -28,11 +28,11 @@ Code samples around Spring AI, powered by Ollama.
 
 ## Quickstarts
 
-| Module                                                                      | Description                    |
-|-----------------------------------------------------------------------------|--------------------------------|
-| [Chat](/chat)                                                               | Synchronous chatbot            |
-| [Chat Memory In-Memory](/chat-memory-in-memory)                             | Chatbot with in-memory storage |
-| [Chat Retrieval Augmented Generation](/chat-retrieval-augmented-generation) | Chatbot with RAG               |
-| [Chat Stream](/chat-stream)                                                 | Streaming chatbot              |
+| Module                                                                      | Description                                       |
+|-----------------------------------------------------------------------------|---------------------------------------------------|
+| [Chat](/chat)                                                               | Synchronous chatbot                               |
+| [Chat Memory In-Memory](/chat-memory-in-memory)                             | Chatbot with in-memory storage                    |
+| [Chat Retrieval Augmented Generation](/chat-retrieval-augmented-generation) | Chatbot with retrieval augmented generation (RAG) |
+| [Chat Stream](/chat-stream)                                                 | Streaming chatbot                                 |
 
 
