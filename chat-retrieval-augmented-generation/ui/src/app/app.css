@@ -102,27 +102,5 @@
       font-size: 14px;
       outline: none;
     }
-
-    .active {
-      background-color: #2e7d32;
-    }
-
-    button {
-      background-color: #111122;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-
-      &:hover {
-        opacity: 0.9;
-      }
-    }
   }
 }

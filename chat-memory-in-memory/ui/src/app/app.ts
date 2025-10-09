@@ -1,5 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, NgZone, OnInit } from '@angular/core';
+import {
+	afterNextRender,
+	Component,
+	effect,
+	ElementRef,
+	inject,
+	Injector,
+	NgZone,
+	OnInit,
+	signal,
+	ViewChild
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subscriber } from 'rxjs';
 
@@ -25,12 +36,32 @@ export class App implements OnInit {
 	public static readonly backendUrl = `${environment.backend_url}`;
 	protected readonly Type = Type;
 	private readonly zone = inject(NgZone);
+	private injector = inject(Injector);
 	private readonly httpClient = inject(HttpClient);
+
+	@ViewChild('chatContent') chatContent!: ElementRef<HTMLDivElement>;
 
 	conversationId = '1';
 	userInput = '';
-	messages: Message[] = [];
+	messages = signal<Message[]>([]);
 	loading = false;
+
+	/**
+	 * Constructor.
+	 * Sets up an effect to scroll to the bottom of the chat content whenever messages change.
+	 */
+	constructor() {
+		effect(() => {
+			this.messages();
+
+			afterNextRender(
+				() => {
+					this.scrollToBottom();
+				},
+				{ injector: this.injector }
+			);
+		});
+	}
 
 	/**
 	 * Initializes the component and fetches the conversation messages.
@@ -40,13 +71,23 @@ export class App implements OnInit {
 	}
 
 	/**
+	 * Scrolls the chat content to the bottom to ensure the latest messages are visible.
+	 */
+	scrollToBottom() {
+		this.chatContent?.nativeElement?.scrollTo({
+			top: this.chatContent.nativeElement.scrollHeight,
+			behavior: 'smooth'
+		});
+	}
+
+	/**
 	 * Sends the user's message to the backend and handles the response via Server-Sent Events (SSE).
 	 * It updates the chat history with the user's message and streams the bot's response in real-time.
 	 */
 	sendMessage() {
 		if (!this.userInput.trim()) return;
 
-		this.messages.push({ messageType: Type.User, text: this.userInput });
+		this.messages.update((msgs) => [...msgs, { messageType: Type.User, text: this.userInput }]);
 		this.loading = true;
 
 		let assistantMessageIndex: number;
@@ -55,17 +96,24 @@ export class App implements OnInit {
 		).subscribe({
 			next: (event) => {
 				if (assistantMessageIndex) {
-					this.messages[assistantMessageIndex].text += JSON.parse(event.data).value;
+					this.messages.update((msgs) => {
+						const updated = [...msgs];
+						updated[assistantMessageIndex].text += JSON.parse(event.data).value;
+						return updated;
+					});
 				} else {
-					this.messages.push({ messageType: Type.Assistant, text: JSON.parse(event.data).value });
-					assistantMessageIndex = this.messages.length - 1;
+					this.messages.update((msgs) => [
+						...msgs,
+						{ messageType: Type.Assistant, text: JSON.parse(event.data).value }
+					]);
+					assistantMessageIndex = this.messages().length - 1;
 				}
 
 				this.loading = false;
 			},
 			error: () => {
 				if (!assistantMessageIndex) {
-					this.messages.push({ messageType: Type.Assistant, text: 'Error contacting server.' });
+					this.messages.update((msgs) => [...msgs, { messageType: Type.Assistant, text: 'Error contacting server.' }]);
 				}
 
 				this.loading = false;
@@ -104,11 +152,11 @@ export class App implements OnInit {
 		this.httpClient.get<Message[]>(`${App.backendUrl}/chat/${this.conversationId}/history`).subscribe({
 			next: (messages: Message[]) => {
 				if (messages.length > 0) {
-					this.messages = messages;
+					this.messages.set(messages);
 				}
 			},
 			error: () => {
-				this.messages = [];
+				this.messages.set([]);
 			}
 		});
 	}
@@ -119,7 +167,7 @@ export class App implements OnInit {
 	clearConversation(): void {
 		this.httpClient.delete(`${App.backendUrl}/chat/${this.conversationId}`).subscribe({
 			next: () => {
-				this.messages = [];
+				this.messages.set([]);
 			}
 		});
 	}

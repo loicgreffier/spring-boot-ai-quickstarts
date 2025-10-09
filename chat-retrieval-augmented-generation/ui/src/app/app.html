@@ -6,8 +6,8 @@
 			<div class="bot-status">🟢 Online Now</div>
 		</div>
 	</div>
-	<div class="chat-content">
-		@for (chat of messages; track chat) {
+	<div class="chat-content" #chatContent>
+		@for (chat of messages(); track chat) {
 			<div class="chat-bubble-group">
 				<div class="chat-bubble {{ chat.messageType === Type.User ? 'user' : 'bot' }}">
 					{{ chat.text }}
@@ -25,16 +25,5 @@
 			(keyup.enter)="sendMessage()"
 			placeholder="{{ loading ? 'Llamabot is thinking...' : 'Ask a question' }}"
 		/>
-		<button
-			(click)="customPromptMode = !customPromptMode"
-			[class]="customPromptMode ? 'active' : ''"
-			title="Enable the custom RAG prompt. It replaces the default Spring AI prompt with a custom one that explicitly mentions when an answer is not found in the knowledge base and allows general chat questions."
-		>
-			@if (customPromptMode) {
-				ON
-			} @else {
-				OFF
-			}
-		</button>
 	</div>
 </div>

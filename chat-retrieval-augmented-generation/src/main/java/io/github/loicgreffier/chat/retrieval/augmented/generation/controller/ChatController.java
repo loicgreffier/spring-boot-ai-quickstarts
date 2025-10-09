@@ -34,7 +34,10 @@ import reactor.core.publisher.Flux;
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
-    private static final String CUSTOM_PROMPT_TEMPLATE =
+    /**
+     * Custom prompt template for the question-answering advisor.
+     */
+    private static final String PROMPT_TEMPLATE =
             """
         {query}
 
@@ -52,17 +55,29 @@ public class ChatController {
         """;
 
     private final ChatClient chatClient;
-    private final VectorStore vectorStore;
 
     /**
      * Constructor.
+     * Creates a chat client with a question-answering advisor using the provided vector store and a custom prompt template.
+     * The vector store is pre-populated with documents.
      *
      * @param chatClientBuilder The chat client builder
      * @param vectorStore The vector store
      */
     public ChatController(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
-        this.chatClient = chatClientBuilder.build();
-        this.vectorStore = vectorStore;
+        QuestionAnswerAdvisor advisor = QuestionAnswerAdvisor.builder(vectorStore)
+                .promptTemplate(PromptTemplate.builder()
+                        .template(PROMPT_TEMPLATE)
+                        .build())
+                .searchRequest(SearchRequest.builder()
+                        .similarityThreshold(0.4)
+                        .topK(6)
+                        .build())
+                .build();
+
+        this.chatClient = chatClientBuilder
+                .defaultAdvisors(advisor)
+                .build();
 
         List<Document> documents = List.of(
                 new Document(
@@ -180,22 +195,12 @@ public class ChatController {
      * @return The chat response as a stream
      */
     @GetMapping
-    public Flux<Word> chat(
-            @RequestParam(defaultValue = "false") boolean customPromptTemplate, @RequestParam String userInput) {
-        QuestionAnswerAdvisor advisor = customPromptTemplate
-                ? QuestionAnswerAdvisor.builder(vectorStore)
-                        .promptTemplate(PromptTemplate.builder()
-                                .template(CUSTOM_PROMPT_TEMPLATE)
-                                .build())
-                        .searchRequest(SearchRequest.builder()
-                                .similarityThreshold(0.4)
-                                .topK(6)
-                                .build())
-                        .build()
-                : new QuestionAnswerAdvisor(vectorStore);
-
-        Flux<String> chatResponse =
-                chatClient.prompt().user(userInput).advisors(advisor).stream().content();
+    public Flux<Word> chat(@RequestParam String userInput) {
+        Flux<String> chatResponse = chatClient
+                .prompt()
+                .user(userInput)
+                .stream()
+                .content();
 
         return chatResponse.map(Word::new);
     }

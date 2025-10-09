@@ -1,4 +1,14 @@
-import { Component, inject, NgZone } from '@angular/core';
+import {
+	afterNextRender,
+	Component,
+	effect,
+	ElementRef,
+	inject,
+	Injector,
+	NgZone,
+	signal,
+	ViewChild
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subscriber } from 'rxjs';
 
@@ -24,11 +34,40 @@ export class App {
 	public static readonly backendUrl = `${environment.backend_url}`;
 	protected readonly Type = Type;
 	private readonly zone = inject(NgZone);
+	private injector = inject(Injector);
+
+	@ViewChild('chatContent') chatContent!: ElementRef<HTMLDivElement>;
 
 	userInput = '';
-	messages: Message[] = [];
+	messages = signal<Message[]>([]);
 	loading = false;
-	customPromptMode = false;
+
+	/**
+	 * Constructor.
+	 * Sets up an effect to scroll to the bottom of the chat content whenever messages change.
+	 */
+	constructor() {
+		effect(() => {
+			this.messages();
+
+			afterNextRender(
+				() => {
+					this.scrollToBottom();
+				},
+				{ injector: this.injector }
+			);
+		});
+	}
+
+	/**
+	 * Scrolls the chat content to the bottom to ensure the latest messages are visible.
+	 */
+	scrollToBottom() {
+		this.chatContent?.nativeElement?.scrollTo({
+			top: this.chatContent.nativeElement.scrollHeight,
+			behavior: 'smooth'
+		});
+	}
 
 	/**
 	 * Sends the user's message to the backend and handles the response via Server-Sent Events (SSE).
@@ -37,25 +76,32 @@ export class App {
 	sendMessage() {
 		if (!this.userInput.trim()) return;
 
-		this.messages.push({ messageType: Type.User, text: this.userInput });
+		this.messages.update((msgs) => [...msgs, { messageType: Type.User, text: this.userInput }]);
 		this.loading = true;
 
 		let assistantMessageIndex: number;
-		const url = `${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}&customPromptTemplate=${this.customPromptMode}`;
+		const url = `${App.backendUrl}/chat?userInput=${encodeURIComponent(this.userInput)}`;
 		this.streamServerEvents(url).subscribe({
 			next: (event) => {
 				if (assistantMessageIndex) {
-					this.messages[assistantMessageIndex].text += JSON.parse(event.data).value;
+					this.messages.update((msgs) => {
+						const updated = [...msgs];
+						updated[assistantMessageIndex].text += JSON.parse(event.data).value;
+						return updated;
+					});
 				} else {
-					this.messages.push({ messageType: Type.Assistant, text: JSON.parse(event.data).value });
-					assistantMessageIndex = this.messages.length - 1;
+					this.messages.update((msgs) => [
+						...msgs,
+						{ messageType: Type.Assistant, text: JSON.parse(event.data).value }
+					]);
+					assistantMessageIndex = this.messages().length - 1;
 				}
 
 				this.loading = false;
 			},
 			error: () => {
 				if (!assistantMessageIndex) {
-					this.messages.push({ messageType: Type.Assistant, text: 'Error contacting server.' });
+					this.messages.update((msgs) => [...msgs, { messageType: Type.Assistant, text: 'Error contacting server.' }]);
 				}
 
 				this.loading = false;

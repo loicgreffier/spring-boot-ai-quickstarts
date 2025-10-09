@@ -6,8 +6,8 @@
 			<div class="bot-status">🟢 Online Now</div>
 		</div>
 	</div>
-	<div class="chat-content">
-		@for (chat of messages; track chat) {
+	<div class="chat-content" #chatContent>
+		@for (chat of messages(); track chat) {
 			<div class="chat-bubble-group">
 				<div class="chat-bubble {{ chat.messageType === Type.User ? 'user' : 'bot' }}">
 					{{ chat.text }}
