@@ -1,6 +1,6 @@
 # Chat Retrieval Augmented Generation
 
-This module demonstrates how to create a streaming chatbot application with retrieval-augmented generation (RAG) capabilities.
+This module demonstrates how to create a streaming chatbot application with retrieval-augmented generation (RAG) capabilities, using the Simpsons TV show as an example..
 It covers the following:
 
 - How to use the `ChatClient` API to interact with an LLM and stream responses.
@@ -12,6 +12,8 @@ It leverages the following AI technologies:
 - Chat model: `gemma3:4b`
 - Embedding model: `qwen3-embedding:0.6b`
 - Vector database: PGVector
+
+<img src=".readme/demo.gif" alt="Spring AI demo"/>
 
 ## Prerequisites
 

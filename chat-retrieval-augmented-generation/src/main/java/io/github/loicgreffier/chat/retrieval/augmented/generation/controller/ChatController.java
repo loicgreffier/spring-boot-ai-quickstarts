@@ -34,9 +34,7 @@ import reactor.core.publisher.Flux;
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
-    /**
-     * Custom prompt template for the question-answering advisor.
-     */
+    /** Custom prompt template for the question-answering advisor. */
     private static final String PROMPT_TEMPLATE =
             """
         {query}
@@ -47,37 +45,32 @@ public class ChatController {
         {question_answer_context}
         ---------------------
 
-        Given the context and the provided history information but not prior knowledge,
-        respond to the user's query. If the answer is not found in the context, inform
-        the user that your knowledge base does not contain the answer and suggest that
-        they rephrase their question or ask it in a different way. You can respond to
-        general chat questions such as "Hello", "How are you?", "How do you work?" or "How can you help me?".
+        Given the context, respond to the user's query following the rules below:
+
+        1. Do not use prior knowledge, only the given context.
+        2. If the answer cannot be found in the context or the context is empty, inform the user that your knowledge base does not contain the answer, and suggest that
+        they rephrase their question or ask it in a different way.
+        3. Respond naturally to general questions such as "Hello", "How are you?", "How do you work?" or "How can you help me?".
         """;
 
     private final ChatClient chatClient;
 
     /**
-     * Constructor.
-     * Creates a chat client with a question-answering advisor using the provided vector store and a custom prompt template.
-     * The vector store is pre-populated with documents.
+     * Constructor. Creates a chat client with a question-answering advisor using the provided vector store and a custom
+     * prompt template. The vector store is pre-populated with documents.
      *
      * @param chatClientBuilder The chat client builder
      * @param vectorStore The vector store
      */
     public ChatController(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
         QuestionAnswerAdvisor advisor = QuestionAnswerAdvisor.builder(vectorStore)
-                .promptTemplate(PromptTemplate.builder()
-                        .template(PROMPT_TEMPLATE)
-                        .build())
-                .searchRequest(SearchRequest.builder()
-                        .similarityThreshold(0.4)
-                        .topK(6)
-                        .build())
+                .promptTemplate(
+                        PromptTemplate.builder().template(PROMPT_TEMPLATE).build())
+                .searchRequest(
+                        SearchRequest.builder().similarityThreshold(0.5).topK(6).build())
                 .build();
 
-        this.chatClient = chatClientBuilder
-                .defaultAdvisors(advisor)
-                .build();
+        this.chatClient = chatClientBuilder.defaultAdvisors(advisor).build();
 
         List<Document> documents = List.of(
                 new Document(
@@ -196,11 +189,7 @@ public class ChatController {
      */
     @GetMapping
     public Flux<Word> chat(@RequestParam String userInput) {
-        Flux<String> chatResponse = chatClient
-                .prompt()
-                .user(userInput)
-                .stream()
-                .content();
+        Flux<String> chatResponse = chatClient.prompt().user(userInput).stream().content();
 
         return chatResponse.map(Word::new);
     }
