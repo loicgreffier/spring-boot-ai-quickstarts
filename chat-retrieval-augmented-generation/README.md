@@ -1,10 +1,11 @@
 # Chat Retrieval Augmented Generation
 
-This module demonstrates how to create a streaming chatbot application with retrieval-augmented generation (RAG) capabilities, using the Simpsons TV show as an example..
+This module demonstrates how to create a streaming chatbot application with retrieval-augmented generation (RAG) capabilities, using the Simpsons TV show as an example.
 It covers the following:
 
 - How to use the `ChatClient` API to interact with an LLM and stream responses.
 - How to connect to a vector database, store embeddings, and perform similarity searches.
+- A `GET /search` endpoint that accepts a `query` parameter to verify the similarity scores of documents retrieved for a given query.
 - How to tune the RAG process using a custom prompt template.
 
 It leverages the following AI technologies:

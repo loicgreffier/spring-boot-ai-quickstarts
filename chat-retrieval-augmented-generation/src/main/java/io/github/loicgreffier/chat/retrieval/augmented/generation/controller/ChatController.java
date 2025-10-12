@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("/chat")
+@RequestMapping
 public class ChatController {
     /** Custom prompt template for the question-answering advisor. */
     private static final String PROMPT_TEMPLATE =
@@ -53,7 +53,11 @@ public class ChatController {
         3. Respond naturally to general questions such as "Hello", "How are you?", "How do you work?" or "How can you help me?".
         """;
 
+    private static final Double SIMILARITY_SEARCH = 0.5;
+    private static final Integer TOP_K = 6;
+
     private final ChatClient chatClient;
+    private final VectorStore vectorStore;
 
     /**
      * Constructor. Creates a chat client with a question-answering advisor using the provided vector store and a custom
@@ -66,11 +70,14 @@ public class ChatController {
         QuestionAnswerAdvisor advisor = QuestionAnswerAdvisor.builder(vectorStore)
                 .promptTemplate(
                         PromptTemplate.builder().template(PROMPT_TEMPLATE).build())
-                .searchRequest(
-                        SearchRequest.builder().similarityThreshold(0.5).topK(6).build())
+                .searchRequest(SearchRequest.builder()
+                        .similarityThreshold(SIMILARITY_SEARCH)
+                        .topK(TOP_K)
+                        .build())
                 .build();
 
         this.chatClient = chatClientBuilder.defaultAdvisors(advisor).build();
+        this.vectorStore = vectorStore;
 
         List<Document> documents = List.of(
                 new Document(
@@ -187,11 +194,30 @@ public class ChatController {
      * @param userInput The user input
      * @return The chat response as a stream
      */
-    @GetMapping
+    @GetMapping("/chat")
     public Flux<Word> chat(@RequestParam String userInput) {
         Flux<String> chatResponse = chatClient.prompt().user(userInput).stream().content();
 
         return chatResponse.map(Word::new);
+    }
+
+    /**
+     * Search endpoint. Performs a similarity search in the vector store. Displays up to 6 similar documents with a
+     * similarity threshold of 0.5. Demonstrates which documents, along with their similarity scores, will be used by
+     * the question-answering advisor context to respond to user queries.
+     *
+     * @param query The search query
+     * @return The list of similar documents
+     */
+    @GetMapping("/search")
+    public List<Document> search(@RequestParam String query) {
+        SearchRequest searchRequest = SearchRequest.builder()
+                .query(query)
+                .similarityThreshold(SIMILARITY_SEARCH)
+                .topK(TOP_K)
+                .build();
+
+        return vectorStore.similaritySearch(searchRequest);
     }
 
     /** A word in the chat response. */

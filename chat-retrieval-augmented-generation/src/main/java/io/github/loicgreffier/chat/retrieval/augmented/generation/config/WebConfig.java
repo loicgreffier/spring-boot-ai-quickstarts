@@ -61,7 +61,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addFilterAfter(new ClientRoutingFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizeRequestsConfigurer -> authorizeRequestsConfigurer
                         // Back-End
-                        .requestMatchers("/chat/**")
+                        .requestMatchers("/chat/**", "/search/**")
                         .permitAll()
                         // Front-End
                         .requestMatchers("/index.html", "/*.js", "/*.css", "/*.ico", "/*.svg")
@@ -96,7 +96,10 @@ public class WebConfig implements WebMvcConfigurer {
                 throws ServletException, IOException {
             String path =
                     request.getRequestURI().substring(request.getContextPath().length());
-            if (!path.startsWith("/chat") && !path.contains(".") && path.matches("/(.*)")) {
+            if (!path.startsWith("/chat")
+                    && !path.startsWith("/search")
+                    && !path.contains(".")
+                    && path.matches("/(.*)")) {
                 request.getRequestDispatcher("/index.html").forward(request, response);
                 return;
             }
