@@ -9,7 +9,7 @@ It covers the following:
   - A `QueryTransformer` to translate user queries in english.
   - A `QueryExpander` to multiply user queries into multiple related queries.
   - A `DocumentPostProcessor` to log retrieved documents with similarity scores.
-  - A custom prompt template and a custom empty-context prompt.
+  - A custom prompt template—used, for example, to ensure responses are in the same language as the user’s query—and a custom empty-context prompt.
 
 It leverages the following AI technologies:
 
