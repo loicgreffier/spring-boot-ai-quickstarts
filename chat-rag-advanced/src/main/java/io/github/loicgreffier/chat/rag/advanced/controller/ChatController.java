@@ -55,8 +55,10 @@ public class ChatController {
         Given the context, respond to the user's query following the rules below:
 
         1. Do not use prior knowledge, only the given context.
-        2. Respond in the same language as the user's query.
-        3. If the user query is a general greeting, farewell, or small talk (e.g., "Hello," "How are you," "Goodbye," "Thanks," etc.), respond politely and naturally.
+        2. Do not mention the context. Avoid phrases like "Based on the context" or "The provided information".
+        3. If the context does not provide enough information, the user's query is outside your knowledge base. Politely inform the user that your knowledge base doesn't contain the answer, and suggest that they clarify their question..
+        4. Respond in the same language as the user's query.
+        5. If the user query is a general greeting, farewell, or small talk (e.g., "Hello," "How are you," "Goodbye," "Thanks," etc.), respond politely and naturally.
         """;
 
     /** Custom prompt template for the question-answering advisor. */

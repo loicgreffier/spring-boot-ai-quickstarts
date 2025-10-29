@@ -11,6 +11,7 @@ spring:
           model: "qwen3-embedding:0.6b"
       init:
         pull-model-strategy: "ALWAYS"
+        timeout: "10m"
     vectorstore:
       pgvector:
         initialize-schema: true

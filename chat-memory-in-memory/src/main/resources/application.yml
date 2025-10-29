@@ -10,3 +10,4 @@ spring:
           temperature: 0.8
       init:
         pull-model-strategy: "ALWAYS"
+        timeout: "10m"
