@@ -18,7 +18,8 @@
     <modules>
         <module>chat</module>
         <module>chat-memory-in-memory</module>
-        <module>chat-retrieval-augmented-generation</module>
+        <module>chat-rag</module>
+        <module>chat-rag-advanced</module>
         <module>chat-stream</module>
     </modules>
 

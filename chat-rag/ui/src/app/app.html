@@ -1,0 +1,29 @@
+<div class="chat-wrapper">
+	<div class="chat-header">
+		<div class="bot-avatar"></div>
+		<div class="bot-info">
+			<div class="bot-name">Llamabot</div>
+			<div class="bot-status">🟢 Online Now</div>
+		</div>
+	</div>
+	<div class="chat-content" #chatContent>
+		@for (chat of messages(); track chat) {
+			<div class="chat-bubble-group">
+				<div class="chat-bubble {{ chat.messageType === Type.User ? 'user' : 'bot' }}">
+					{{ chat.text }}
+				</div>
+			</div>
+		}
+		@if (loading) {
+			<div class="chat-bubble bot">Typing...</div>
+		}
+	</div>
+	<div class="chat-input">
+		<input
+			[(ngModel)]="userInput"
+			[disabled]="loading"
+			(keyup.enter)="sendMessage()"
+			placeholder="{{ loading ? 'Llamabot is thinking...' : 'Ask a question' }}"
+		/>
+	</div>
+</div>
