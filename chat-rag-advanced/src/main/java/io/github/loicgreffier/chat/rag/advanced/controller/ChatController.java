@@ -44,6 +44,8 @@ public class ChatController {
     /** Custom prompt template for the question-answering advisor. */
     private static final String PROMPT_TEMPLATE =
             """
+        You are a helpful assistant who answers questions about the Simpsons TV show. Here is the user query:
+        
         {query}
 
         Context information is below, surrounded by ---------------------
