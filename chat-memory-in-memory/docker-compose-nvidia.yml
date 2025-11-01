@@ -1,0 +1,50 @@
+---
+services:
+  ollama:
+    image: ollama/ollama:0.12.3
+    hostname: ollama
+    container_name: ollama
+    networks:
+      - spring-boot-ai-quickstarts
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ "gpu" ]
+              count: all
+
+  chat-memory-in-memory:
+    image: loicgreffier/spring-boot-ai-quickstarts:chat-memory-in-memory-1.0.0
+    hostname: chat-memory-in-memory
+    container_name: chat-memory-in-memory
+    networks:
+      - spring-boot-ai-quickstarts
+    depends_on:
+      - ollama
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      SPRING_APPLICATION_JSON: |
+        {
+          "spring": {
+            "ai": {
+              "ollama": {
+                "base-url": "http://ollama:11434",
+                "chat": {
+                  "options": {
+                    "model": "gemma3:4b"
+                  }
+                }
+              }
+            }
+          }
+        }
+
+networks:
+  spring-boot-ai-quickstarts:
+    driver: bridge

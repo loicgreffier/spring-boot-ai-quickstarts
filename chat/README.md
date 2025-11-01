@@ -30,10 +30,16 @@ To run the application manually:
 - Start the back-end server.
 - Start the front-end UI using `ng serve` from the `ui` directory.
 
-Alternatively, to run everything at once using Docker, run:
+Alternatively, to run everything at once using Docker (CPU only), run:
 
-```console
+```bash
 docker-compose up -d
+```
+
+To run it with [NVIDIA GPU support pre-configured](https://hub.docker.com/r/ollama/ollama#nvidia-gpu), run:
+
+```bash
+docker-compose -f docker-compose-nvidia.yml up -d
 ```
 
 This will start the following services in Docker:

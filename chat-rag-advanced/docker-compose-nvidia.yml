@@ -1,0 +1,74 @@
+---
+services:
+  ollama:
+    image: ollama/ollama:0.12.3
+    hostname: ollama
+    container_name: ollama
+    networks:
+      - spring-boot-ai-quickstarts
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ "gpu" ]
+              count: all
+
+  pgvector:
+    image: pgvector/pgvector:pg18
+    hostname: pgvector
+    container_name: pgvector
+    networks:
+      - spring-boot-ai-quickstarts
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  chat-rag-advanced:
+    image: loicgreffier/spring-boot-ai-quickstarts:chat-rag-advanced-1.0.0
+    hostname: chat-rag-advanced
+    container_name: chat-rag-advanced
+    networks:
+      - spring-boot-ai-quickstarts
+    depends_on:
+      - ollama
+      - pgvector
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      SPRING_APPLICATION_JSON: |
+        {
+          "spring": {
+            "ai": {
+              "ollama": {
+                "base-url": "http://ollama:11434",
+                "chat": {
+                  "options": {
+                    "model": "gemma3:4b"
+                  }
+                },
+                "embedding": {
+                  "options": {
+                    "model": "qwen3-embedding:0.6b"
+                  }
+                }
+              }
+            },
+            "datasource": {
+              "url": "jdbc:postgresql://pgvector:5432/postgres",
+              "username": "postgres",
+              "password": "changeme"
+            }
+          }
+        }
+
+networks:
+  spring-boot-ai-quickstarts:
+    driver: bridge

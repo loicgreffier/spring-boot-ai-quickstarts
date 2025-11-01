@@ -6,6 +6,7 @@ It covers the following:
 - How to use the `ChatClient` API to interact with an LLM and stream responses.
 - How to connect to a vector database, store embeddings, and perform similarity searches.
 - How to tune the RAG process using the `QuestionAnswerAdvisor` API and a custom prompt template.
+- How to use the `SimpleLoggerAdvisor` to log the final prompt and response.
 
 It leverages the following AI technologies:
 
@@ -40,10 +41,16 @@ docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=changeme -p 5432:54
 - Start the back-end server.
 - Start the front-end UI using `ng serve` from the `ui` directory.
 
-Alternatively, to run everything at once using Docker, run:
+Alternatively, to run everything at once using Docker (CPU only), run:
 
 ```bash
 docker-compose up -d
+```
+
+To run it with [NVIDIA GPU support pre-configured](https://hub.docker.com/r/ollama/ollama#nvidia-gpu), run:
+
+```bash
+docker-compose -f docker-compose-nvidia.yml up -d
 ```
 
 This will start the following services in Docker:

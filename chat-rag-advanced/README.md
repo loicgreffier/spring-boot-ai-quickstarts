@@ -10,6 +10,7 @@ It covers the following:
   - A `QueryExpander` to multiply user queries into multiple related queries.
   - A `DocumentPostProcessor` to log retrieved documents with similarity scores.
   - A custom prompt template—used, for example, to ensure responses are in the same language as the user’s query—and a custom empty-context prompt.
+- How to use the `SimpleLoggerAdvisor` to log the final prompt and response.
 
 It leverages the following AI technologies:
 
@@ -45,10 +46,16 @@ docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=changeme -p 5432:54
 - Start the back-end server.
 - Start the front-end UI using `ng serve` from the `ui` directory.
 
-Alternatively, to run everything at once using Docker, run:
+Alternatively, to run everything at once using Docker (CPU only), run:
 
 ```bash
 docker-compose up -d
+```
+
+To run it with [NVIDIA GPU support pre-configured](https://hub.docker.com/r/ollama/ollama#nvidia-gpu), run:
+
+```bash
+docker-compose -f docker-compose-nvidia.yml up -d
 ```
 
 This will start the following services in Docker:
