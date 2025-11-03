@@ -32,6 +32,7 @@ Code samples around Spring AI, powered by Ollama.
 |-------------------------------------------------|------------------------------------------------------------------|
 | [Chat](/chat)                                   | Synchronous chatbot                                              |
 | [Chat Memory In-Memory](/chat-memory-in-memory) | Chatbot with in-memory conversation storage                      |
+| [Chat Memory JDBC](/chat-memory-jdbc)           | Chatbot with JDBC (PostgreSQL) conversation storage              |
 | [Chat RAG](/chat-rag)                           | Chatbot with retrieval-augmented generation (RAG)                |
 | [Chat RAG Advanced](/chat-rag-advanced)         | Chatbot with advanced retrieval-augmented generation (RAG) setup |
 | [Chat Stream](/chat-stream)                     | Streaming chatbot                                                |

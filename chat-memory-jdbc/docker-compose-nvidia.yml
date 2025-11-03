@@ -1,0 +1,64 @@
+---
+services:
+  ollama:
+    image: ollama/ollama:0.12.3
+    hostname: ollama
+    container_name: ollama
+    networks:
+      - spring-boot-ai-quickstarts
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ "gpu" ]
+              count: all
+
+  postgres:
+    image: postgres:18
+    hostname: postgres
+    container_name: postgres
+    networks:
+      - spring-boot-ai-quickstarts
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  chat-memory-jdbc:
+    image: loicgreffier/spring-boot-ai-quickstarts:chat-memory-jdbc-1.0.0
+    hostname: chat-memory-jdbc
+    container_name: chat-memory-jdbc
+    networks:
+      - spring-boot-ai-quickstarts
+    depends_on:
+      - ollama
+      - postgres
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      SPRING_APPLICATION_JSON: |
+        {
+          "spring": {
+            "ai": {
+              "ollama": {
+                "base-url": "http://ollama:11434",
+                "chat": {
+                  "options": {
+                    "model": "gemma3:4b"
+                  }
+                }
+              }
+            }
+          }
+        }
+
+networks:
+  spring-boot-ai-quickstarts:
+    driver: bridge

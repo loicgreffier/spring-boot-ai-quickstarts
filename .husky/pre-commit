@@ -1,14 +1,17 @@
 cd chat/ui
 npm run lint-staged
 
-cd ../../chat-stream/ui
+cd ../../chat-memory-in-memory/ui
 npm run lint-staged
 
-cd ../../chat-memory-in-memory/ui
+cd ../../chat-memory-jdbc/ui
 npm run lint-staged
 
 cd ../../chat-rag/ui
 npm run lint-staged
 
 cd ../../chat-rag-advanced/ui
+npm run lint-staged
+
+cd ../../chat-stream/ui
 npm run lint-staged

@@ -18,6 +18,7 @@
     <modules>
         <module>chat</module>
         <module>chat-memory-in-memory</module>
+        <module>chat-memory-jdbc</module>
         <module>chat-rag</module>
         <module>chat-rag-advanced</module>
         <module>chat-stream</module>
