@@ -19,7 +19,7 @@ Code samples around Spring AI, powered by Ollama.
 
 ## Prerequisites
 
-- Java 21
+- Java 25
 - Maven
 - Node.js 24
 - NPM

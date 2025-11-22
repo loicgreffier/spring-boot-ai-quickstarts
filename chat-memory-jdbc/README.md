@@ -10,13 +10,11 @@ It leverages the following AI technology:
 
 - Chat model: `gemma3:4b`
 
-<img src=".readme/demo.gif" alt="Spring AI demo"/>
-
 ## Prerequisites
 
 To compile and run this demo, you’ll need:
 
-- Java 21
+- Java 25
 - Maven
 - Node.js 24
 - NPM
