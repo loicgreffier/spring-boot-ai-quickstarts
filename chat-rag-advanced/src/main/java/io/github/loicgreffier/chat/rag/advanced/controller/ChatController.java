@@ -43,8 +43,7 @@ import reactor.core.publisher.Flux;
 @RequestMapping
 public class ChatController {
     /** Custom prompt template for the question-answering advisor. */
-    private static final String PROMPT_TEMPLATE =
-            """
+    private static final String PROMPT_TEMPLATE = """
         You are a helpful assistant who answers questions about the Simpsons TV show. Here is the user query surrounded by ---------------------
 
         ---------------------
@@ -67,8 +66,7 @@ public class ChatController {
         """;
 
     /** Custom prompt template for the question-answering advisor. */
-    private static final String EMPTY_PROMPT_TEMPLATE =
-            """
+    private static final String EMPTY_PROMPT_TEMPLATE = """
         You are a helpful assistant who answers questions about the Simpsons TV show.
         The user's query is outside your knowledge base.
         Respond following the rules below:
