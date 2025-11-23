@@ -46,6 +46,5 @@ Code samples around Spring AI.
 
 ## Credits
 
-[Spring AI Documentation](https://docs.spring.io/spring-ai/reference/index.html)
-
-[The Simpsons API](https://thesimpsonsapi.com)
+- [Spring AI Documentation](https://docs.spring.io/spring-ai/reference/index.html)
+- [The Simpsons API](https://thesimpsonsapi.com)
