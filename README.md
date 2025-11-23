@@ -37,4 +37,8 @@ Code samples around Spring AI.
 | [Chat Stream](/chat-stream)                     | Streaming chatbot                                                |
 | [MCP Server Stdio](/mcp-server-stdio)           | MCP server with standard I/O interaction                         |
 
+## Credits
 
+[Spring AI Documentation](https://docs.spring.io/spring-ai/reference/index.html)
+
+[The Simpsons API](https://thesimpsonsapi.com)
