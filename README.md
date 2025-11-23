@@ -10,7 +10,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/loicgreffier/spring-boot-ai-quickstarts?label=Pulls&logo=docker&style=for-the-badge)](https://hub.docker.com/r/loicgreffier/spring-boot-ai-quickstarts/tags)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache&style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
 
-[Prerequisites](#prerequisites) • [Quickstarts](#quickstarts)
+[Chat](#chat) • [MCP](#mcp)
 
 Code samples around Spring AI.
 
@@ -27,6 +27,8 @@ Code samples around Spring AI.
 
 ## Quickstarts
 
+### Chat
+
 | Module                                          | Description                                                      |
 |-------------------------------------------------|------------------------------------------------------------------|
 | [Chat](/chat)                                   | Synchronous chatbot                                              |
@@ -35,6 +37,11 @@ Code samples around Spring AI.
 | [Chat RAG](/chat-rag)                           | Chatbot with retrieval-augmented generation (RAG)                |
 | [Chat RAG Advanced](/chat-rag-advanced)         | Chatbot with advanced retrieval-augmented generation (RAG) setup |
 | [Chat Stream](/chat-stream)                     | Streaming chatbot                                                |
+
+### MCP
+
+| Module                                          | Description                                                      |
+|-------------------------------------------------|------------------------------------------------------------------|
 | [MCP Server Stdio](/mcp-server-stdio)           | MCP server with standard I/O interaction                         |
 
 ## Credits
