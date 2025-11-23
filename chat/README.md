@@ -1,7 +1,8 @@
 # Chat
 
 This module demonstrates how to create a simple chatbot application.
-It covers the following:
+
+It demonstrates the following:
 
 - How to use the `ChatClient` API to interact synchronously with an LLM.
 

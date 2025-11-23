@@ -18,6 +18,7 @@
  */
 package io.github.loicgreffier.mcp.server.stdio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class Phrase {
     private String text;
 
     @ManyToOne
+    @JsonIgnore
     @PrimaryKeyJoinColumn(name = "characterId", referencedColumnName = "id")
     private Character character;
 

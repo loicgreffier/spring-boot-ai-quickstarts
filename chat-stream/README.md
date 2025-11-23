@@ -1,7 +1,8 @@
 # Chat Stream
 
 This module demonstrates how to create a streaming chatbot application.
-It covers the following:
+
+It demonstrates the following:
 
 - How to use the `ChatClient` API to interact with an LLM model and stream responses.
 

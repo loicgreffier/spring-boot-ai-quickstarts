@@ -18,6 +18,7 @@
  */
 package io.github.loicgreffier.mcp.server.stdio.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -36,7 +37,10 @@ public class Character {
     private Long id;
 
     private Integer age;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date birthDate;
+
     private String gender;
     private String name;
     private String occupation;

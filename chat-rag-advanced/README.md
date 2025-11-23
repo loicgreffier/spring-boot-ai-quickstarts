@@ -1,7 +1,8 @@
 # Chat RAG Advanced
 
 This module demonstrates how to create a streaming chatbot application with advanced retrieval-augmented generation (RAG) capabilities, using the Simpsons TV show as an example.
-It covers the following:
+
+It demonstrates the following:
 
 - How to use the `ChatClient` API to interact with an LLM and stream responses.
 - How to connect to a vector database, store embeddings, and perform similarity searches.

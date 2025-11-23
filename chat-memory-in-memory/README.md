@@ -1,7 +1,8 @@
 # Chat Memory In-Memory
 
 This module demonstrates how to create a streaming chatbot application that maintains in-memory chat context for up to 30 messages.
-It covers the following:
+
+It demonstrates the following:
 
 - How to use the `ChatClient` API to interact with an LLM and stream responses.
 - How to add in-memory chat memory to maintain context across messages.

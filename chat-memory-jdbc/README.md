@@ -1,7 +1,8 @@
 # Chat Memory JDBC
 
 This module demonstrates how to create a streaming chatbot application that maintains chat context in a JDBC (PostgreSQL) database for up to 30 messages.
-It covers the following:
+
+It demonstrates the following:
 
 - How to use the `ChatClient` API to interact with an LLM and stream responses.
 - How to add JDBC (PostgreSQL) chat memory to maintain context across messages.

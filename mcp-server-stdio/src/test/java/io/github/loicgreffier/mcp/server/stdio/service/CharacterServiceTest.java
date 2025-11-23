@@ -18,9 +18,10 @@
  */
 package io.github.loicgreffier.mcp.server.stdio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.loicgreffier.mcp.server.stdio.model.Character;
 import io.github.loicgreffier.mcp.server.stdio.model.Phrase;
 import io.github.loicgreffier.mcp.server.stdio.repository.CharacterRepository;
@@ -41,7 +42,7 @@ class CharacterServiceTest {
     private CharacterService characterService;
 
     @Test
-    void shouldGetCharacterByName() {
+    void shouldGetCharacterByName() throws JsonProcessingException {
         when(characterRepository.findByNameContainingIgnoreCase("Simpson"))
                 .thenReturn(List.of(
                         Character.builder()
@@ -100,36 +101,8 @@ class CharacterServiceTest {
 
         String result = characterService.getCharactersByName("Simpson");
 
-        assertThat("""
-                ID: 1
-                Name: Homer Simpson
-                Age: 39
-                BirthDate: 1956-05-12
-                Gender: Male
-                Occupation: Safety Inspector
-                Portrait URL: https://cdn.thesimpsonsapi.com/500/character/1.webp
-                Status: Alive
-                Phrases:
-                - Doh!
-                - Why you little...!
-                - Woo-hoo!
-                - Mmm... (food)... *drooling*
-                - Stupid Flanders!
-                - Shut up Flanders!
-
-                ID: 2
-                Name: Marge Simpson
-                Age: 39
-                BirthDate: null
-                Gender: Female
-                Occupation: Unemployed
-                Portrait URL: https://cdn.thesimpsonsapi.com/500/character/2.webp
-                Status: Alive
-                Phrases:
-                - Hrmmm...
-                - Now its Marges time to shine!
-                - Oh!
-                - Oh, Homie!
-                - Its true. Women arent very good drivers.""").isEqualToNormalizingNewlines(result);
+        assertEquals(
+                "[{\"id\":1,\"age\":39,\"birthDate\":\"1956-05-11\",\"gender\":\"Male\",\"name\":\"Homer Simpson\",\"occupation\":\"Safety Inspector\",\"portraitUrl\":\"https://cdn.thesimpsonsapi.com/500/character/1.webp\",\"status\":\"Alive\",\"phrases\":[{\"id\":1,\"text\":\"Doh!\",\"character\":null},{\"id\":2,\"text\":\"Why you little...!\",\"character\":null},{\"id\":3,\"text\":\"Woo-hoo!\",\"character\":null},{\"id\":4,\"text\":\"Mmm... (food)... *drooling*\",\"character\":null},{\"id\":5,\"text\":\"Stupid Flanders!\",\"character\":null},{\"id\":6,\"text\":\"Shut up Flanders!\",\"character\":null}]},{\"id\":2,\"age\":39,\"birthDate\":null,\"gender\":\"Female\",\"name\":\"Marge Simpson\",\"occupation\":\"Unemployed\",\"portraitUrl\":\"https://cdn.thesimpsonsapi.com/500/character/2.webp\",\"status\":\"Alive\",\"phrases\":[{\"id\":7,\"text\":\"Hrmmm...\",\"character\":null},{\"id\":8,\"text\":\"Now its Marges time to shine!\",\"character\":null},{\"id\":9,\"text\":\"Oh!\",\"character\":null},{\"id\":10,\"text\":\"Oh, Homie!\",\"character\":null},{\"id\":11,\"text\":\"Its true. Women arent very good drivers.\",\"character\":null}]}]",
+                result);
     }
 }
