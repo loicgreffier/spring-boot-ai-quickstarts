@@ -1,13 +1,13 @@
 # MCP Server Stdio
 
 This module demonstrates how to create an MCP server using standard I/O (stdio) communication.
-It exposes a tool, `get_characters_by_name`, that returns information about Simpsons characters based on a given name.
-The data is retrieved from [The Simpsons API](https://thesimpsonsapi.com) and stored in an in-memory H2 database when the application starts.
+It uses data from [The Simpsons Character API](https://thesimpsonsapi.com), which is fetched and stored in an in-memory H2 database when the application starts.
 
-Typical questions you can ask the MCP server include:
-- "Tell me about Homer Simpson."
-- "Who are the members of the Flanders family?"
-- "Give me the portrait of Mr. Burns."
+It exposes the following tools:
+- `get_characters_by_name`, which returns information about Simpsons characters based on a given partial name. Typical questions you can ask include:
+  - "Tell me about Homer Simpson."
+  - "Who are the members of the Flanders family?"
+  - "Give me the portrait of Mr. Burns."
 
 It demonstrates the following:
 
