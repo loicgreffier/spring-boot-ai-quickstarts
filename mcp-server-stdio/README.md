@@ -1,47 +1,33 @@
 # MCP Server Stdio
 
-This module demonstrates how to create a streaming chatbot application.
+This module demonstrates how to create a MCP server with standard I/O (stdio) communication.
 It covers the following:
 
-- How to use the `ChatClient` API to interact with an LLM model and stream responses.
-
-It leverages the following AI technology:
-
-- Chat model: `gemma3:4b`
+- How to create and configure a stdio MCP server.
+- How to create a MCP tool that performs a simple database research and returns the result via stdio.
 
 ## Prerequisites
 
-To compile and run this demo, you’ll need:
+To compile and run this demo, you'll need:
 
 - Java 25
 - Maven
-- Node.js 24
-- NPM
-- Ollama
-- Docker _(optional, used for running the applications in containers)_
+- Docker _(optional, used for running the application in a container)_
 
 ## Running the Application
 
 To run the application manually:
 
-- Start Ollama.
-- Start the back-end server.
-- Start the front-end UI using `ng serve` from the `ui` directory.
+- After building the project with Maven, configure a MCP client to connect to the stdio MCP server.
 
-Alternatively, to run everything at once using Docker (CPU only), run:
-
-```bash
-docker-compose up -d
+```json
+"simpsons-mcp-server": {
+    "type": "stdio",
+    "command": "java",
+    "args": [
+      "-jar",
+      "mcp-server-stdio-1.0.0.jar"
+    ]
+}
 ```
 
-To run it with [NVIDIA GPU support pre-configured](https://hub.docker.com/r/ollama/ollama#nvidia-gpu), run:
-
-```bash
-docker-compose -f docker-compose-nvidia.yml up -d
-```
-
-
-This will start the following services in Docker:
-
-- Ollama
-- Chat Stream application (available at http://localhost:8080)

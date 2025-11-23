@@ -1,6 +1,5 @@
 <div align="center">
 
-<img src=".readme/ollama.svg" alt="Ollama"/>
 <img src=".readme/spring-boot.svg" alt="Spring Boot"/>
 
 # Spring Boot and AI Quickstarts
@@ -13,7 +12,7 @@
 
 [Prerequisites](#prerequisites) • [Quickstarts](#quickstarts)
 
-Code samples around Spring AI, powered by Ollama.
+Code samples around Spring AI.
 
 </div>
 

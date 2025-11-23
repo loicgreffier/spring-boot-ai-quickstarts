@@ -11,14 +11,14 @@ It leverages the following AI technology:
 
 ## Prerequisites
 
-To compile and run this demo, you’ll need:
+To compile and run this demo, you'll need:
 
 - Java 25
 - Maven
 - Node.js 24
 - NPM
 - Ollama
-- Docker _(optional, used for running the applications in containers)_
+- Docker _(optional, used for running the application in a container)_
 
 ## Running the Application
 
@@ -39,7 +39,6 @@ To run it with [NVIDIA GPU support pre-configured](https://hub.docker.com/r/olla
 ```bash
 docker-compose -f docker-compose-nvidia.yml up -d
 ```
-
 
 This will start the following services in Docker:
 

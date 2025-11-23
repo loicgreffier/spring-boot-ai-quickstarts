@@ -12,14 +12,14 @@ It leverages the following AI technology:
 
 ## Prerequisites
 
-To compile and run this demo, you’ll need:
+To compile and run this demo, you'll need:
 
 - Java 25
 - Maven
 - Node.js 24
 - NPM
 - Ollama
-- Docker _(optional, used for running the applications in containers)_
+- Docker _(optional, used for running the application in a container)_
 
 ## Running the Application
 
