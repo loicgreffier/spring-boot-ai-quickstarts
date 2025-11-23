@@ -1,0 +1,18 @@
+spring:
+  ai:
+    mcp:
+      server:
+        protocol: "STREAMABLE"
+        name: "simpsons-mcp-server"
+        version: "1.0.0"
+        type: "SYNC"
+        instructions: "This streamable server provides data for the Simpsons dataset."
+        streamable-http:
+          mcp-endpoint: "/mcp"
+  datasource:
+    password: ""
+    url: "jdbc:h2:mem:./h2/mcp-server-http"
+    username: "sa"
+  h2:
+    console:
+      enabled: true
