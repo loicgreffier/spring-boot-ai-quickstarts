@@ -22,6 +22,7 @@
         <module>chat-rag</module>
         <module>chat-rag-advanced</module>
         <module>chat-stream</module>
+        <module>mcp-server-stdio</module>
     </modules>
 
     <properties>

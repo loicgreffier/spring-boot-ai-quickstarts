@@ -1,6 +1,5 @@
 <div align="center">
 
-<img src=".readme/ollama.svg" alt="Ollama"/>
 <img src=".readme/spring-boot.svg" alt="Spring Boot"/>
 
 # Spring Boot and AI Quickstarts
@@ -13,7 +12,7 @@
 
 [Prerequisites](#prerequisites) • [Quickstarts](#quickstarts)
 
-Code samples around Spring AI, powered by Ollama.
+Code samples around Spring AI.
 
 </div>
 
@@ -36,5 +35,10 @@ Code samples around Spring AI, powered by Ollama.
 | [Chat RAG](/chat-rag)                           | Chatbot with retrieval-augmented generation (RAG)                |
 | [Chat RAG Advanced](/chat-rag-advanced)         | Chatbot with advanced retrieval-augmented generation (RAG) setup |
 | [Chat Stream](/chat-stream)                     | Streaming chatbot                                                |
+| [MCP Server Stdio](/mcp-server-stdio)           | MCP server with standard I/O interaction                         |
 
+## Credits
 
+[Spring AI Documentation](https://docs.spring.io/spring-ai/reference/index.html)
+
+[The Simpsons API](https://thesimpsonsapi.com)

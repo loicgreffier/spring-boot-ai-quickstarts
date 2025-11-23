@@ -1,0 +1,24 @@
+logging:
+  file:
+    name: "/tmp/logs/mcp-server-stdio.log"
+  pattern:
+    console: ""
+spring:
+  ai:
+    mcp:
+      server:
+        instructions: "This stdio server provides data for the Simpsons dataset."
+        name: "simpsons-mcp-server"
+        stdio: true
+        version: "@project.version@"
+  datasource:
+    password: ""
+    url: "jdbc:h2:mem:./h2/mcp-server-stdio"
+    username: "sa"
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: "create"
+  main:
+    banner-mode: "off"
+    web-application-type: "none"
