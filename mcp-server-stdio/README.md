@@ -24,12 +24,10 @@ To compile and run this demo, you'll need:
 
 ## Running the Application
 
-To run the application manually:
-
-- Configure an MCP client to connect to the stdio MCP server:
+To run the application manually, configure an MCP client to connect to the stdio MCP server:
 
 ```json
-"simpsons-mcp-server": {
+"mcp-server-stdio": {
     "type": "stdio",
     "command": "java",
     "args": [
@@ -42,7 +40,7 @@ To run the application manually:
 Alternatively, to run it using Docker, use the following configuration:
 
 ```json
-"simpsons-mcp-server": {
+"mcp-server-stdio": {
     "type": "stdio",
     "command": "docker",
     "args": [
