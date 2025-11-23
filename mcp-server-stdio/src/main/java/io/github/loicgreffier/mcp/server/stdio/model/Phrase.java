@@ -16,24 +16,44 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.github.loicgreffier.mcp.server.http.model;
+package io.github.loicgreffier.mcp.server.stdio.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.sql.Date;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-public class Episode {
+@Getter
+@Setter
+@Builder
+public class Phrase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date airDate;
-    private int episodeNumber;
-    private String imageUrl;
-    private String name;
-    private int season;
-    private String synopsis;
+    @Column(length = 1000)
+    private String text;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "characterId", referencedColumnName = "id")
+    private Character character;
+
+    /** Default constructor. */
+    public Phrase() {
+        // Default constructor
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param id The phrase ID
+     * @param text The phrase text
+     * @param character The associated character
+     */
+    public Phrase(Long id, String text, Character character) {
+        this.id = id;
+        this.text = text;
+        this.character = character;
+    }
 }

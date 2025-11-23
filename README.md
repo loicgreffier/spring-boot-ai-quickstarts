@@ -36,5 +36,6 @@ Code samples around Spring AI, powered by Ollama.
 | [Chat RAG](/chat-rag)                           | Chatbot with retrieval-augmented generation (RAG)                |
 | [Chat RAG Advanced](/chat-rag-advanced)         | Chatbot with advanced retrieval-augmented generation (RAG) setup |
 | [Chat Stream](/chat-stream)                     | Streaming chatbot                                                |
+| [MCP Server Stdio](/mcp-server-stdio)           | MCP server with standard I/O interaction                         |
 
 

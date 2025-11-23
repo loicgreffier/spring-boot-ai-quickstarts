@@ -16,20 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.github.loicgreffier.mcp.server.http;
+package io.github.loicgreffier.mcp.server.stdio.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import io.github.loicgreffier.mcp.server.stdio.service.CharacterService;
+import org.springframework.ai.tool.ToolCallbackProvider;
+import org.springframework.ai.tool.method.MethodToolCallbackProvider;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-/** This is the main class for the Spring Boot application. */
-@SpringBootApplication
-public class McpServerHttpApplication {
+@Configuration
+public class McpConfig {
+
     /**
-     * The main entry point of the Spring Boot application.
+     * Register MCP tools.
      *
-     * @param args The command line arguments.
+     * @param characterService The MCP service
+     * @return The tool callback provider
      */
-    public static void main(String[] args) {
-        SpringApplication.run(McpServerHttpApplication.class, args);
+    @Bean
+    public ToolCallbackProvider tools(CharacterService characterService) {
+        return MethodToolCallbackProvider.builder()
+                .toolObjects(characterService)
+                .build();
     }
 }

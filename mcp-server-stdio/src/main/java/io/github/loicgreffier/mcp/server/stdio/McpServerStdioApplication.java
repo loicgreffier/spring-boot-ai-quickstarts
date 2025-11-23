@@ -16,9 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.github.loicgreffier.mcp.server.http.config;
+package io.github.loicgreffier.mcp.server.stdio;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@Configuration
-public class McpConfig {}
+/** This is the main class for the Spring Boot application. */
+@SpringBootApplication
+public class McpServerStdioApplication {
+    /**
+     * The main entry point of the Spring Boot application.
+     *
+     * @param args The command line arguments.
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(McpServerStdioApplication.class, args);
+    }
+}

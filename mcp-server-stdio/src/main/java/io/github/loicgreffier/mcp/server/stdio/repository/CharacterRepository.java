@@ -16,19 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.github.loicgreffier.mcp.server.http.model;
+package io.github.loicgreffier.mcp.server.stdio.repository;
 
-import jakarta.persistence.*;
+import io.github.loicgreffier.mcp.server.stdio.model.Character;
+import java.util.List;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-@Entity
-public class Phrase {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String text;
-
-    @OneToMany
-    @PrimaryKeyJoinColumn(name = "characterId", referencedColumnName = "id")
-    private Character character;
+@Repository
+public interface CharacterRepository extends CrudRepository<Character, Long> {
+    List<Character> findByNameContainingIgnoreCase(String name);
 }
