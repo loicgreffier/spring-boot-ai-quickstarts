@@ -42,7 +42,7 @@ Code samples around Spring AI.
 
 | Module                                          | Description                                                      |
 |-------------------------------------------------|------------------------------------------------------------------|
-| [MCP Server Stdio](/mcp-server-stdio)           | MCP server with standard I/O interaction                         |
+| [MCP Server Stdio](/mcp-server-stdio)           | MCP server using standard I/O communication                      |
 
 ## Credits
 
