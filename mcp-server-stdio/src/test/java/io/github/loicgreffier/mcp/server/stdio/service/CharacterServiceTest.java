@@ -26,7 +26,9 @@ import io.github.loicgreffier.mcp.server.stdio.model.Character;
 import io.github.loicgreffier.mcp.server.stdio.model.Phrase;
 import io.github.loicgreffier.mcp.server.stdio.repository.CharacterRepository;
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,7 +52,8 @@ class CharacterServiceTest {
                                 .id(1L)
                                 .name("Homer Simpson")
                                 .age(39)
-                                .birthDate(Date.valueOf(LocalDate.of(1956, 5, 12)))
+                                .birthDate(Date.valueOf(
+                                        LocalDate.ofInstant(Instant.parse("1956-05-12T10:00:00Z"), ZoneOffset.UTC)))
                                 .gender("Male")
                                 .occupation("Safety Inspector")
                                 .portraitUrl("https://cdn.thesimpsonsapi.com/500/character/1.webp")
