@@ -38,7 +38,7 @@ public class Character {
 
     private Integer age;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     private Date birthDate;
 
     private String gender;
