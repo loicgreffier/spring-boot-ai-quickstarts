@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CharacterService {
     private final CharacterRepository characterRepository;
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     /**
      * Constructor.
