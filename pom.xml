@@ -28,7 +28,7 @@
     <properties>
         <frontend-maven-plugin.version>1.15.4</frontend-maven-plugin.version>
         <java.version>25</java.version>
-        <jib-maven-plugin.version>3.5.0</jib-maven-plugin.version>
+        <jib-maven-plugin.version>3.5.1</jib-maven-plugin.version>
         <lombok.version>1.18.42</lombok.version>
         <palantir.version>2.82.0</palantir.version>
         <spotless-maven-plugin.version>3.0.0</spotless-maven-plugin.version>
