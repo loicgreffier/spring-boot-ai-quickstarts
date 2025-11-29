@@ -7,8 +7,9 @@ spring:
   ai:
     mcp:
       server:
-        instructions: "This stdio server provides data for the Simpsons dataset."
-        name: "simpsons-mcp-server"
+        instructions: "This stdio server provides data for the Simpsons characters\
+          \ dataset."
+        name: "simpsons-characters-mcp-server"
         stdio: true
         version: "@project.version@"
   datasource:

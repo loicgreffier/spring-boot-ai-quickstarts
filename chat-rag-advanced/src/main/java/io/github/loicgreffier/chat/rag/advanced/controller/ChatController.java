@@ -74,8 +74,8 @@ public class ChatController {
         1. Politely inform the user that your knowledge base doesn't contain the answer, and suggest that they clarify their question.
         """;
 
-    private static final Double SIMILARITY_SEARCH = 0.5;
-    private static final Integer TOP_K = 6;
+    private static final Double SIMILARITY_SEARCH = 0.6;
+    private static final Integer TOP_K = 3;
 
     private final ChatClient chatClient;
 

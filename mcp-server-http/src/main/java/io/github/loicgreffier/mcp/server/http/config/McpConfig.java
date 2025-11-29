@@ -18,7 +18,7 @@
  */
 package io.github.loicgreffier.mcp.server.http.config;
 
-import io.github.loicgreffier.mcp.server.http.services.EpisodeService;
+import io.github.loicgreffier.mcp.server.http.service.EpisodeService;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.context.annotation.Bean;
@@ -35,8 +35,6 @@ public class McpConfig {
      */
     @Bean
     public ToolCallbackProvider tools(EpisodeService episodeService) {
-        return MethodToolCallbackProvider.builder()
-                .toolObjects(episodeService)
-                .build();
+        return MethodToolCallbackProvider.builder().toolObjects(episodeService).build();
     }
 }

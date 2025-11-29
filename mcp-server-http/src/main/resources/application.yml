@@ -1,11 +1,9 @@
 spring:
   ai:
+    model:
+      chat: "none"
     ollama:
       base-url: "http://localhost:11434"
-      chat:
-        options:
-          model: "gemma3:4b"
-          temperature: 0.5
       embedding:
         options:
           model: "qwen3-embedding:0.6b"
@@ -15,6 +13,15 @@ spring:
     vectorstore:
       pgvector:
         initialize-schema: true
+    mcp:
+      server:
+        protocol: "STREAMABLE"
+        instructions: "This HTTP server provides data for the Simpsons episodes dataset."
+        name: "simpsons-episodes-mcp-server"
+        type: "SYNC"
+        version: "@project.version@"
+        streamable-http:
+          mcp-endpoint: "/mcp"
   datasource:
     url: "jdbc:postgresql://localhost:5432/postgres"
     username: "postgres"

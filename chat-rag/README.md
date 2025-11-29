@@ -13,7 +13,7 @@ It leverages the following AI technologies:
 
 - Chat model: `gemma3:4b`
 - Embedding model: `qwen3-embedding:0.6b`
-- Vector database: PGVector
+- Vector database: PGvector
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ To compile and run this demo, you'll need:
 To run the application manually:
 
 - Start Ollama.
-- Start a PGVector database in Docker using:
+- Start a PGvector database in Docker using:
 
 ```bash
 docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=changeme -p 5432:5432 pgvector/pgvector:pg18
@@ -55,5 +55,5 @@ docker-compose -f docker-compose-nvidia.yml up -d
 This will start the following services in Docker:
 
 - Ollama
-- PGVector database
+- PGvector database
 - Chat RAG application (available at http://localhost:8080)
