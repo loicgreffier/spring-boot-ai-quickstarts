@@ -1,0 +1,62 @@
+---
+services:
+  ollama:
+    image: ollama/ollama:0.12.3
+    hostname: ollama
+    container_name: ollama
+    networks:
+      - spring-boot-ai-quickstarts
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+
+  pgvector:
+    image: pgvector/pgvector:pg18
+    hostname: pgvector
+    container_name: pgvector
+    networks:
+      - spring-boot-ai-quickstarts
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  mcp-server-http:
+    image: loicgreffier/spring-boot-ai-quickstarts:mcp-server-http-1.0.0
+    hostname: mcp-server-http
+    container_name: mcp-server-http
+    networks:
+      - spring-boot-ai-quickstarts
+    depends_on:
+      - ollama
+      - pgvector
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      SPRING_APPLICATION_JSON: |
+        {
+          "spring": {
+            "ai": {
+              "ollama": {
+                "base-url": "http://ollama:11434",
+                "embedding": {
+                  "options": {
+                    "model": "qwen3-embedding:0.6b"
+                  }
+                }
+              }
+            },
+            "datasource": {
+              "url": "jdbc:postgresql://pgvector:5432/postgres",
+              "username": "postgres",
+              "password": "changeme"
+            }
+          }
+        }
+
+networks:
+  spring-boot-ai-quickstarts:
+    driver: bridge
