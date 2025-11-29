@@ -31,13 +31,13 @@ class McpDataTest {
         List<Document> results = McpData.loadEpisodes();
 
         assertEquals(768, results.size());
-        assertEquals("1", results.getFirst().getId());
+        assertEquals("c4ca4238-a0b9-3382-8dcc-509a6f75849b", results.getFirst().getId());
         assertEquals(
-                "Simpsons Roasting on an Open Fire: When Mr. Burns announces that none of the workers will be getting Christmas bonuses and Marge reveals that she spent the extra Christmas gift money on getting Bart's \"\"\"\"Mother\"\"\"\" tattoo removed, Homer keeps his lack of funds for the holidays a secret and gets a job as a mall Santa.",
+                "Simpsons Roasting on an Open Fire: When Mr. Burns announces that none of the workers will be getting Christmas bonuses and Marge reveals that she spent the extra Christmas gift money on getting Bart's \"\"Mother\"\" tattoo removed, Homer keeps his lack of funds for the holidays a secret and gets a job as a mall Santa.",
                 results.getFirst().getText());
-        assertEquals("768", results.getLast().getId());
+        assertEquals("3a835d32-1575-3c43-9ef4-fe9965a3f2a0", results.getLast().getId());
         assertEquals(
-                "Bart buys a brain in a jar from Herman's Military Antique Store, and his attachment to it causes concern for everyone around him.",
+                "Bart's Brain: Bart buys a brain in a jar from Herman's Military Antique Store, and his attachment to it causes concern for everyone around him.",
                 results.getLast().getText());
     }
 }
