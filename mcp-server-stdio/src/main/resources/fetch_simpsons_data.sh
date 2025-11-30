@@ -1,19 +1,17 @@
 #!/bin/bash
 
-API_BASE_URL="https://thesimpsonsapi.com/api/characters"
+API_BASE_URL="https://thesimpsonsapi.com/api/episodes"
 OUTPUT_FILE="data.sql"
-TOTAL_PAGES=60
+TOTAL_PAGES=39
 
-echo "-- Characters data" > "$OUTPUT_FILE"
+echo "-- Episodes data" > "$OUTPUT_FILE"
 
 for page in $(seq 1 $TOTAL_PAGES); do
     echo "Fetching page $page..."
 
     curl -sk "${API_BASE_URL}?page=${page}" | jq -r '
         .results[] |
-        .id as $id |
-        "INSERT INTO character (id, age, birth_date, gender, name, occupation, portrait_url, status) VALUES (\($id), \(.age // "null"), \(if .birthdate then "'\''" +.birthdate+"'\''" else "null" end), \(if .gender then "'\''"+.gender+"'\''" else "null" end), '\''"+(.name | gsub("'\''"; "'\'''\''"))+"'\'', \(if .occupation then "'\''"+(.occupation | gsub("'\''"; "'\'''\''"))+"'\''" else "null" end), \(if .portrait_path then "'\''https://cdn.thesimpsonsapi.com/500"+.portrait_path+"'\''" else "null" end), \(if .status then "'\''"+.status+"'\''" else "null" end));",
-        (if .phrases then .phrases[] | "INSERT INTO phrase (text, character_id) VALUES ('\''"+(.| gsub("'\''"; "'\'''\''"))+"'\'', \($id));" else empty end)
+        "INSERT INTO episode (id, airdate, episode_number, image_path, name, season, synopsis) VALUES (\(.id), \(if .airdate and .airdate != "" then "'\''"+.airdate+"'\''" else "null" end), \(.episode_number // "null"), \(if .image_path then "'\''https://cdn.thesimpsonsapi.com"+.image_path+"'\''" else "null" end), '\''"+(.name | gsub("'\''"; "'\'''\''"))+"'\'', \(.season // "null"), \(if .synopsis and .synopsis != "" then "'\''"+(.synopsis | gsub("'\''"; "'\'''\''"))+"'\''" else "null" end));"
     ' >> "$OUTPUT_FILE"
 done
 

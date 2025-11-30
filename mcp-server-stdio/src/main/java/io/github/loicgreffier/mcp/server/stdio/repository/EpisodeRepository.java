@@ -18,12 +18,17 @@
  */
 package io.github.loicgreffier.mcp.server.stdio.repository;
 
-import io.github.loicgreffier.mcp.server.stdio.model.Character;
+import io.github.loicgreffier.mcp.server.stdio.model.Episode;
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CharacterRepository extends CrudRepository<Character, Long> {
-    List<Character> findByNameContainingIgnoreCase(String name);
+public interface EpisodeRepository extends CrudRepository<Episode, Long> {
+    /** Find episodes by name or synopsis containing the given term, case-insensitive. */
+    @Query("SELECT e FROM Episode e WHERE LOWER(e.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
+            + "OR LOWER(e.synopsis) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    List<Episode> searchByTerm(@Param("searchTerm") String searchTerm);
 }

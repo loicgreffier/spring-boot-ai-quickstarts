@@ -1,6 +1,13 @@
 # Chat RAG
 
-This module demonstrates how to create a streaming chatbot application with retrieval-augmented generation (RAG) capabilities, using the Simpsons TV show as an example.
+This module demonstrates how to create a streaming chatbot application with retrieval-augmented generation (RAG) capabilities, using _The Simpsons_ TV show as an example.
+It uses data from [The Simpsons Episode API](https://thesimpsonsapi.com), which is pre-fetched in `episodes.csv` file and stored in a PGvector database when the application starts.
+
+Typical questions you can ask include:
+- "In which episodes does Homer go to space?"
+- "In which episodes does Sideshow Bob try to kill Bart?"
+- "Which episodes are themed around Halloween?"
+- "Which episodes feature Ned Flanders?"
 
 It demonstrates the following:
 

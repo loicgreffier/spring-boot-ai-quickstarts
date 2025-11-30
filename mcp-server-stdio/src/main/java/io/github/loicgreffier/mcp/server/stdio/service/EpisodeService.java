@@ -20,36 +20,39 @@ package io.github.loicgreffier.mcp.server.stdio.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.loicgreffier.mcp.server.stdio.repository.CharacterRepository;
+import io.github.loicgreffier.mcp.server.stdio.repository.EpisodeRepository;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CharacterService {
-    private final CharacterRepository characterRepository;
+public class EpisodeService {
+    private final EpisodeRepository episodeRepository;
     private final ObjectMapper objectMapper;
 
     /**
      * Constructor.
      *
-     * @param characterRepository The character repository
+     * @param episodeRepository The episode repository
      */
-    public CharacterService(CharacterRepository characterRepository) {
-        this.characterRepository = characterRepository;
+    public EpisodeService(EpisodeRepository episodeRepository) {
+        this.episodeRepository = episodeRepository;
         this.objectMapper = new ObjectMapper();
     }
 
     /**
-     * Get characters by name.
+     * Get episodes by name or synopsis.
      *
-     * @param name The name
-     * @return The character details
+     * @param searchTerm The episode name or synopsis to search for
+     * @return The episode details
      */
-    @Tool(name = "get_characters_by_name", description = "Get characters by name")
-    public String getCharactersByName(
-            @ToolParam(description = "The character name to search for. Can be a partial name.") String name)
+    @Tool(name = "get_episodes", description = "Get episodes")
+    public String getEpisodes(
+            @ToolParam(
+                            description =
+                                    "The search term to look for in episode names or synopses. It can be a partial name or a partial section of the synopsis.")
+                    String searchTerm)
             throws JsonProcessingException {
-        return objectMapper.writeValueAsString(characterRepository.findByNameContainingIgnoreCase(name));
+        return objectMapper.writeValueAsString(episodeRepository.searchByTerm(searchTerm));
     }
 }

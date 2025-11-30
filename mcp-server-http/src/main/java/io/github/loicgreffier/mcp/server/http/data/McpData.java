@@ -52,7 +52,7 @@ public class McpData {
                         .metadata(Map.of(
                                 "air_date", line[1],
                                 "episode_number", line[2],
-                                "image_url", line[3],
+                                "image_path", line[3],
                                 "title", line[4],
                                 "season", line[5],
                                 "synopsis", line[6]))

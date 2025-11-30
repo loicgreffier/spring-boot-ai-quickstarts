@@ -21,8 +21,6 @@ package io.github.loicgreffier.mcp.server.stdio.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,61 +29,50 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class Character {
+public class Episode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer age;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date birthDate;
+    private Date airdate;
 
-    private String gender;
+    private Integer episodeNumber;
+    private String imagePath;
     private String name;
-    private String occupation;
-    private String portraitUrl;
-    private String status;
+    private Integer season;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "character", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Phrase> phrases = new ArrayList<>();
+    @Column(length = 2000)
+    private String synopsis;
 
     /** Default constructor. */
-    public Character() {
-        this.phrases = new ArrayList<>();
-    }
+    public Episode() {}
 
     /**
      * Constructor.
      *
-     * @param id The character ID
-     * @param age The age
-     * @param birthDate The birthdate
-     * @param gender The gender
-     * @param name The name
-     * @param occupation The occupation
-     * @param portraitUrl The portrait URL
-     * @param status The status
+     * @param id The episode ID
+     * @param airdate The air date
+     * @param episodeNumber The episode number
+     * @param imagePath The image path
+     * @param name The episode name
+     * @param season The season number
+     * @param synopsis The episode synopsis
      */
-    public Character(
+    public Episode(
             Long id,
-            Integer age,
-            Date birthDate,
-            String gender,
+            Date airdate,
+            Integer episodeNumber,
+            String imagePath,
             String name,
-            String occupation,
-            String portraitUrl,
-            String status,
-            List<Phrase> phrases) {
+            Integer season,
+            String synopsis) {
         this.id = id;
-        this.age = age;
-        this.birthDate = birthDate;
-        this.gender = gender;
+        this.airdate = airdate;
+        this.episodeNumber = episodeNumber;
+        this.imagePath = imagePath;
         this.name = name;
-        this.occupation = occupation;
-        this.portraitUrl = portraitUrl;
-        this.status = status;
-        this.phrases = phrases;
+        this.season = season;
+        this.synopsis = synopsis;
     }
 }

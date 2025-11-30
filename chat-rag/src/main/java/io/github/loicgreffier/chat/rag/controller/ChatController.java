@@ -18,9 +18,9 @@
  */
 package io.github.loicgreffier.chat.rag.controller;
 
-import static io.github.loicgreffier.chat.rag.data.RagData.DOCUMENTS;
-
+import io.github.loicgreffier.chat.rag.data.RagData;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
@@ -30,12 +30,13 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
+@Slf4j
 @RestController
 @RequestMapping
 public class ChatController {
     /** Custom prompt template for the question-answering advisor. */
     private static final String PROMPT_TEMPLATE = """
-        You are a helpful assistant who answers questions about the Simpsons TV show. Here is the user query surrounded by ---------------------
+        You are a helpful assistant who answers questions about episodes of The Simpsons TV show. Here is the user query surrounded by ---------------------
 
         ---------------------
         {query}
@@ -55,8 +56,8 @@ public class ChatController {
         4. If the user query is a general greeting, farewell, or small talk (e.g., "Hello," "How are you," "Goodbye," "Thanks," etc.), respond politely and naturally.
         """;
 
-    private static final Double SIMILARITY_SEARCH = 0.6;
-    private static final Integer TOP_K = 3;
+    private static final Double SIMILARITY_SEARCH = 0.5;
+    private static final Integer TOP_K = 5;
 
     private final ChatClient chatClient;
 
@@ -85,7 +86,13 @@ public class ChatController {
                 .defaultAdvisors(questionAnswerAdvisor, loggerAdvisor)
                 .build();
 
-        vectorStore.add(DOCUMENTS);
+        long startTime = System.currentTimeMillis();
+        vectorStore.add(RagData.loadEpisodes());
+        double duration = (System.currentTimeMillis() - startTime) / 1000.0;
+        log.info(
+                "Loaded {} episodes into the vector store in {}s",
+                RagData.loadEpisodes().size(),
+                duration);
     }
 
     /**

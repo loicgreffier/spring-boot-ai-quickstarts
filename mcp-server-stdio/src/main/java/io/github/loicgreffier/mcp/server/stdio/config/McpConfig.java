@@ -18,7 +18,7 @@
  */
 package io.github.loicgreffier.mcp.server.stdio.config;
 
-import io.github.loicgreffier.mcp.server.stdio.service.CharacterService;
+import io.github.loicgreffier.mcp.server.stdio.service.EpisodeService;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.context.annotation.Bean;
@@ -30,13 +30,11 @@ public class McpConfig {
     /**
      * Register MCP tools.
      *
-     * @param characterService The MCP service
+     * @param episodeService The MCP service
      * @return The tool callback provider
      */
     @Bean
-    public ToolCallbackProvider tools(CharacterService characterService) {
-        return MethodToolCallbackProvider.builder()
-                .toolObjects(characterService)
-                .build();
+    public ToolCallbackProvider tools(EpisodeService episodeService) {
+        return MethodToolCallbackProvider.builder().toolObjects(episodeService).build();
     }
 }
