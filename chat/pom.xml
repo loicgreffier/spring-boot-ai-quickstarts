@@ -9,6 +9,13 @@
 
     <artifactId>chat</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-ollama</artifactId>
+        </dependency>
+    </dependencies>
+
     <profiles>
         <profile>
             <id>production</id>

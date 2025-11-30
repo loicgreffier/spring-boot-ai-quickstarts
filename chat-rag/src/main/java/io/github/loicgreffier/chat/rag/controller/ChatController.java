@@ -55,8 +55,8 @@ public class ChatController {
         4. If the user query is a general greeting, farewell, or small talk (e.g., "Hello," "How are you," "Goodbye," "Thanks," etc.), respond politely and naturally.
         """;
 
-    private static final Double SIMILARITY_SEARCH = 0.5;
-    private static final Integer TOP_K = 6;
+    private static final Double SIMILARITY_SEARCH = 0.6;
+    private static final Integer TOP_K = 3;
 
     private final ChatClient chatClient;
 

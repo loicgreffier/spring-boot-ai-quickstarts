@@ -40,9 +40,10 @@ Code samples around Spring AI.
 
 ### MCP
 
-| Module                                          | Description                                                      |
-|-------------------------------------------------|------------------------------------------------------------------|
-| [MCP Server Stdio](/mcp-server-stdio)           | MCP server using standard I/O communication                      |
+| Module                                | Description                                    |
+|---------------------------------------|------------------------------------------------|
+| [MCP Server HTTP](/mcp-server-http)   | MCP server using Streamable HTTP communication |
+| [MCP Server Stdio](/mcp-server-stdio) | MCP server using standard I/O communication    |
 
 ## Credits
 

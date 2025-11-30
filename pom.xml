@@ -22,6 +22,7 @@
         <module>chat-rag</module>
         <module>chat-rag-advanced</module>
         <module>chat-stream</module>
+        <module>mcp-server-http</module>
         <module>mcp-server-stdio</module>
     </modules>
 
@@ -30,6 +31,7 @@
         <java.version>25</java.version>
         <jib-maven-plugin.version>3.5.1</jib-maven-plugin.version>
         <lombok.version>1.18.42</lombok.version>
+        <opencsv.version>5.12.0</opencsv.version>
         <palantir.version>2.82.0</palantir.version>
         <spotless-maven-plugin.version>3.1.0</spotless-maven-plugin.version>
         <spring-ai.version>1.1.0</spring-ai.version>
@@ -53,11 +55,6 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-ollama</artifactId>
         </dependency>
 
         <dependency>
