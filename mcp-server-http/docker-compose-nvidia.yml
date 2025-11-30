@@ -30,10 +30,10 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
-  chat-rag-advanced:
-    image: loicgreffier/spring-boot-ai-quickstarts:chat-rag-advanced-1.0.0
-    hostname: chat-rag-advanced
-    container_name: chat-rag-advanced
+  mcp-server-http:
+    image: loicgreffier/spring-boot-ai-quickstarts:mcp-server-http-1.0.0
+    hostname: mcp-server-http
+    container_name: mcp-server-http
     networks:
       - spring-boot-ai-quickstarts
     depends_on:
@@ -49,11 +49,6 @@ services:
             "ai": {
               "ollama": {
                 "base-url": "http://ollama:11434",
-                "chat": {
-                  "options": {
-                    "model": "gemma3:4b"
-                  }
-                },
                 "embedding": {
                   "options": {
                     "model": "qwen3-embedding:0.6b"

@@ -31,8 +31,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class EpisodeService {
-    private static final Double SIMILARITY_SEARCH = 0.6;
-    private static final Integer TOP_K = 3;
+    private static final Double SIMILARITY_SEARCH = 0.5;
+    private static final Integer TOP_K = 5;
     private final VectorStore vectorStore;
     private final ObjectMapper objectMapper;
 
