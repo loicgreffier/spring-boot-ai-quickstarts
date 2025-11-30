@@ -1,29 +1,93 @@
-<div class="chat-wrapper">
+<div class="assistant-card">
 	<div class="chat-header">
-		<div class="bot-avatar"></div>
+		<div class="bot-avatar" [class.pulse]="loading">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="#00C4FF"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="feather feather-cpu"
+			>
+				<rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+				<rect x="9" y="9" width="6" height="6"></rect>
+				<path d="M15 2v2"></path>
+				<path d="M15 20v2"></path>
+				<path d="M2 15h2"></path>
+				<path d="M20 15h2"></path>
+				<path d="M15 2h-2"></path>
+				<path d="M15 20h-2"></path>
+				<path d="M2 9h2"></path>
+				<path d="M20 9h2"></path>
+			</svg>
+		</div>
 		<div class="bot-info">
-			<div class="bot-name">Llamabot</div>
-			<div class="bot-status">🟢 Online Now</div>
+			<div class="bot-name">AI Assistant</div>
+			<div class="bot-status">
+				<span
+					class="status-dot"
+					[style.background-color]="loading ? '#ffc107' : '#10b981'"
+					[style.box-shadow]="loading ? '0 0 5px #ffc107' : '0 0 5px #10b981'"
+				></span>
+				{{ loading ? 'Processing Request...' : 'Online & Ready' }}
+			</div>
 		</div>
 	</div>
+
 	<div class="chat-content" #chatContent>
-		@for (chat of messages(); track chat) {
-			<div class="chat-bubble-group">
-				<div class="chat-bubble {{ chat.messageType === Type.User ? 'user' : 'bot' }}">
-					{{ chat.text }}
-				</div>
+		@for (chat of messages(); track chat; let i = $index) {
+			<div
+				class="chat-bubble-group"
+				[class.user-group]="chat.messageType === Type.User"
+				[class.bot-group]="chat.messageType === Type.Assistant"
+				[style.animation-delay]="i * 50 + 'ms'"
+			>
+				<div
+					class="chat-bubble"
+					[class.user-bubble]="chat.messageType === Type.User"
+					[class.bot-bubble]="chat.messageType === Type.Assistant"
+					[innerHTML]="formatText(chat.text)"
+				></div>
 			</div>
 		}
 		@if (loading) {
-			<div class="chat-bubble bot">Typing...</div>
+			<div class="chat-bubble-group bot-group typing-indicator-group">
+				<div class="chat-bubble bot-bubble typing-indicator">
+					<span class="dot"></span>
+					<span class="dot"></span>
+					<span class="dot"></span>
+				</div>
+			</div>
 		}
 	</div>
-	<div class="chat-input">
+
+	<div class="chat-input-area">
 		<input
 			[(ngModel)]="userInput"
-			[disabled]="loading"
 			(keyup.enter)="sendMessage()"
-			placeholder="{{ loading ? 'Llamabot is thinking...' : 'Ask a question' }}"
+			[disabled]="loading"
+			placeholder="{{ loading ? 'AI Assistant is thinking...' : 'Ask a question' }}"
 		/>
+		<button [disabled]="!userInput || loading" (click)="sendMessage()">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="20"
+				height="20"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="feather feather-send"
+			>
+				<line x1="22" y1="2" x2="11" y2="13"></line>
+				<polygon points="22 2 15 22 11 15 2 11 22 2"></polygon>
+			</svg>
+		</button>
 	</div>
 </div>

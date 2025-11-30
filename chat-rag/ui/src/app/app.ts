@@ -26,7 +26,7 @@ interface Message {
 
 @Component({
 	selector: 'app-root',
-	imports: [FormsModule, ReactiveFormsModule],
+	imports: [FormsModule, ReactiveFormsModule, ReactiveFormsModule],
 	templateUrl: './app.html',
 	styleUrl: './app.css'
 })
@@ -131,5 +131,15 @@ export class App {
 				});
 			};
 		});
+	}
+
+	/**
+	 * Basic formatting for the assistant's text.
+	 * Replace ** with bold and * with bullet points.
+	 *
+	 * @param text The input text to format.
+	 */
+	formatText(text: string): string {
+		return text.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\*/g, '<br> • ');
 	}
 }
