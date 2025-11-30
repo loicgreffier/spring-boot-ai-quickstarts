@@ -20,7 +20,7 @@ package io.github.loicgreffier.mcp.server.stdio.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
