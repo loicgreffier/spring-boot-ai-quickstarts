@@ -1,6 +1,6 @@
 # MCP Server HTTP
 
-This module demonstrates how to create an MCP server using Streamable HTTP communication.
+This module demonstrates how to create an MCP server using streamable HTTP communication.
 It uses data from [The Simpsons Episode API](https://thesimpsonsapi.com), which is pre-fetched in `episodes.csv` file and stored in a PGvector database when the application starts.
 
 It exposes the following tools:
@@ -11,7 +11,7 @@ It exposes the following tools:
 
 It demonstrates the following:
 
-- How to create and configure a Streamable HTTP MCP server.
+- How to create and configure a streamable HTTP MCP server.
 - How to create and register MCP tools.
 
 It leverages the following AI technologies:
@@ -39,7 +39,7 @@ docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=changeme -p 5432:54
 ```
 
 - Start the back-end server.
-- Configure an MCP client to connect to the Streamable HTTP MCP server:
+- Configure an MCP client to connect to the streamable HTTP MCP server:
 
 ```json
 "mcp-server-http": {
