@@ -9,7 +9,7 @@ import {
 	signal,
 	ViewChild
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subscriber } from 'rxjs';
 
 import { environment } from '../environments/environment';
@@ -26,7 +26,7 @@ interface Message {
 
 @Component({
 	selector: 'app-root',
-	imports: [FormsModule],
+	imports: [FormsModule, ReactiveFormsModule],
 	templateUrl: './app.html',
 	styleUrl: './app.css'
 })
@@ -130,5 +130,15 @@ export class App {
 				});
 			};
 		});
+	}
+
+	/**
+	 * Basic formatting for the assistant's text.
+	 * Replace ** with bold and * with bullet points.
+	 *
+	 * @param text The input text to format.
+	 */
+	formatText(text: string): string {
+		return text.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\*/g, '<br> • ');
 	}
 }
