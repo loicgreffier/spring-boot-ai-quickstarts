@@ -1,13 +1,13 @@
 # MCP Server Stdio
 
 This module demonstrates how to create an MCP server using standard I/O (stdio) communication.
-It uses data from [The Simpsons Character API](https://thesimpsonsapi.com), which is pre-fetched anf formatted in `data.sql` and stored in an in-memory H2 database when the application starts.
+It uses data from [The Simpsons Episode API](https://thesimpsonsapi.com), which is pre-fetched and formatted in `data.sql` and stored in an in-memory H2 database when the application starts.
 
 It exposes the following tools:
-- `get_characters_by_name`, which returns information about Simpsons characters based on a given partial name. Typical questions you can ask include:
-  - "Tell me about Homer Simpson."
-  - "Who are the members of the Flanders family?"
-  - "Give me the portrait of Mr. Burns."
+- `get_episodes`, which returns information about Simpsons episodes based on a given partial name or synopsis. Typical questions you can ask include:
+  - "In which episodes does Homer go to space?"
+  - "In which episodes does Sideshow Bob try to kill Bart?"
+  - "Which episodes are themed around Halloween?"
 
 It demonstrates the following:
 

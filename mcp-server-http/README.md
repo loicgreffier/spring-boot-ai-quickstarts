@@ -7,7 +7,7 @@ It exposes the following tools:
 - `get_episodes_by_description`, which returns information about Simpsons episodes using semantic search based on a description. Typical questions you can ask include:
   - "In which episodes does Homer go to space?"
   - "In which episodes does Sideshow Bob try to kill Bart?"
-  - "Which episodes are the horror show ones?"
+  - "Which episodes are themed around Halloween?"
 
 It demonstrates the following:
 

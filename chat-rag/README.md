@@ -7,7 +7,6 @@ Typical questions you can ask include:
 - "In which episodes does Homer go to space?"
 - "In which episodes does Sideshow Bob try to kill Bart?"
 - "Which episodes are themed around Halloween?"
-- "Which episodes feature Ned Flanders?"
 
 It demonstrates the following:
 

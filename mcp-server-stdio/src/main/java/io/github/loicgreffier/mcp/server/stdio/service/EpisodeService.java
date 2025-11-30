@@ -41,7 +41,7 @@ public class EpisodeService {
     }
 
     /**
-     * Get episodes by name or synopsis.
+     * Get episodes.
      *
      * @param searchTerm The episode name or synopsis to search for
      * @return The episode details
