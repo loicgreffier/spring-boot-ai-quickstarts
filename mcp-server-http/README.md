@@ -4,7 +4,7 @@ This module demonstrates how to create an MCP server using streamable HTTP commu
 It uses data from [The Simpsons Episode API](https://thesimpsonsapi.com), which is pre-fetched in `episodes.csv` file and stored in a PGvector database when the application starts.
 
 It exposes the following tools:
-- `get_episodes_by_description`, which returns information about Simpsons episodes using semantic search based on a description. Typical questions you can ask include:
+- `get_episodes`, which returns information about Simpsons episodes using semantic search based on a description. Typical questions you can ask include:
   - "In which episodes does Homer go to space?"
   - "In which episodes does Sideshow Bob try to kill Bart?"
   - "Which episodes are themed around Halloween?"
@@ -44,7 +44,7 @@ docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=changeme -p 5432:54
 ```json
 "mcp-server-http": {
     "type": "http",
-    "url": "https://localhost:8080/mcp"
+    "url": "http://localhost:8080/mcp"
 }
 ```
 

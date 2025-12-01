@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.ai.document.Document;
 import org.springframework.core.io.ClassPathResource;
 
@@ -48,7 +49,7 @@ public class McpData {
             while ((line = csvReader.readNext()) != null) {
                 episodes.add(Document.builder()
                         .id(UUID.nameUUIDFromBytes(line[0].getBytes()).toString())
-                        .text(line[4] + ": " + line[6])
+                        .text(line[4] + (StringUtils.isNotBlank(line[6]) ? ": " + line[6] : ""))
                         .metadata(Map.of(
                                 "air_date", line[1],
                                 "episode_number", line[2],

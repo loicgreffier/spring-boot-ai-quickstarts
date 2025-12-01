@@ -46,7 +46,7 @@ public class EpisodeService {
      * @param searchTerm The episode name or synopsis to search for
      * @return The episode details
      */
-    @Tool(name = "get_episodes", description = "Get episodes")
+    @Tool(name = "get_episodes", description = "Get episodes by name or synopsis search term.")
     public String getEpisodes(
             @ToolParam(
                             description =

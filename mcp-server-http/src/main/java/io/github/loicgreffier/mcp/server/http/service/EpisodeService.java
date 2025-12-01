@@ -55,22 +55,22 @@ public class EpisodeService {
     }
 
     /**
-     * Get episodes by description.
+     * Get episodes.
      *
-     * @param description The description
+     * @param searchTerm The description to search for
      * @return The episode details
      */
     @Tool(
-            name = "get_episodes_by_description",
+            name = "get_episodes",
             description = "Get episodes by description by performing a similarity search on episode synopses.")
-    public String getEpisodesByDescription(
+    public String getEpisodes(
             @ToolParam(description = "The episode description used to perform the similarity search.")
-                    String description)
+                    String searchTerm)
             throws JsonProcessingException {
         return objectMapper.writeValueAsString(vectorStore.similaritySearch(SearchRequest.builder()
                 .similarityThreshold(SIMILARITY_SEARCH)
                 .topK(TOP_K)
-                .query(description)
+                .query(searchTerm)
                 .build()));
     }
 }
