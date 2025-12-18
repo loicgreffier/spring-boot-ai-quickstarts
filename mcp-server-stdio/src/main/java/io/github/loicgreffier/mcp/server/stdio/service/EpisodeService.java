@@ -18,12 +18,12 @@
  */
 package io.github.loicgreffier.mcp.server.stdio.service;
 
-import tools.jackson.databind.ObjectMapper;
 import io.github.loicgreffier.mcp.server.stdio.repository.EpisodeRepository;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class EpisodeService {

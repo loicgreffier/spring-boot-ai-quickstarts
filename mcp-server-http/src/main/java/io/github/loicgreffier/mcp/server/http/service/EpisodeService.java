@@ -18,7 +18,6 @@
  */
 package io.github.loicgreffier.mcp.server.http.service;
 
-import tools.jackson.databind.ObjectMapper;
 import io.github.loicgreffier.mcp.server.http.data.McpData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
@@ -27,6 +26,7 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 @Service
