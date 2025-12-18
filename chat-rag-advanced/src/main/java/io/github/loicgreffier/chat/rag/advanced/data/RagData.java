@@ -18,7 +18,7 @@
  */
 package io.github.loicgreffier.chat.rag.advanced.data;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.FileReader;

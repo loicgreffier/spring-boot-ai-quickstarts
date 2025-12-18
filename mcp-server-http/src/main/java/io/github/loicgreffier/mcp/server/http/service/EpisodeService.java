@@ -18,8 +18,7 @@
  */
 package io.github.loicgreffier.mcp.server.http.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.github.loicgreffier.mcp.server.http.data.McpData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
@@ -27,6 +26,7 @@ import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.JacksonException;
 
 @Slf4j
 @Service
@@ -66,7 +66,7 @@ public class EpisodeService {
     public String getEpisodes(
             @ToolParam(description = "The episode description used to perform the similarity search.")
                     String searchTerm)
-            throws JsonProcessingException {
+            throws JacksonException {
         return objectMapper.writeValueAsString(vectorStore.similaritySearch(SearchRequest.builder()
                 .similarityThreshold(SIMILARITY_SEARCH)
                 .topK(TOP_K)

@@ -18,12 +18,12 @@
  */
 package io.github.loicgreffier.mcp.server.stdio.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.github.loicgreffier.mcp.server.stdio.repository.EpisodeRepository;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.JacksonException;
 
 @Service
 public class EpisodeService {
@@ -52,7 +52,7 @@ public class EpisodeService {
                             description =
                                     "The search term to look for in episode names or synopses. It can be a partial name or a partial section of the synopsis.")
                     String searchTerm)
-            throws JsonProcessingException {
+            throws JacksonException {
         return objectMapper.writeValueAsString(episodeRepository.searchByTerm(searchTerm));
     }
 }

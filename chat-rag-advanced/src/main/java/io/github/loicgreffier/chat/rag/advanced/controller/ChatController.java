@@ -103,7 +103,7 @@ public class ChatController {
                         .build())
                 .documentPostProcessors((query, documents) -> {
                     String logDocuments = documents.stream()
-                            .map(doc -> String.format("%s (score: %s)", doc.getText(), doc.getScore()))
+                            .map(doc -> "%s (score: %s)".formatted(doc.getText(), doc.getScore()))
                             .reduce("", (a, b) -> a + "\n- " + b);
 
                     log.info("Retrieved {} documents for query \"{}\"{}", documents.size(), query.text(), logDocuments);
