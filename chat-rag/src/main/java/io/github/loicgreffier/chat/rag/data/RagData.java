@@ -18,7 +18,6 @@
  */
 package io.github.loicgreffier.chat.rag.data;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.FileReader;
@@ -30,6 +29,7 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.core.io.ClassPathResource;
+import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 public class RagData {

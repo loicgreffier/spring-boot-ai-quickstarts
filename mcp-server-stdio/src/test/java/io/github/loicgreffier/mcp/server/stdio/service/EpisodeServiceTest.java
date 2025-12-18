@@ -21,7 +21,6 @@ package io.github.loicgreffier.mcp.server.stdio.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.loicgreffier.mcp.server.stdio.model.Episode;
 import io.github.loicgreffier.mcp.server.stdio.repository.EpisodeRepository;
 import java.time.Instant;
@@ -32,6 +31,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.core.JacksonException;
 
 @ExtendWith(MockitoExtension.class)
 class EpisodeServiceTest {
@@ -42,7 +42,7 @@ class EpisodeServiceTest {
     private EpisodeService episodeService;
 
     @Test
-    void shouldGetEpisodes() throws JsonProcessingException {
+    void shouldGetEpisodes() throws JacksonException {
         when(episodeRepository.searchByTerm("Simpson"))
                 .thenReturn(List.of(
                         Episode.builder()
