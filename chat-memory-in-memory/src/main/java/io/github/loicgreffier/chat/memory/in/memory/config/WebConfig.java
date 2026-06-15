@@ -24,7 +24,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
@@ -50,10 +51,9 @@ public class WebConfig implements WebMvcConfigurer {
      *
      * @param http The http security
      * @return The security filter chain
-     * @throws Exception If something goes wrong
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfiguration()))
                 .sessionManagement(sessionManagementConfigurer ->
@@ -105,9 +105,10 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     /** Rest controller advice used to manage exceptions. */
-    @Slf4j
     @RestControllerAdvice
     public static class GlobalDefaultExceptionHandler {
+        private static final Logger log = LoggerFactory.getLogger(GlobalDefaultExceptionHandler.class);
+
         @ExceptionHandler(Exception.class)
         public ResponseEntity<Void> handleException(Exception exception) {
             log.error("An exception has occurred in the API controllers part", exception);

@@ -25,6 +25,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Cache SonarQube packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Maven packages
         uses: actions/cache@v5
         with:
@@ -43,6 +50,13 @@ jobs:
         uses: mikepenz/action-junit-report@v6
         with:
           report_paths: '**/target/surefire-reports/TEST-*.xml'
+
+      - name: Sonar
+        if: github.event.pull_request.head.repo.fork == false
+        run: mvn verify sonar:sonar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Docker
         if: github.ref == 'refs/heads/main'

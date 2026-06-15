@@ -5,11 +5,10 @@ spring:
     ollama:
       base-url: "http://localhost:11434"
       embedding:
-        options:
-          model: "qwen3-embedding:0.6b"
+        model: "qwen3-embedding:0.6b"
       init:
         pull-model-strategy: "ALWAYS"
-        timeout: "10m"
+        timeout: "15m"
     vectorstore:
       pgvector:
         initialize-schema: true

@@ -26,13 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;
 import org.springframework.core.io.ClassPathResource;
-import tools.jackson.databind.ObjectMapper;
 
-@Slf4j
 public class RagData {
+    private static final Logger log = LoggerFactory.getLogger(RagData.class);
 
     /**
      * Load episodes from the CSV file.
@@ -40,7 +40,6 @@ public class RagData {
      * @return The list of episodes
      */
     public static List<Document> loadEpisodes() {
-        ObjectMapper objectMapper = new ObjectMapper();
         List<Document> episodes = new ArrayList<>();
 
         try (CSVReader csvReader = new CSVReader(new FileReader(new ClassPathResource("episodes.csv").getFile()))) {
@@ -57,9 +56,11 @@ public class RagData {
                         "season", line[5],
                         "synopsis", line[6]);
 
+                String content = "Title: %s%nSynopsis: %s".formatted(line[4], line[6]);
+
                 episodes.add(Document.builder()
                         .id(UUID.nameUUIDFromBytes(line[0].getBytes()).toString())
-                        .text(objectMapper.writeValueAsString(episode))
+                        .text(content)
                         .metadata(episode)
                         .build());
             }

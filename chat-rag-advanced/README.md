@@ -5,8 +5,10 @@ It uses data from [The Simpsons Episode API](https://thesimpsonsapi.com), which 
 
 Typical questions you can ask include:
 - "In which episodes does Homer go to space?"
-- "In which episodes does Sideshow Bob try to kill Bart?"
+- "Which episodes feature Sideshow Bob?"
 - "Which episodes are themed around Halloween?"
+- "In which episodes do the Simpsons travel to another country?"
+- "Which episodes focus on the family's dog, Santa's Little Helper?"
 
 It demonstrates the following:
 
@@ -16,13 +18,13 @@ It demonstrates the following:
   - A `QueryTransformer` to translate user queries in english.
   - A `QueryExpander` to multiply user queries into multiple related queries.
   - A `DocumentPostProcessor` to log retrieved documents with similarity scores.
-  - A custom prompt template to ensure responses are in the same language as the user's query.
+  - A custom prompt template.
   - A custom empty-context prompt.
 - How to use the `SimpleLoggerAdvisor` to log the final prompt and response.
 
 It leverages the following AI technologies:
 
-- Chat model: `gemma3:4b`
+- Chat model: `qwen3.5:9b` with thinking disabled for faster responses.
 - Embedding model: `qwen3-embedding:0.6b`
 - Vector database: PGvector
 

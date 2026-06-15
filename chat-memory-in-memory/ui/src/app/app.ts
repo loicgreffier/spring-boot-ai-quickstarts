@@ -11,7 +11,8 @@ import {
 	signal,
 	ViewChild
 } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { marked } from 'marked';
 import { Observable, Subscriber } from 'rxjs';
 
 import { environment } from '../environments/environment';
@@ -28,7 +29,7 @@ interface Message {
 
 @Component({
 	selector: 'app-root',
-	imports: [FormsModule, ReactiveFormsModule, ReactiveFormsModule],
+	imports: [FormsModule],
 	templateUrl: './app.html',
 	styleUrl: './app.css'
 })
@@ -173,12 +174,11 @@ export class App implements OnInit {
 	}
 
 	/**
-	 * Basic formatting for the assistant's text.
-	 * Replace ** with bold and * with bullet points.
+	 * Renders the assistant's Markdown text as HTML.
 	 *
 	 * @param text The input text to format.
 	 */
 	formatText(text: string): string {
-		return text.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\*/g, '<br> • ');
+		return marked.parse(text, { async: false, breaks: true }) as string;
 	}
 }

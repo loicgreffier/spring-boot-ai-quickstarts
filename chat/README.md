@@ -8,7 +8,7 @@ It demonstrates the following:
 
 It leverages the following AI technology:
 
-- Chat model: `gemma3:4b`
+- Chat model: `qwen3.5:9b` with thinking disabled for faster responses.
 
 ## Prerequisites
 

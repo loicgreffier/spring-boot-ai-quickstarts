@@ -43,9 +43,7 @@ services:
               "ollama": {
                 "base-url": "http://ollama:11434",
                 "embedding": {
-                  "options": {
-                    "model": "qwen3-embedding:0.6b"
-                  }
+                  "model": "qwen3-embedding:0.6b"
                 }
               }
             },

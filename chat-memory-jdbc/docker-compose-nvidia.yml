@@ -50,9 +50,7 @@ services:
               "ollama": {
                 "base-url": "http://ollama:11434",
                 "chat": {
-                  "options": {
-                    "model": "gemma3:4b"
-                  }
+                  "model": "qwen3.5:9b"
                 }
               }
             },

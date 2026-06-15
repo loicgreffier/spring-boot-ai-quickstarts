@@ -19,8 +19,8 @@
 package io.github.loicgreffier.chat.rag.controller;
 
 import io.github.loicgreffier.chat.rag.data.RagData;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
@@ -30,34 +30,37 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
-@Slf4j
 @RestController
 @RequestMapping
 public class ChatController {
+    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
+
     /** Custom prompt template for the question-answering advisor. */
     private static final String PROMPT_TEMPLATE = """
-        You are a helpful assistant who answers questions about episodes of The Simpsons TV show. Here is the user query surrounded by ---------------------
+        You are a helpful assistant who answers questions about episodes of The Simpsons TV show.
 
-        ---------------------
-        {query}
-        ---------------------
+        Use only the episode information in the context below to answer. Each entry has a title and synopsis.
 
-        Context information is below, surrounded by ---------------------
-
-        ---------------------
+        <context>
         {question_answer_context}
-        ---------------------
+        </context>
 
-        Given the context, respond to the user's query following the rules below:
+        Answer the user's query following these rules:
 
-        1. Do not use prior knowledge, only the given context.
-        2. Do not mention the context. Avoid phrases like "Based on the context" or "The provided information".
-        3. If the context is empty or does not provide enough information, the user's query is outside your knowledge base. Politely inform the user that your knowledge base doesn't contain the answer, and suggest that they clarify their question.
-        4. If the user query is a general greeting, farewell, or small talk (e.g., "Hello," "How are you," "Goodbye," "Thanks," etc.), respond politely and naturally.
+        1. Use only the context. Never invent episode titles, plots, or details that are not present in it.
+        2. When relevant, reference the episode by its title.
+        3. Do not mention the context itself. Avoid phrases like "Based on the context" or "The provided information".
+        4. If the context does not contain the answer, say your knowledge base doesn't cover it and invite the user to rephrase.
+        5. If the query is a greeting, farewell, or small talk (e.g. "Hello", "Thanks", "Goodbye"), respond politely and naturally.
+        6. Keep answers concise.
+
+        <query>
+        {query}
+        </query>
         """;
 
-    private static final Double SIMILARITY_SEARCH = 0.5;
-    private static final Integer TOP_K = 5;
+    private static final Double SIMILARITY_SEARCH = 0.35;
+    private static final Integer TOP_K = 10;
 
     private final ChatClient chatClient;
 
@@ -108,13 +111,10 @@ public class ChatController {
         return chatResponse.map(Word::new);
     }
 
-    /** A word in the chat response. */
-    @Data
-    public static class Word {
-        private String value;
-
-        public Word(String value) {
-            this.value = value;
-        }
-    }
+    /**
+     * A word in the chat response.
+     *
+     * @param value The word value
+     */
+    public record Word(String value) {}
 }
