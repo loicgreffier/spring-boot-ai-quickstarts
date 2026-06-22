@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.loicgreffier</groupId>
-        <artifactId>spring-boot-ai-quickstarts</artifactId>
+        <artifactId>chat-quickstarts</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>mcp-server-http</artifactId>
+    <artifactId>chat-rag-advanced</artifactId>
 
     <dependencies>
         <dependency>
@@ -18,7 +18,7 @@
 
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
+            <artifactId>spring-ai-rag</artifactId>
         </dependency>
 
         <dependency>
@@ -30,5 +30,29 @@
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-vector-store-pgvector</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-vector-store-advisor</artifactId>
+        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>production</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

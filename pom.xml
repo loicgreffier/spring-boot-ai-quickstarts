@@ -16,14 +16,8 @@
     <description>Code samples around Spring Boot and AI</description>
 
     <modules>
-        <module>chat</module>
-        <module>chat-memory-in-memory</module>
-        <module>chat-memory-jdbc</module>
-        <module>chat-rag</module>
-        <module>chat-rag-advanced</module>
-        <module>chat-stream</module>
-        <module>mcp-server-http</module>
-        <module>mcp-server-stdio</module>
+        <module>chat-quickstarts</module>
+        <module>mcp-quickstarts</module>
     </modules>
 
     <properties>

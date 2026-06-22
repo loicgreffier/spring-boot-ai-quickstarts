@@ -1,4 +1,4 @@
-cd chat/ui
+cd chat-quickstarts/chat-synchronous/ui
 npm run lint-staged
 
 cd ../../chat-memory-in-memory/ui

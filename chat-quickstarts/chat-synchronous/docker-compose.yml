@@ -10,10 +10,10 @@ services:
       - "11434:11434"
     restart: unless-stopped
 
-  chat:
-    image: loicgreffier/spring-boot-ai-quickstarts:chat-1.0.0
-    hostname: chat
-    container_name: chat
+  chat-synchronous:
+    image: loicgreffier/spring-boot-ai-quickstarts:chat-synchronous-1.0.0
+    hostname: chat-synchronous
+    container_name: chat-synchronous
     networks:
       - spring-boot-ai-quickstarts
     depends_on:

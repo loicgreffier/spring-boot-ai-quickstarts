@@ -20,7 +20,7 @@ Code samples around Spring AI.
 
 - Java 25
 - Maven
-- Node.js 24
+- Node.js 26
 - NPM
 - Ollama
 - Docker
@@ -29,21 +29,21 @@ Code samples around Spring AI.
 
 ### Chat
 
-| Module                                          | Description                                                      |
-|-------------------------------------------------|------------------------------------------------------------------|
-| [Chat](/chat)                                   | Synchronous chatbot                                              |
-| [Chat Memory In-Memory](/chat-memory-in-memory) | Chatbot with in-memory conversation storage                      |
-| [Chat Memory JDBC](/chat-memory-jdbc)           | Chatbot with JDBC (PostgreSQL) conversation storage              |
-| [Chat RAG](/chat-rag)                           | Chatbot with retrieval-augmented generation (RAG)                |
-| [Chat RAG Advanced](/chat-rag-advanced)         | Chatbot with advanced retrieval-augmented generation (RAG) setup |
-| [Chat Stream](/chat-stream)                     | Streaming chatbot                                                |
+| Module                                                           | Description                                                      |
+|------------------------------------------------------------------|------------------------------------------------------------------|
+| [Chat Synchronous](/chat-quickstarts/chat-synchronous)           | Synchronous chatbot                                              |
+| [Chat Memory In-Memory](/chat-quickstarts/chat-memory-in-memory) | Chatbot with in-memory conversation storage                      |
+| [Chat Memory JDBC](/chat-quickstarts/chat-memory-jdbc)           | Chatbot with JDBC (PostgreSQL) conversation storage              |
+| [Chat RAG](/chat-quickstarts/chat-rag)                           | Chatbot with retrieval-augmented generation (RAG)                |
+| [Chat RAG Advanced](/chat-quickstarts/chat-rag-advanced)         | Chatbot with advanced retrieval-augmented generation (RAG) setup |
+| [Chat Stream](/chat-quickstarts/chat-stream)                     | Streaming chatbot                                                |
 
 ### MCP
 
-| Module                                | Description                                    |
-|---------------------------------------|------------------------------------------------|
-| [MCP Server HTTP](/mcp-server-http)   | MCP server using streamable HTTP communication |
-| [MCP Server Stdio](/mcp-server-stdio) | MCP server using standard I/O communication    |
+| Module                                                | Description                                    |
+|-------------------------------------------------------|------------------------------------------------|
+| [MCP Server HTTP](/mcp-quickstarts/mcp-server-http)   | MCP server using streamable HTTP communication |
+| [MCP Server Stdio](/mcp-quickstarts/mcp-server-stdio) | MCP server using standard I/O communication    |
 
 ## Credits
 

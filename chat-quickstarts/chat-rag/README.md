@@ -1,6 +1,6 @@
-# Chat RAG Advanced
+# Chat RAG
 
-This module demonstrates how to create a streaming chatbot application with advanced retrieval-augmented generation (RAG) capabilities, using _The Simpsons_ TV show as an example.
+This module demonstrates how to create a streaming chatbot application with retrieval-augmented generation (RAG) capabilities, using _The Simpsons_ TV show as an example.
 It uses data from [The Simpsons Episode API](https://thesimpsonsapi.com), which is pre-fetched in `episodes.csv` file and stored in a PGvector database when the application starts.
 
 Typical questions you can ask include:
@@ -14,12 +14,7 @@ It demonstrates the following:
 
 - How to use the `ChatClient` API to interact with an LLM and stream responses.
 - How to connect to a vector database, store embeddings, and perform similarity searches.
-- How to tune the RAG process using the `RetrievalAugmentationAdvisor` API with advanced components:
-  - A `QueryTransformer` to translate user queries in english.
-  - A `QueryExpander` to multiply user queries into multiple related queries.
-  - A `DocumentPostProcessor` to log retrieved documents with similarity scores.
-  - A custom prompt template.
-  - A custom empty-context prompt.
+- How to tune the RAG process using the `QuestionAnswerAdvisor` API and a custom prompt template.
 - How to use the `SimpleLoggerAdvisor` to log the final prompt and response.
 
 It leverages the following AI technologies:
@@ -34,7 +29,7 @@ To compile and run this demo, you'll need:
 
 - Java 25
 - Maven
-- Node.js 24
+- Node.js 26
 - NPM
 - Ollama
 - Docker
@@ -69,4 +64,4 @@ This will start the following services in Docker:
 
 - Ollama
 - PGvector database
-- Chat RAG Advanced application (available at http://localhost:8080)
+- Chat RAG application (available at http://localhost:8080)
