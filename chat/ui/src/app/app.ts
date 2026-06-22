@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { afterNextRender, Component, effect, ElementRef, inject, Injector, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { marked } from 'marked';
 
 import { environment } from '../environments/environment';
 
@@ -86,12 +87,11 @@ export class App {
 	}
 
 	/**
-	 * Basic formatting for the assistant's text.
-	 * Replace ** with bold and * with bullet points.
+	 * Renders the assistant's Markdown text as HTML.
 	 *
 	 * @param text The input text to format.
 	 */
 	formatText(text: string): string {
-		return text.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\*/g, '<br> • ');
+		return marked.parse(text, { async: false, breaks: true }) as string;
 	}
 }

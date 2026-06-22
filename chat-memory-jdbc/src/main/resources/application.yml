@@ -10,12 +10,12 @@ spring:
     ollama:
       base-url: "http://localhost:11434"
       chat:
-        options:
-          model: "gemma3:4b"
-          temperature: 0.8
+        model: "qwen3.5:9b"
+        temperature: 0.8
+        think: false
       init:
         pull-model-strategy: "ALWAYS"
-        timeout: "10m"
+        timeout: "15m"
   datasource:
     url: "jdbc:postgresql://localhost:5432/postgres"
     username: "postgres"

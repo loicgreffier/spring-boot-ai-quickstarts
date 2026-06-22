@@ -21,7 +21,6 @@ package io.github.loicgreffier.chat.memory.jdbc.controller;
 import static org.springframework.ai.chat.memory.ChatMemory.CONVERSATION_ID;
 
 import java.util.List;
-import lombok.Data;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -96,13 +95,10 @@ public class ChatController {
         chatMemory.clear(conversationId);
     }
 
-    /** A word in the chat response. */
-    @Data
-    public static class Word {
-        private String value;
-
-        public Word(String value) {
-            this.value = value;
-        }
-    }
+    /**
+     * A word in the chat response.
+     *
+     * @param value The word value
+     */
+    public record Word(String value) {}
 }

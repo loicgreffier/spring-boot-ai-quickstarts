@@ -19,7 +19,8 @@
 package io.github.loicgreffier.mcp.server.http.service;
 
 import io.github.loicgreffier.mcp.server.http.data.McpData;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.ai.vectorstore.SearchRequest;
@@ -28,9 +29,9 @@ import org.springframework.stereotype.Service;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
-@Slf4j
 @Service
 public class EpisodeService {
+    private static final Logger log = LoggerFactory.getLogger(EpisodeService.class);
     private static final Double SIMILARITY_SEARCH = 0.5;
     private static final Integer TOP_K = 5;
     private final VectorStore vectorStore;

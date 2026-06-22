@@ -43,14 +43,10 @@ services:
               "ollama": {
                 "base-url": "http://ollama:11434",
                 "chat": {
-                  "options": {
-                    "model": "gemma3:4b"
-                  }
+                  "model": "qwen3.5:9b"
                 },
                 "embedding": {
-                  "options": {
-                    "model": "qwen3-embedding:0.6b"
-                  }
+                  "model": "qwen3-embedding:0.6b"
                 }
               }
             },

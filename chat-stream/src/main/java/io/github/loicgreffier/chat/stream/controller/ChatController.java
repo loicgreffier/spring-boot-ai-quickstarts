@@ -18,7 +18,6 @@
  */
 package io.github.loicgreffier.chat.stream.controller;
 
-import lombok.Data;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,13 +51,10 @@ public class ChatController {
         return chatResponse.map(Word::new);
     }
 
-    /** A word in the chat response. */
-    @Data
-    public static class Word {
-        private String value;
-
-        public Word(String value) {
-            this.value = value;
-        }
-    }
+    /**
+     * A word in the chat response.
+     *
+     * @param value The word value
+     */
+    public record Word(String value) {}
 }

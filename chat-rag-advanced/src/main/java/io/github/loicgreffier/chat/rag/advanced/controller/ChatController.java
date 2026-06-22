@@ -19,8 +19,8 @@
 package io.github.loicgreffier.chat.rag.advanced.controller;
 
 import io.github.loicgreffier.chat.rag.advanced.data.RagData;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
@@ -37,44 +37,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
-@Slf4j
 @RestController
 @RequestMapping
 public class ChatController {
-    /** Custom prompt template for the question-answering advisor. */
+    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
+
+    /** Custom prompt template used when relevant context was retrieved. */
     private static final String PROMPT_TEMPLATE = """
-        You are a helpful assistant who answers questions about episodes of The Simpsons TV show. Here is the user query surrounded by ---------------------
+        You are a helpful assistant who answers questions about episodes of The Simpsons TV show.
 
-        ---------------------
-        {query}
-        ---------------------
+        Use only the episode information in the context below to answer. Each entry has a title and synopsis.
 
-        Context information is below, surrounded by ---------------------
-
-        ---------------------
+        <context>
         {context}
-        ---------------------
+        </context>
 
-        Given the context, respond to the user's query following the rules below:
+        Answer the user's query following these rules:
 
-        1. Do not use prior knowledge, only the given context.
-        2. Do not mention the context. Avoid phrases like "Based on the context" or "The provided information".
-        3. If the context does not provide enough information, the user's query is outside your knowledge base. Politely inform the user that your knowledge base doesn't contain the answer, and suggest that they clarify their question.
-        4. Respond in the same language as the user's query.
-        5. If the user query is a general greeting, farewell, or small talk (e.g., "Hello," "How are you," "Goodbye," "Thanks," etc.), respond politely and naturally.
+        1. Use only the context. Never invent episode titles, plots, or details that are not present in it.
+        2. When relevant, reference the episode by its title.
+        3. Do not mention the context itself. Avoid phrases like "Based on the context" or "The provided information".
+        4. If the context does not contain the answer, say your knowledge base doesn't cover it and invite the user to rephrase.
+        5. Always respond in the same language as the text inside <query>, regardless of the language of the context.
+        6. If the query is a greeting, farewell, or small talk (e.g. "Hello", "Thanks", "Goodbye"), respond politely and naturally.
+        7. Keep answers concise.
+
+        <query>
+        {query}
+        </query>
         """;
 
-    /** Custom prompt template for the question-answering advisor. */
+    /** Prompt template used when no relevant context was retrieved. */
     private static final String EMPTY_PROMPT_TEMPLATE = """
-        You are a helpful assistant who answers questions about the Simpsons TV show.
-        The user's query is outside your knowledge base.
-        Respond following the rules below:
+        You are a helpful assistant who answers questions about episodes of The Simpsons TV show.
+        No relevant episode information was found to answer the user's request.
 
-        1. Politely inform the user that your knowledge base doesn't contain the answer, and suggest that they clarify their question.
+        Politely let the user know that your knowledge base only covers The Simpsons episodes and that you could not
+        find an answer, then invite them to rephrase or ask about a specific episode.
         """;
 
-    private static final Double SIMILARITY_SEARCH = 0.5;
-    private static final Integer TOP_K = 5;
+    private static final Double SIMILARITY_SEARCH = 0.35;
+    private static final Integer TOP_K = 8;
 
     private final ChatClient chatClient;
 
@@ -87,6 +90,7 @@ public class ChatController {
      */
     public ChatController(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
         Advisor ragAdvisor = RetrievalAugmentationAdvisor.builder()
+                .order(0)
                 .queryTransformers(TranslationQueryTransformer.builder()
                         .chatClientBuilder(chatClientBuilder.build().mutate())
                         .targetLanguage("english")
@@ -103,7 +107,7 @@ public class ChatController {
                         .build())
                 .documentPostProcessors((query, documents) -> {
                     String logDocuments = documents.stream()
-                            .map(doc -> "%s (score: %s)".formatted(doc.getText(), doc.getScore()))
+                            .map(doc -> "%s%n(Score: %s)".formatted(doc.getText(), doc.getScore()))
                             .reduce("", (a, b) -> a + "\n- " + b);
 
                     log.info("Retrieved {} documents for query \"{}\"{}", documents.size(), query.text(), logDocuments);
@@ -148,13 +152,10 @@ public class ChatController {
         return chatResponse.map(Word::new);
     }
 
-    /** A word in the chat response. */
-    @Data
-    public static class Word {
-        private String value;
-
-        public Word(String value) {
-            this.value = value;
-        }
-    }
+    /**
+     * A word in the chat response.
+     *
+     * @param value The word value
+     */
+    public record Word(String value) {}
 }

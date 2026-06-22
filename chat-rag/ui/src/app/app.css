@@ -105,7 +105,8 @@
 
 .chat-bubble {
   max-width: 80%;
-  padding: 12px 18px;
+  padding: 0 18px;
+  display: flow-root;
   border-radius: 16px;
   line-height: 1.5;
   font-size: 0.95rem;
