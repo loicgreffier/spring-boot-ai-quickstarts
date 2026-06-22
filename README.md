@@ -31,12 +31,12 @@ Code samples around Spring AI.
 
 | Module                                                           | Description                                                      |
 |------------------------------------------------------------------|------------------------------------------------------------------|
-| [Chat Synchronous](/chat-quickstarts/chat-synchronous)           | Synchronous chatbot                                              |
 | [Chat Memory In-Memory](/chat-quickstarts/chat-memory-in-memory) | Chatbot with in-memory conversation storage                      |
 | [Chat Memory JDBC](/chat-quickstarts/chat-memory-jdbc)           | Chatbot with JDBC (PostgreSQL) conversation storage              |
 | [Chat RAG](/chat-quickstarts/chat-rag)                           | Chatbot with retrieval-augmented generation (RAG)                |
 | [Chat RAG Advanced](/chat-quickstarts/chat-rag-advanced)         | Chatbot with advanced retrieval-augmented generation (RAG) setup |
 | [Chat Stream](/chat-quickstarts/chat-stream)                     | Streaming chatbot                                                |
+| [Chat Synchronous](/chat-quickstarts/chat-synchronous)           | Synchronous chatbot                                              |
 
 ### MCP
 
