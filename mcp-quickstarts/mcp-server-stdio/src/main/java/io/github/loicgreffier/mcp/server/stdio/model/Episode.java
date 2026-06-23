@@ -20,7 +20,7 @@ package io.github.loicgreffier.mcp.server.stdio.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Episode {
@@ -29,7 +29,7 @@ public class Episode {
     private Long id;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date airdate;
+    private LocalDate airdate;
 
     private Integer episodeNumber;
     private String imagePath;
@@ -55,7 +55,7 @@ public class Episode {
      */
     public Episode(
             Long id,
-            Date airdate,
+            LocalDate airdate,
             Integer episodeNumber,
             String imagePath,
             String name,
@@ -87,11 +87,11 @@ public class Episode {
         this.id = id;
     }
 
-    public Date getAirdate() {
+    public LocalDate getAirdate() {
         return airdate;
     }
 
-    public void setAirdate(Date airdate) {
+    public void setAirdate(LocalDate airdate) {
         this.airdate = airdate;
     }
 
@@ -138,7 +138,7 @@ public class Episode {
     /** Builder for {@link Episode}. */
     public static class Builder {
         private Long id;
-        private Date airdate;
+        private LocalDate airdate;
         private Integer episodeNumber;
         private String imagePath;
         private String name;
@@ -162,7 +162,7 @@ public class Episode {
          * @param airdate The air date
          * @return This builder
          */
-        public Builder airdate(Date airdate) {
+        public Builder airdate(LocalDate airdate) {
             this.airdate = airdate;
             return this;
         }

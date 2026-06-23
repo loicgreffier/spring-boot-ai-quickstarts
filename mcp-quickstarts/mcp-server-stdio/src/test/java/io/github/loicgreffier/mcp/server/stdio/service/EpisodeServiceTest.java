@@ -23,8 +23,7 @@ import static org.mockito.Mockito.when;
 
 import io.github.loicgreffier.mcp.server.stdio.model.Episode;
 import io.github.loicgreffier.mcp.server.stdio.repository.EpisodeRepository;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +46,7 @@ class EpisodeServiceTest {
                 .thenReturn(List.of(
                         Episode.builder()
                                 .id(1L)
-                                .airdate(Date.from(Instant.parse("1989-12-17T00:00:00Z")))
+                                .airdate(LocalDate.parse("1989-12-17"))
                                 .episodeNumber(1)
                                 .imagePath("https://cdn.thesimpsonsapi.com/episode/1.webp")
                                 .name("Simpsons Roasting on an Open Fire")
