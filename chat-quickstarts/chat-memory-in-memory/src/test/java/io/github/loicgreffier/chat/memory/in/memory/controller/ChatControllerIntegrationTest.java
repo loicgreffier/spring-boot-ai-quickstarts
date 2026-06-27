@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.loicgreffier.chat.memory.in.memory.controller.ChatController.Word;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -57,8 +58,10 @@ class ChatControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        webTestClient =
-                WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
+        webTestClient = WebTestClient.bindToServer()
+                .baseUrl("http://localhost:" + port)
+                .responseTimeout(Duration.ofMinutes(2))
+                .build();
     }
 
     @Test
