@@ -3,10 +3,9 @@ spring:
     model:
       embedding: "none"
     ollama:
-      base-url: "http://localhost:11434"
       chat:
-        model: "qwen3.5:9b"
-        temperature: 0.8
+        model: "qwen3.5:2b"
+        temperature: 0.0
         think: false
       init:
         pull-model-strategy: "WHEN_MISSING"

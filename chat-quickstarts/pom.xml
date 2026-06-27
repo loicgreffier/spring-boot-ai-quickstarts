@@ -19,4 +19,11 @@
         <module>chat-stream</module>
         <module>chat-synchronous</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-ollama</artifactId>
+        </dependency>
+    </dependencies>
 </project>
