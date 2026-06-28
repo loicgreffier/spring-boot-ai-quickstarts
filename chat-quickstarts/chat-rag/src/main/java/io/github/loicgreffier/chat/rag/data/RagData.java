@@ -18,54 +18,51 @@
  */
 package io.github.loicgreffier.chat.rag.data;
 
-import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.exceptions.CsvValidationException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;
 import org.springframework.core.io.ClassPathResource;
 
 public class RagData {
-    private static final Logger log = LoggerFactory.getLogger(RagData.class);
 
     /**
      * Load episodes from the CSV file.
      *
      * @return The list of episodes
+     * @throws CsvValidationException If the CSV file is invalid
+     * @throws IOException If the CSV file cannot be read
      */
-    public static List<Document> loadEpisodes() {
+    public static List<Document> loadEpisodes() throws CsvValidationException, IOException {
         List<Document> episodes = new ArrayList<>();
 
-        try (CSVReader csvReader = new CSVReader(new FileReader(new ClassPathResource("episodes.csv").getFile()))) {
-            String[] _ = csvReader.readNext();
-
-            String[] line;
-            while ((line = csvReader.readNext()) != null) {
+        try (CSVReaderHeaderAware csvReader = new CSVReaderHeaderAware(new InputStreamReader(
+                new ClassPathResource("episodes.csv").getInputStream(), StandardCharsets.UTF_8))) {
+            Map<String, String> line;
+            while ((line = csvReader.readMap()) != null) {
                 Map<String, Object> episode = Map.of(
-                        "id", line[0],
-                        "air_date", line[1],
-                        "episode_number", line[2],
-                        "image_path", line[3],
-                        "title", line[4],
-                        "season", line[5],
-                        "synopsis", line[6]);
+                        "id", line.get("id"),
+                        "air_date", line.get("airdate"),
+                        "episode_number", line.get("episode_number"),
+                        "image_path", line.get("image_path"),
+                        "name", line.get("name"),
+                        "season", line.get("season"),
+                        "synopsis", line.get("synopsis"));
 
-                String content = "Title: %s%nSynopsis: %s".formatted(line[4], line[6]);
+                String content = "Name: %s%nSynopsis: %s".formatted(line.get("name"), line.get("synopsis"));
 
                 episodes.add(Document.builder()
-                        .id(UUID.nameUUIDFromBytes(line[0].getBytes()).toString())
+                        .id(UUID.nameUUIDFromBytes(line.get("id").getBytes()).toString())
                         .text(content)
                         .metadata(episode)
                         .build());
             }
-        } catch (CsvValidationException | IOException e) {
-            log.error("Error reading episodes.csv", e);
         }
 
         return episodes;

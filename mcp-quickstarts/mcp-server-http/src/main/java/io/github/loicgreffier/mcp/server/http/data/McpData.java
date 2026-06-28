@@ -18,7 +18,7 @@
  */
 package io.github.loicgreffier.mcp.server.http.data;
 
-import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,22 +43,23 @@ public class McpData {
     public static List<Document> loadEpisodes() throws CsvValidationException, IOException {
         List<Document> episodes = new ArrayList<>();
 
-        try (CSVReader csvReader = new CSVReader(new InputStreamReader(
+        try (CSVReaderHeaderAware csvReader = new CSVReaderHeaderAware(new InputStreamReader(
                 new ClassPathResource("episodes.csv").getInputStream(), StandardCharsets.UTF_8))) {
-            String[] _ = csvReader.readNext();
+            Map<String, String> line;
+            while ((line = csvReader.readMap()) != null) {
+                String name = line.get("name");
+                String synopsis = line.get("synopsis");
 
-            String[] line;
-            while ((line = csvReader.readNext()) != null) {
                 episodes.add(Document.builder()
-                        .id(UUID.nameUUIDFromBytes(line[0].getBytes()).toString())
-                        .text(line[4] + (StringUtils.isNotBlank(line[6]) ? ": " + line[6] : ""))
+                        .id(UUID.nameUUIDFromBytes(line.get("id").getBytes()).toString())
+                        .text(name + (StringUtils.isNotBlank(synopsis) ? ": " + synopsis : ""))
                         .metadata(Map.of(
-                                "air_date", line[1],
-                                "episode_number", line[2],
-                                "image_path", line[3],
-                                "title", line[4],
-                                "season", line[5],
-                                "synopsis", line[6]))
+                                "air_date", line.get("airdate"),
+                                "episode_number", line.get("episode_number"),
+                                "image_path", line.get("image_path"),
+                                "name", name,
+                                "season", line.get("season"),
+                                "synopsis", synopsis))
                         .build());
             }
         }

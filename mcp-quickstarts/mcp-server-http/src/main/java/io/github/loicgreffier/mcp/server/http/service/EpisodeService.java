@@ -55,11 +55,10 @@ public class EpisodeService {
     }
 
     /**
-     * Pre-populate the vector store with documents containing information about the Simpsons episodes once the
-     * application is ready.
+     * Pre-populate the vector store with episodes once the application is ready.
      *
-     * @throws CsvValidationException If the episodes CSV file is invalid
-     * @throws IOException If the episodes CSV file cannot be read
+     * @throws CsvValidationException If the CSV file is invalid
+     * @throws IOException If the CSV file cannot be read
      */
     @EventListener(ApplicationReadyEvent.class)
     public void loadEpisodes() throws CsvValidationException, IOException {
