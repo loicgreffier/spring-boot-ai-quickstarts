@@ -42,7 +42,7 @@ import org.testcontainers.utility.MountableFile;
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ChatIntegrationTest {
-    private static final Logger log = LoggerFactory.getLogger(ChatControllerIntegrationTest.class);
+    private static final Logger log = LoggerFactory.getLogger(ChatIntegrationTest.class);
 
     @Container
     @ServiceConnection
