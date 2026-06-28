@@ -24,10 +24,13 @@ import java.time.LocalDate;
 
 public interface EpisodeProjection {
     String getName();
+
     Integer getSeason();
+
     Integer getEpisodeNumber();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDate getAirdate();
+
     String getSynopsis();
 }
