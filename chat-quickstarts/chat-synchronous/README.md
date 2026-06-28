@@ -5,13 +5,9 @@ This module demonstrates how to create a simple chatbot application.
 It demonstrates the following:
 
 - How to use the `ChatClient` API to interact synchronously with an LLM.
-- How to write integration tests with Ollama Testcontainers.
-
 It leverages the following AI technology:
 
 - Chat model: `qwen3.5:9b` with thinking disabled for faster responses.
-- Chat model for tests: `qwen3.5:0.8b` with thinking disabled for faster responses.
-
 ## Prerequisites
 
 To compile and run this demo, you'll need:
