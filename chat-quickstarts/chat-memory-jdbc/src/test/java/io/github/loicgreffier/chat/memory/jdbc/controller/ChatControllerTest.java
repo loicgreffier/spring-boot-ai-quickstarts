@@ -95,7 +95,7 @@ class ChatControllerTest {
 
         assertNotNull(history);
         assertEquals(2, history.size());
-        assertEquals("Who voices Homer Simpson?", history.get(0).getText());
+        assertEquals("Who voices Homer Simpson?", history.getFirst().getText());
         assertEquals(
                 "Homer Simpson is voiced by Dan Castellaneta.", history.get(1).getText());
     }

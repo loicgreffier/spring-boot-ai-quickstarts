@@ -1,15 +1,14 @@
 logging:
   file:
     name: "/tmp/logs/mcp-server-stdio.log"
-  pattern:
-    console: ""
+  threshold:
+    console: "OFF"
 spring:
   ai:
     mcp:
       server:
-        instructions: "This stdio server provides data for the Simpsons characters\
-          \ dataset."
-        name: "simpsons-characters-mcp-server"
+        instructions: "This stdio server provides data for the Simpsons episodes dataset."
+        name: "simpsons-episodes-mcp-server"
         stdio: true
         version: "@project.version@"
   datasource:

@@ -16,26 +16,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.github.loicgreffier.mcp.server.stdio.model;
+package io.github.loicgreffier.mcp.server.stdio.projection;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 
-@Entity
-public class Episode {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    private LocalDate airdate;
+public interface EpisodeProjection {
+    String getName();
+    Integer getSeason();
+    Integer getEpisodeNumber();
 
-    private Integer episodeNumber;
-    private String imagePath;
-    private String name;
-    private Integer season;
-
-    @Column(length = 2000)
-    private String synopsis;
-
-    public Episode() {}
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    LocalDate getAirdate();
+    String getSynopsis();
 }
