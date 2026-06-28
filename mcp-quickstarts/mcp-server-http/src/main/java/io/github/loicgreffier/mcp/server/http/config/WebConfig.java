@@ -47,7 +47,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequestsConfigurer -> authorizeRequestsConfigurer
-                        // Back-End
                         .requestMatchers("/mcp")
                         .permitAll()
                         .anyRequest()

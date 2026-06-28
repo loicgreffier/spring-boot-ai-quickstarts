@@ -18,13 +18,19 @@
  */
 package io.github.loicgreffier.mcp.server.http.service;
 
+import com.opencsv.exceptions.CsvValidationException;
 import io.github.loicgreffier.mcp.server.http.data.McpData;
+import java.io.IOException;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ai.document.Document;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
@@ -38,21 +44,30 @@ public class EpisodeService {
     private final ObjectMapper objectMapper;
 
     /**
-     * Constructor. The vector store is pre-populated with documents containing information about the Simpsons episodes.
+     * Constructor.
      *
      * @param vectorStore The vector store
+     * @param objectMapper The object mapper
      */
-    public EpisodeService(VectorStore vectorStore) {
+    public EpisodeService(VectorStore vectorStore, ObjectMapper objectMapper) {
         this.vectorStore = vectorStore;
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper;
+    }
 
+    /**
+     * Pre-populate the vector store with documents containing information about the Simpsons episodes once the
+     * application is ready.
+     *
+     * @throws CsvValidationException If the episodes CSV file is invalid
+     * @throws IOException If the episodes CSV file cannot be read
+     */
+    @EventListener(ApplicationReadyEvent.class)
+    public void loadEpisodes() throws CsvValidationException, IOException {
         long startTime = System.currentTimeMillis();
-        vectorStore.add(McpData.loadEpisodes());
+        List<Document> episodes = McpData.loadEpisodes();
+        vectorStore.add(episodes);
         double duration = (System.currentTimeMillis() - startTime) / 1000.0;
-        log.info(
-                "Loaded {} episodes into the vector store in {}s",
-                McpData.loadEpisodes().size(),
-                duration);
+        log.info("Loaded {} episodes into the vector store in {}s", episodes.size(), duration);
     }
 
     /**
