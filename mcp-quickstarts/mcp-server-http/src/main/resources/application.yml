@@ -7,7 +7,7 @@ spring:
       embedding:
         model: "qwen3-embedding:0.6b"
       init:
-        pull-model-strategy: "ALWAYS"
+        pull-model-strategy: "WHEN_MISSING"
         timeout: "15m"
     vectorstore:
       pgvector:

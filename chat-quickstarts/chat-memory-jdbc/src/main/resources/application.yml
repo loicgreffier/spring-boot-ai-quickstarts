@@ -14,7 +14,7 @@ spring:
         temperature: 0.8
         think: false
       init:
-        pull-model-strategy: "ALWAYS"
+        pull-model-strategy: "WHEN_MISSING"
         timeout: "15m"
   datasource:
     url: "jdbc:postgresql://localhost:5432/postgres"
