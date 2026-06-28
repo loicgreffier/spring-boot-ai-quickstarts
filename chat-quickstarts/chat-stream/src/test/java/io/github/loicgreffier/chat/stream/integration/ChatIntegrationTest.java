@@ -21,10 +21,14 @@ package io.github.loicgreffier.chat.stream.integration;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.github.dockerjava.api.model.Image;
 import io.github.loicgreffier.chat.stream.controller.ChatController.Word;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -33,6 +37,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.testcontainers.DockerClientFactory;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.ollama.OllamaContainer;
@@ -43,6 +48,7 @@ import org.testcontainers.utility.MountableFile;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ChatIntegrationTest {
     private static final Logger log = LoggerFactory.getLogger(ChatIntegrationTest.class);
+    private static final String BAKED_IMAGE = "spring-boot-ai-quickstarts-ollama-qwen3.5-2b";
 
     @Container
     @ServiceConnection
@@ -59,6 +65,13 @@ class ChatIntegrationTest {
                 .baseUrl("http://localhost:" + port)
                 .responseTimeout(Duration.ofMinutes(2))
                 .build();
+    }
+
+    @AfterAll
+    static void tearDown() {
+        if (!bakedImageExists()) {
+            ollama.commitToImage(BAKED_IMAGE);
+        }
     }
 
     @Test
@@ -86,12 +99,16 @@ class ChatIntegrationTest {
     }
 
     /**
-     * Create the Ollama container, trusting a corporate CA when {@code CORPORATE_CA_PATH} is set.
+     * Create the Ollama container.
      *
      * @return the configured Ollama container
      */
     static OllamaContainer createOllamaContainer() {
-        OllamaContainer container = new OllamaContainer(DockerImageName.parse("ollama/ollama:0.30.10"));
+        DockerImageName image = bakedImageExists()
+                ? DockerImageName.parse(BAKED_IMAGE).asCompatibleSubstituteFor("ollama/ollama")
+                : DockerImageName.parse("ollama/ollama:0.30.10");
+
+        OllamaContainer container = new OllamaContainer(image);
 
         String corporateCaPath = System.getenv("CORPORATE_CA_PATH");
         if (corporateCaPath != null && !corporateCaPath.isBlank()) {
@@ -104,5 +121,19 @@ class ChatIntegrationTest {
         }
 
         return container;
+    }
+
+    /**
+     * Check whether the baked image with the models already pulled exists locally.
+     *
+     * @return {@code true} if the baked image exists
+     */
+    @SuppressWarnings("resource")
+    static boolean bakedImageExists() {
+        return DockerClientFactory.lazyClient().listImagesCmd().exec().stream()
+                .map(Image::getRepoTags)
+                .filter(Objects::nonNull)
+                .flatMap(Arrays::stream)
+                .anyMatch(tag -> tag.equals(BAKED_IMAGE + ":latest"));
     }
 }

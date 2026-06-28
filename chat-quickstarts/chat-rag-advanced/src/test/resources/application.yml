@@ -13,11 +13,3 @@ spring:
     vectorstore:
       pgvector:
         initialize-schema: true
-logging:
-  level:
-    org:
-      springframework:
-        ai:
-          chat:
-            client:
-              advisor: "DEBUG"
