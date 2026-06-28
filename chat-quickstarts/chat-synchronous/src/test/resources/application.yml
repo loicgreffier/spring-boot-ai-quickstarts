@@ -1,0 +1,12 @@
+spring:
+  ai:
+    model:
+      embedding: "none"
+    ollama:
+      chat:
+        model: "qwen3.5:0.8b"
+        temperature: 0.0
+        think: false
+      init:
+        pull-model-strategy: "WHEN_MISSING"
+        timeout: "15m"

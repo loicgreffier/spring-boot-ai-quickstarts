@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.github.loicgreffier.chat.memory.in.memory.controller;
+package io.github.loicgreffier.chat.memory.in.memory.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -44,7 +44,7 @@ import org.testcontainers.utility.MountableFile;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ChatControllerIntegrationTest {
+class ChatIntegrationTest {
     private static final Logger log = LoggerFactory.getLogger(ChatControllerIntegrationTest.class);
 
     @Container

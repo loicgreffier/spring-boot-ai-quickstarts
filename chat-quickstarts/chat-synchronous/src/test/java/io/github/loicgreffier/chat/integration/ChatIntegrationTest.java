@@ -1,0 +1,102 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+package io.github.loicgreffier.chat.integration;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.time.Duration;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.ollama.OllamaContainer;
+import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.utility.MountableFile;
+
+@Testcontainers
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class ChatIntegrationTest {
+    private static final Logger log = LoggerFactory.getLogger(ChatControllerIntegrationTest.class);
+
+    @Container
+    @ServiceConnection
+    static OllamaContainer ollama = createOllamaContainer();
+
+    @LocalServerPort
+    private int port;
+
+    private WebTestClient webTestClient;
+
+    @BeforeEach
+    void setUp() {
+        webTestClient = WebTestClient.bindToServer()
+                .baseUrl("http://localhost:" + port)
+                .responseTimeout(Duration.ofMinutes(2))
+                .build();
+    }
+
+    @Test
+    void shouldAnswerUserInput() {
+        String response = webTestClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/chat")
+                        .queryParam("userInput", "Hello, my name is Loïc and I work as a software engineer.")
+                        .build())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
+
+        assertNotNull(response);
+        log.info("LLM response: {}", response);
+
+        assertFalse(response.isBlank());
+    }
+
+    /**
+     * Create the Ollama container, trusting a corporate CA when {@code CORPORATE_CA_PATH} is set.
+     *
+     * @return the configured Ollama container
+     */
+    static OllamaContainer createOllamaContainer() {
+        OllamaContainer container = new OllamaContainer(DockerImageName.parse("ollama/ollama:0.30.10"));
+
+        String corporateCaPath = System.getenv("CORPORATE_CA_PATH");
+        if (corporateCaPath != null && !corporateCaPath.isBlank()) {
+            container
+                    .withCopyFileToContainer(
+                            MountableFile.forHostPath(corporateCaPath),
+                            "/usr/local/share/ca-certificates/corporate-ca.crt")
+                    .withCreateContainerCmdModifier(cmd -> cmd.withEntrypoint("/bin/sh"))
+                    .withCommand("-c", "update-ca-certificates && exec /bin/ollama serve");
+        }
+
+        return container;
+    }
+}
