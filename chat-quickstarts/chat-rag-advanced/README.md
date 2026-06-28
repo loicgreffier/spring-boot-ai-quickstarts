@@ -21,9 +21,11 @@ It demonstrates the following:
   - A custom prompt template.
   - A custom empty-context prompt.
 - How to use the `SimpleLoggerAdvisor` to log the final prompt and response.
+
 It leverages the following AI technologies:
 
-- Chat model: `qwen3.5:9b` with thinking disabled for faster responses.- Embedding model: `qwen3-embedding:0.6b`
+- Chat model: `qwen3.5:9b` with thinking disabled for faster responses.
+- Embedding model: `qwen3-embedding:0.6b`
 - Vector database: PGvector
 
 ## Prerequisites

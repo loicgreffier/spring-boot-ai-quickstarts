@@ -6,9 +6,11 @@ It demonstrates the following:
 
 - How to use the `ChatClient` API to interact with an LLM and stream responses.
 - How to add in-memory chat memory to maintain context across messages.
+
 It leverages the following AI technology:
 
 - Chat model: `qwen3.5:9b` with thinking disabled for faster responses.
+
 ## Prerequisites
 
 To compile and run this demo, you'll need:

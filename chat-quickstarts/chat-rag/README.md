@@ -16,9 +16,11 @@ It demonstrates the following:
 - How to connect to a vector database, store embeddings, and perform similarity searches.
 - How to tune the RAG process using the `QuestionAnswerAdvisor` API and a custom prompt template.
 - How to use the `SimpleLoggerAdvisor` to log the final prompt and response.
+
 It leverages the following AI technologies:
 
-- Chat model: `qwen3.5:9b` with thinking disabled for faster responses.- Embedding model: `qwen3-embedding:0.6b`
+- Chat model: `qwen3.5:9b` with thinking disabled for faster responses.
+- Embedding model: `qwen3-embedding:0.6b`
 - Vector database: PGvector
 
 ## Prerequisites
