@@ -55,7 +55,6 @@ class ChatControllerTest {
     @Test
     void shouldAnswerQuestion() {
         when(chatClientBuilder.build()).thenReturn(chatClient);
-        // Used while building the query transformer and the query expander in the controller constructor.
         lenient().when(chatClient.mutate()).thenReturn(chatClientBuilder);
         when(chatClientBuilder.defaultAdvisors(any(Advisor.class), any(Advisor.class)))
                 .thenReturn(chatClientBuilder);

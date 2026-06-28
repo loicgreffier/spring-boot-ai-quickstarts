@@ -89,7 +89,6 @@ class ChatControllerTest {
     @Test
     void shouldDeleteConversation() {
         chatController.deleteConversation("conversation-id");
-
         assertTrue(chatController.getConversationHistory("conversation-id").isEmpty());
     }
 }

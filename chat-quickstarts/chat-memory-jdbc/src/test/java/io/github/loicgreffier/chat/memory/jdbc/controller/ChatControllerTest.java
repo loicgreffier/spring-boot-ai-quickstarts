@@ -103,7 +103,6 @@ class ChatControllerTest {
     @Test
     void shouldDeleteConversation() {
         chatController.deleteConversation("conversation-id");
-
         verify(chatMemoryRepository).deleteByConversationId("conversation-id");
     }
 }
