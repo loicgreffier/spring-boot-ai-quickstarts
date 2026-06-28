@@ -21,7 +21,6 @@ package io.github.loicgreffier.mcp.server.stdio.projection;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 
-
 public interface EpisodeProjection {
     String getName();
 
