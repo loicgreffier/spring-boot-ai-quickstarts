@@ -1,0 +1,23 @@
+spring:
+  ai:
+    ollama:
+      chat:
+        model: "qwen3.5:2b"
+        temperature: 0.0
+        think: false
+      embedding:
+        model: "qwen3-embedding:0.6b"
+      init:
+        pull-model-strategy: "WHEN_MISSING"
+        timeout: "15m"
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: "DEBUG"
