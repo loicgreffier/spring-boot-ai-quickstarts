@@ -22,6 +22,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@SuppressWarnings("java:S1068")
 public class Episode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

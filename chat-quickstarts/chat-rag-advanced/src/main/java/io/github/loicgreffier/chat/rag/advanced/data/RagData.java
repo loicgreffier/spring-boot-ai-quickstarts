@@ -31,6 +31,8 @@ import org.springframework.ai.document.Document;
 import org.springframework.core.io.ClassPathResource;
 
 public class RagData {
+    private static final String NAME = "name";
+    private static final String SYNOPSIS = "synopsis";
 
     /**
      * Load episodes from the CSV file.
@@ -47,15 +49,22 @@ public class RagData {
             Map<String, String> line;
             while ((line = csvReader.readMap()) != null) {
                 Map<String, Object> episode = Map.of(
-                        "id", line.get("id"),
-                        "air_date", line.get("airdate"),
-                        "episode_number", line.get("episode_number"),
-                        "image_path", line.get("image_path"),
-                        "name", line.get("name"),
-                        "season", line.get("season"),
-                        "synopsis", line.get("synopsis"));
+                        "id",
+                        line.get("id"),
+                        "air_date",
+                        line.get("airdate"),
+                        "episode_number",
+                        line.get("episode_number"),
+                        "image_path",
+                        line.get("image_path"),
+                        NAME,
+                        line.get(NAME),
+                        "season",
+                        line.get("season"),
+                        SYNOPSIS,
+                        line.get(SYNOPSIS));
 
-                String content = "Name: %s%nSynopsis: %s".formatted(line.get("name"), line.get("synopsis"));
+                String content = "Name: %s%nSynopsis: %s".formatted(line.get(NAME), line.get(SYNOPSIS));
 
                 episodes.add(Document.builder()
                         .id(UUID.nameUUIDFromBytes(line.get("id").getBytes()).toString())
