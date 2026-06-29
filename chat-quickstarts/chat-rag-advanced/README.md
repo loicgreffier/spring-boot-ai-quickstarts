@@ -65,6 +65,8 @@ To run it with [NVIDIA GPU support pre-configured](https://hub.docker.com/r/olla
 docker-compose -f docker-compose-nvidia.yml up -d
 ```
 
+Behind a corporate proxy whose certificates Ollama must trust, define the `OLLAMA_CA_CERT` variable with the path to your certificate (PEM).
+
 This will start the following services in Docker:
 
 - Ollama

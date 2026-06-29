@@ -1,7 +1,7 @@
 ---
 services:
   ollama:
-    image: ollama/ollama:0.12.3
+    image: ollama/ollama:0.30.11
     hostname: ollama
     container_name: ollama
     networks:
@@ -9,6 +9,10 @@ services:
     ports:
       - "11434:11434"
     restart: unless-stopped
+    environment:
+      SSL_CERT_FILE: ${OLLAMA_CA_CERT:+/etc/ssl/certs/corporate-ca.crt}
+    volumes:
+      - ${OLLAMA_CA_CERT:-/dev/null}:/etc/ssl/certs/corporate-ca.crt:ro
 
   chat-synchronous:
     image: loicgreffier/spring-boot-ai-quickstarts:chat-synchronous-1.0.0
