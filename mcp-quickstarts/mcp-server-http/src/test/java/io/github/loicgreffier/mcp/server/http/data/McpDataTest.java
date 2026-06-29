@@ -27,7 +27,7 @@ import org.springframework.ai.document.Document;
 class McpDataTest {
 
     @Test
-    void shouldLoadEpisodes() {
+    void shouldLoadEpisodes() throws Exception {
         List<Document> results = McpData.loadEpisodes();
 
         assertEquals(768, results.size());

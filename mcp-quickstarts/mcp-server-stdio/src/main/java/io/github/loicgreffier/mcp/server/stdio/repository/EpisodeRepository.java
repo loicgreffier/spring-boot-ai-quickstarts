@@ -19,6 +19,7 @@
 package io.github.loicgreffier.mcp.server.stdio.repository;
 
 import io.github.loicgreffier.mcp.server.stdio.model.Episode;
+import io.github.loicgreffier.mcp.server.stdio.projection.EpisodeProjection;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -27,8 +28,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EpisodeRepository extends CrudRepository<Episode, Long> {
-    /** Find episodes by name or synopsis containing the given term, case-insensitive. */
-    @Query("SELECT e FROM Episode e WHERE LOWER(e.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
+    @Query("SELECT e.name AS name, e.season AS season, e.episodeNumber AS episodeNumber, "
+            + "e.airdate AS airdate, e.synopsis AS synopsis FROM Episode e "
+            + "WHERE LOWER(e.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
             + "OR LOWER(e.synopsis) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
-    List<Episode> searchByTerm(@Param("searchTerm") String searchTerm);
+    List<EpisodeProjection> searchByTerm(@Param("searchTerm") String searchTerm);
 }

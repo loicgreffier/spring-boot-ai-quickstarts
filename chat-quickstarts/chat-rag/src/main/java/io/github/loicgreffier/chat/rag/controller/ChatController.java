@@ -18,15 +18,21 @@
  */
 package io.github.loicgreffier.chat.rag.controller;
 
+import com.opencsv.exceptions.CsvValidationException;
 import io.github.loicgreffier.chat.rag.data.RagData;
+import java.io.IOException;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
@@ -39,7 +45,7 @@ public class ChatController {
     private static final String PROMPT_TEMPLATE = """
         You are a helpful assistant who answers questions about episodes of The Simpsons TV show.
 
-        Use only the episode information in the context below to answer. Each entry has a title and synopsis.
+        Use only the episode information in the context below to answer. Each entry has a name and synopsis.
 
         <context>
         {question_answer_context}
@@ -47,8 +53,8 @@ public class ChatController {
 
         Answer the user's query following these rules:
 
-        1. Use only the context. Never invent episode titles, plots, or details that are not present in it.
-        2. When relevant, reference the episode by its title.
+        1. Use only the context. Never invent episode names, plots, or details that are not present in it.
+        2. When relevant, reference the episode by its name.
         3. Do not mention the context itself. Avoid phrases like "Based on the context" or "The provided information".
         4. If the context does not contain the answer, say your knowledge base doesn't cover it and invite the user to rephrase.
         5. If the query is a greeting, farewell, or small talk (e.g. "Hello", "Thanks", "Goodbye"), respond politely and naturally.
@@ -63,10 +69,11 @@ public class ChatController {
     private static final Integer TOP_K = 10;
 
     private final ChatClient chatClient;
+    private final VectorStore vectorStore;
 
     /**
      * Constructor. Creates a chat client with a question-answering advisor using the provided vector store and a custom
-     * prompt template. The vector store is pre-populated with documents.
+     * prompt template.
      *
      * @param chatClientBuilder The chat client builder
      * @param vectorStore The vector store
@@ -88,14 +95,22 @@ public class ChatController {
         this.chatClient = chatClientBuilder
                 .defaultAdvisors(questionAnswerAdvisor, loggerAdvisor)
                 .build();
+        this.vectorStore = vectorStore;
+    }
 
+    /**
+     * Pre-populate the vector store with episodes once the application is ready.
+     *
+     * @throws CsvValidationException If the CSV file is invalid
+     * @throws IOException If the CSV file cannot be read
+     */
+    @EventListener(ApplicationReadyEvent.class)
+    public void loadEpisodes() throws CsvValidationException, IOException {
         long startTime = System.currentTimeMillis();
-        vectorStore.add(RagData.loadEpisodes());
+        List<Document> episodes = RagData.loadEpisodes();
+        vectorStore.add(episodes);
         double duration = (System.currentTimeMillis() - startTime) / 1000.0;
-        log.info(
-                "Loaded {} episodes into the vector store in {}s",
-                RagData.loadEpisodes().size(),
-                duration);
+        log.info("Loaded {} episodes into the vector store in {}s", episodes.size(), duration);
     }
 
     /**

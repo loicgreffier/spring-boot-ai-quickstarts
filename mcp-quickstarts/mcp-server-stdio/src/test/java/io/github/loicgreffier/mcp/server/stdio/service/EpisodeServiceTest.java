@@ -21,53 +21,34 @@ package io.github.loicgreffier.mcp.server.stdio.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import io.github.loicgreffier.mcp.server.stdio.model.Episode;
+import io.github.loicgreffier.mcp.server.stdio.projection.EpisodeProjection;
 import io.github.loicgreffier.mcp.server.stdio.repository.EpisodeRepository;
-import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tools.jackson.core.JacksonException;
 
 @ExtendWith(MockitoExtension.class)
 class EpisodeServiceTest {
     @Mock
     private EpisodeRepository episodeRepository;
 
+    @Mock
+    private EpisodeProjection firstEpisode;
+
+    @Mock
+    private EpisodeProjection secondEpisode;
+
     @InjectMocks
     private EpisodeService episodeService;
 
     @Test
-    void shouldGetEpisodes() throws JacksonException {
-        when(episodeRepository.searchByTerm("Simpson"))
-                .thenReturn(List.of(
-                        Episode.builder()
-                                .id(1L)
-                                .airdate(LocalDate.parse("1989-12-17"))
-                                .episodeNumber(1)
-                                .imagePath("https://cdn.thesimpsonsapi.com/episode/1.webp")
-                                .name("Simpsons Roasting on an Open Fire")
-                                .season(1)
-                                .synopsis(
-                                        "When Mr. Burns announces that none of the workers will be getting Christmas bonuses and Marge reveals that she spent the extra Christmas gift money on getting Bart''s \"Mother\" tattoo removed, Homer keeps his lack of funds for the holidays a secret and gets a job as a mall Santa.")
-                                .build(),
-                        Episode.builder()
-                                .id(2L)
-                                .episodeNumber(2)
-                                .imagePath("https://cdn.thesimpsonsapi.com/episode/2.webp")
-                                .name("Bart the Genius")
-                                .season(1)
-                                .synopsis(
-                                        "To get back at class nerd/teacher''s pet, Martin Prince, for ratting him out to Principal Skinner for vandalism on school property, Bart switches his own intelligence test with Martin''s. During a parent/principal conference about the defaced wall, the school counselor, Dr. Pryor, announces that Bart is a genius and only acts out because public school isn''t stimulating enough, so Bart is sent to a school for genius kids — and finds out just how painfully below average he is.")
-                                .build()));
+    void shouldGetEpisodes() {
+        List<EpisodeProjection> episodes = List.of(firstEpisode, secondEpisode);
+        when(episodeRepository.searchByTerm("Simpson")).thenReturn(episodes);
 
-        String result = episodeService.getEpisodes("Simpson");
-
-        assertEquals(
-                "[{\"id\":1,\"airdate\":\"1989-12-17\",\"episodeNumber\":1,\"imagePath\":\"https://cdn.thesimpsonsapi.com/episode/1.webp\",\"name\":\"Simpsons Roasting on an Open Fire\",\"season\":1,\"synopsis\":\"When Mr. Burns announces that none of the workers will be getting Christmas bonuses and Marge reveals that she spent the extra Christmas gift money on getting Bart''s \\\"Mother\\\" tattoo removed, Homer keeps his lack of funds for the holidays a secret and gets a job as a mall Santa.\"},{\"id\":2,\"airdate\":null,\"episodeNumber\":2,\"imagePath\":\"https://cdn.thesimpsonsapi.com/episode/2.webp\",\"name\":\"Bart the Genius\",\"season\":1,\"synopsis\":\"To get back at class nerd/teacher''s pet, Martin Prince, for ratting him out to Principal Skinner for vandalism on school property, Bart switches his own intelligence test with Martin''s. During a parent/principal conference about the defaced wall, the school counselor, Dr. Pryor, announces that Bart is a genius and only acts out because public school isn''t stimulating enough, so Bart is sent to a school for genius kids — and finds out just how painfully below average he is.\"}]",
-                result);
+        assertEquals(episodes, episodeService.getEpisodes("Simpson"));
     }
 }

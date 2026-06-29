@@ -18,17 +18,16 @@
  */
 package io.github.loicgreffier.mcp.server.stdio.service;
 
+import io.github.loicgreffier.mcp.server.stdio.projection.EpisodeProjection;
 import io.github.loicgreffier.mcp.server.stdio.repository.EpisodeRepository;
+import java.util.List;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class EpisodeService {
     private final EpisodeRepository episodeRepository;
-    private final ObjectMapper objectMapper;
 
     /**
      * Constructor.
@@ -37,7 +36,6 @@ public class EpisodeService {
      */
     public EpisodeService(EpisodeRepository episodeRepository) {
         this.episodeRepository = episodeRepository;
-        this.objectMapper = new ObjectMapper();
     }
 
     /**
@@ -47,12 +45,11 @@ public class EpisodeService {
      * @return The episode details
      */
     @Tool(name = "get_episodes", description = "Get episodes by name or synopsis search term.")
-    public String getEpisodes(
+    public List<EpisodeProjection> getEpisodes(
             @ToolParam(
                             description =
                                     "The search term to look for in episode names or synopses. It can be a partial name or a partial section of the synopsis.")
-                    String searchTerm)
-            throws JacksonException {
-        return objectMapper.writeValueAsString(episodeRepository.searchByTerm(searchTerm));
+                    String searchTerm) {
+        return episodeRepository.searchByTerm(searchTerm);
     }
 }

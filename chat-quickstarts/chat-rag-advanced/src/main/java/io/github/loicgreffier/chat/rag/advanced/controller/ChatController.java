@@ -18,19 +18,25 @@
  */
 package io.github.loicgreffier.chat.rag.advanced.controller;
 
+import com.opencsv.exceptions.CsvValidationException;
 import io.github.loicgreffier.chat.rag.advanced.data.RagData;
+import java.io.IOException;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.document.Document;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
 import org.springframework.ai.rag.generation.augmentation.ContextualQueryAugmenter;
 import org.springframework.ai.rag.preretrieval.query.expansion.MultiQueryExpander;
 import org.springframework.ai.rag.preretrieval.query.transformation.TranslationQueryTransformer;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +52,7 @@ public class ChatController {
     private static final String PROMPT_TEMPLATE = """
         You are a helpful assistant who answers questions about episodes of The Simpsons TV show.
 
-        Use only the episode information in the context below to answer. Each entry has a title and synopsis.
+        Use only the episode information in the context below to answer. Each entry has a name and synopsis.
 
         <context>
         {context}
@@ -54,8 +60,8 @@ public class ChatController {
 
         Answer the user's query following these rules:
 
-        1. Use only the context. Never invent episode titles, plots, or details that are not present in it.
-        2. When relevant, reference the episode by its title.
+        1. Use only the context. Never invent episode names, plots, or details that are not present in it.
+        2. When relevant, reference the episode by its name.
         3. Do not mention the context itself. Avoid phrases like "Based on the context" or "The provided information".
         4. If the context does not contain the answer, say your knowledge base doesn't cover it and invite the user to rephrase.
         5. Always respond in the same language as the text inside <query>, regardless of the language of the context.
@@ -80,10 +86,11 @@ public class ChatController {
     private static final Integer TOP_K = 8;
 
     private final ChatClient chatClient;
+    private final VectorStore vectorStore;
 
     /**
      * Constructor. Creates a chat client with a question-answering advisor using the provided vector store and a custom
-     * prompt template. The vector store is pre-populated with documents.
+     * prompt template.
      *
      * @param chatClientBuilder The chat client builder
      * @param vectorStore The vector store
@@ -129,14 +136,22 @@ public class ChatController {
 
         this.chatClient =
                 chatClientBuilder.defaultAdvisors(ragAdvisor, loggerAdvisor).build();
+        this.vectorStore = vectorStore;
+    }
 
+    /**
+     * Pre-populate the vector store with episodes once the application is ready.
+     *
+     * @throws CsvValidationException If the CSV file is invalid
+     * @throws IOException If the CSV file cannot be read
+     */
+    @EventListener(ApplicationReadyEvent.class)
+    public void loadEpisodes() throws CsvValidationException, IOException {
         long startTime = System.currentTimeMillis();
-        vectorStore.add(RagData.loadEpisodes());
+        List<Document> episodes = RagData.loadEpisodes();
+        vectorStore.add(episodes);
         double duration = (System.currentTimeMillis() - startTime) / 1000.0;
-        log.info(
-                "Loaded {} episodes into the vector store in {}s",
-                RagData.loadEpisodes().size(),
-                duration);
+        log.info("Loaded {} episodes into the vector store in {}s", episodes.size(), duration);
     }
 
     /**
