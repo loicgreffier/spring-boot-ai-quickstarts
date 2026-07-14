@@ -30,6 +30,7 @@ Each `chat-*` module also contains a `ui` folder: a small standalone Angular fro
 
 - Target Java 25.
 - Never use `var`. Always declare variables with their explicit type.
+- Prefer guard clauses (early returns) over `if ... else ...`.
 - Code follows Palantir Java Format.
 - Add minimal Javadoc to every method in production code (`src/main`), including `@Override` methods, with descriptions for parameters and return values. Start each description with an uppercase letter.
 
