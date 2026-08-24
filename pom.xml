@@ -32,7 +32,7 @@
         <sonar.organization>loicgreffier</sonar.organization>
         <sonar.projectKey>loicgreffier_spring-boot-ai-quickstarts</sonar.projectKey>
         <spotless-maven-plugin.version>3.9.0</spotless-maven-plugin.version>
-        <spring-ai.version>2.0.0</spring-ai.version>
+        <spring-ai.version>2.0.1</spring-ai.version>
     </properties>
 
     <dependencyManagement>
